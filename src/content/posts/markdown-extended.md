@@ -1,79 +1,79 @@
 ---
-title: Markdown Extended Features
+title: Markdown 扩展功能
 published: 2024-05-01
 updated: 2024-11-29
-description: 'Read more about Markdown features in Mizuki'
+description: '了解 Mizuki 中的 Markdown 扩展功能'
 image: ''
 tags: [Demo, Example, Markdown, Mizuki]
-category: 'Examples'
+category: '示例'
 draft: false 
 ---
 
-## GitHub Repository Cards
-You can add dynamic cards that link to GitHub repositories, on page load, the repository information is pulled from the GitHub API. 
+## GitHub 仓库卡片
+你可以添加链接到 GitHub 仓库的动态卡片，页面加载时会从 GitHub API 拉取仓库信息。
 
 ::github{repo="LyraVoid/Mizuki"}
 
-Create a GitHub repository card with the code `::github{repo="LyraVoid/Mizuki"}`.
+使用代码 `::github{repo="LyraVoid/Mizuki"}` 来创建 GitHub 仓库卡片。
 
 ```markdown
 ::github{repo="LyraVoid/Mizuki"}
 ```
 
-## Admonitions
+## 提示框
 
-Following types of admonitions are supported: `note` `tip` `important` `warning` `caution`
+支持以下类型的提示框：`note` `tip` `important` `warning` `caution`
 
 :::note
-Highlights information that users should take into account, even when skimming.
+高亮用户即使在快速浏览时也应注意的信息。
 :::
 
 :::tip
-Optional information to help a user be more successful.
+可选信息，帮助用户更好地完成操作。
 :::
 
 :::important
-Crucial information necessary for users to succeed.
+用户成功完成操作所必需的关键信息。
 :::
 
 :::warning
-Critical content demanding immediate user attention due to potential risks.
+由于存在潜在风险，需要用户立即关注的重要内容。
 :::
 
 :::caution
-Negative potential consequences of an action.
+某个操作可能带来的负面后果。
 :::
 
-### Basic Syntax
+### 基本语法
 
 ```markdown
 :::note
-Highlights information that users should take into account, even when skimming.
+高亮用户即使在快速浏览时也应注意的信息。
 :::
 
 :::tip
-Optional information to help a user be more successful.
+可选信息，帮助用户更好地完成操作。
 :::
 ```
 
-### Custom Titles
+### 自定义标题
 
-The title of the admonition can be customized.
+提示框的标题可以自定义。
 
-:::note[MY CUSTOM TITLE]
-This is a note with a custom title.
+:::note[我的自定义标题]
+这是一个带有自定义标题的 note 提示框。
 :::
 
 ```markdown
-:::note[MY CUSTOM TITLE]
-This is a note with a custom title.
+:::note[我的自定义标题]
+这是一个带有自定义标题的 note 提示框。
 :::
 ```
 
-### GitHub Syntax
+### GitHub 语法
 
 > [!TIP]
-> [The GitHub syntax](https://github.com/orgs/community/discussions/16925) is also supported.
+> 同样支持 [GitHub 语法](https://github.com/orgs/community/discussions/16925)。
 
 ```
 > [!NOTE]
@@ -83,11 +83,12 @@ This is a note with a custom title.
 > The GitHub syntax is also supported.
 ```
 
-### Spoiler
+### 剧透
 
-You can add spoilers to your text. The text also supports **Markdown** syntax.
+你可以在文本中添加剧透内容。剧透文本同样支持 **Markdown** 语法。
 
-The content :spoiler[is hidden **ayyy**]!
+内容 :spoiler[被隐藏了 **嘿嘿**]！
 
 ```markdown
 The content :spoiler[is hidden **ayyy**]!
+```

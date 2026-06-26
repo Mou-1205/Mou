@@ -3,7 +3,7 @@
  */
 
 import type { HeadingData, TOCConfig, TOCItem } from "../types/toc";
-import { getKatakanaBadge } from "./japanese-katakana";
+import { getChineseBadge } from "./chinese-numbers";
 
 /**
  * 从 DOM 中提取标题数据
@@ -66,7 +66,7 @@ export function generateTOCItems(
 			let badge: string | undefined;
 
 			if (h.level === minLevel) {
-				badge = getKatakanaBadge(h1Count, config.useJapaneseBadge);
+				badge = getChineseBadge(h1Count, config.useJapaneseBadge);
 				h1Count++;
 			}
 

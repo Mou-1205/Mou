@@ -26,27 +26,11 @@ export interface TOCConfig {
  * 生成目录项
  */
 export function generateTOCItems(config: TOCConfig): TOCItem[] {
-	const japaneseHiragana = [
-		"ア",
-		"イ",
-		"ウ",
-		"エ",
-		"オ",
-		"カ",
-		"キ",
-		"ク",
-		"ケ",
-		"コ",
-		"サ",
-		"シ",
-		"ス",
-		"セ",
-		"ソ",
-		"タ",
-		"チ",
-		"ツ",
-		"テ",
-		"ト",
+	const chineseNumbers = [
+		"一", "二", "三", "四", "五",
+		"六", "七", "八", "九", "十",
+		"十一", "十二", "十三", "十四", "十五",
+		"十六", "十七", "十八", "十九", "二十",
 	];
 
 	const headings = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
@@ -71,8 +55,8 @@ export function generateTOCItems(config: TOCConfig): TOCItem[] {
 		// 只为 H1 标题生成 badge
 		if (level === 1) {
 			h1Count++;
-			if (config.useJapaneseBadge && h1Count - 1 < japaneseHiragana.length) {
-				badge = japaneseHiragana[h1Count - 1];
+			if (config.useJapaneseBadge && h1Count - 1 < chineseNumbers.length) {
+				badge = chineseNumbers[h1Count - 1];
 			} else {
 				badge = h1Count.toString();
 			}

@@ -53,10 +53,10 @@ export type {
 } from "./types/toc";
 // Calculator utilities
 export {
-	getKatakanaBadge,
-	JAPANESE_KATAKANA,
-	KATAKANA_COUNT,
-} from "./utils/japanese-katakana";
+	getChineseBadge,
+	CHINESE_NUMBERS,
+	CHINESE_NUMBERS_COUNT,
+} from "./utils/chinese-numbers";
 export {
 	generateTOCItems as calcTOCItems,
 	getBadgeClass,

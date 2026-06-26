@@ -4,7 +4,7 @@
  */
 
 import type { HeadingData, TOCItem } from "../types/toc";
-import { JAPANESE_KATAKANA } from "./japanese-katakana";
+import { CHINESE_NUMBERS } from "./chinese-numbers";
 
 /**
  * 计算最小标题级别
@@ -29,8 +29,8 @@ export function getBadgeText(
 		return "";
 	}
 
-	if (useJapaneseBadge && index < JAPANESE_KATAKANA.length) {
-		return JAPANESE_KATAKANA[index];
+	if (useJapaneseBadge && index < CHINESE_NUMBERS.length) {
+		return CHINESE_NUMBERS[index];
 	}
 	return (index + 1).toString();
 }

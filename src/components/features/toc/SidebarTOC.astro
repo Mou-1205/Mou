@@ -18,7 +18,7 @@ const { class: className } = Astro.props;
 </table-of-contents>
 
 <script>
-	import { JAPANESE_KATAKANA } from "./utils/japanese-katakana";
+	import { CHINESE_NUMBERS } from "./utils/chinese-numbers";
 	import {
 		extractHeadings,
 		generateTOCItems,
@@ -301,8 +301,8 @@ const { class: className } = Astro.props;
 					if (item.depth === 0) {
 						badgeContent =
 							config.useJapaneseBadge &&
-							h1Count - 1 < JAPANESE_KATAKANA.length
-								? JAPANESE_KATAKANA[h1Count - 1]
+							h1Count - 1 < CHINESE_NUMBERS.length
+								? CHINESE_NUMBERS[h1Count - 1]
 								: h1Count.toString();
 						h1Count++;
 					} else if (item.depth === 1) {

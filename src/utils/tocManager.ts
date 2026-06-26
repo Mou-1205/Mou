@@ -4,7 +4,7 @@
  * 基于 Firefly 项目的 TOCManager 实现
  */
 
-import { JAPANESE_KATAKANA } from "../components/features/toc/utils/japanese-katakana";
+import { CHINESE_NUMBERS } from "../components/features/toc/utils/chinese-numbers";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 
@@ -117,9 +117,9 @@ export class TOCManager {
 		if (depth === this.minDepth) {
 			if (
 				this.useJapaneseBadge &&
-				heading1Count - 1 < JAPANESE_KATAKANA.length
+				heading1Count - 1 < CHINESE_NUMBERS.length
 			) {
-				return JAPANESE_KATAKANA[heading1Count - 1];
+				return CHINESE_NUMBERS[heading1Count - 1];
 			}
 			return heading1Count.toString();
 		}

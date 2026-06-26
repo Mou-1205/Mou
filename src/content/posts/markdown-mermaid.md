@@ -2,18 +2,18 @@
 title: Markdown Mermaid
 published: 2023-10-01
 pinned: false
-description: A simple example of a Markdown blog post with Mermaid.
+description: 一个使用 Mermaid 的 Markdown 博客文章简单示例。
 tags: [Markdown, Blogging, Mermaid]
-category: Examples
+category: 示例
 draft: false
 ---
-# Complete Guide to Markdown with Mermaid Diagrams
+# Markdown 与 Mermaid 图表完整指南
 
-This article demonstrates how to create various complex diagrams using Mermaid in Markdown documents, including flowcharts, sequence diagrams, Gantt charts, class diagrams, and state diagrams.
+本文演示了如何在 Markdown 文档中使用 Mermaid 创建各种复杂图表，包括流程图、时序图、甘特图、类图和状态图。
 
-## Flowchart Example
+## 流程图示例
 
-Flowcharts are excellent for representing processes or algorithm steps.
+流程图非常适合表示流程或算法步骤。
 
 
 
@@ -38,9 +38,9 @@ graph TD
     I --> J
 ```
 
-## Sequence Diagram Example
+## 时序图示例
 
-Sequence diagrams show interactions between objects over time.
+时序图展示了对象之间随时间的交互。
 
 ```mermaid
 sequenceDiagram
@@ -68,9 +68,9 @@ sequenceDiagram
     end
 ```
 
-## Gantt Chart Example
+## 甘特图示例
 
-Gantt charts are perfect for displaying project schedules and timelines.
+甘特图非常适合展示项目进度和时间线。
 
 ```mermaid
 gantt
@@ -98,9 +98,9 @@ gantt
     Launch                    :milestone, after d1, 0d
 ```
 
-## Class Diagram Example
+## 类图示例
 
-Class diagrams show the static structure of a system, including classes, attributes, methods, and their relationships.
+类图展示了系统的静态结构，包括类、属性、方法及其关系。
 
 ```mermaid
 classDiagram
@@ -144,9 +144,9 @@ classDiagram
     Article "1" -- "*" Category : belongs to
 ```
 
-## State Diagram Example
+## 状态图示例
 
-State diagrams show the sequence of states an object goes through during its life cycle.
+状态图展示了对象在其生命周期中经历的状态序列。
 
 ```mermaid
 stateDiagram-v2
@@ -170,9 +170,9 @@ stateDiagram-v2
     Archived --> [*]
 ```
 
-## Pie Chart Example
+## 饼图示例
 
-Pie charts are ideal for displaying proportions and percentage data.
+饼图非常适合展示比例和百分比数据。
 
 ```mermaid
 pie title Website Traffic Sources Analysis
@@ -183,10 +183,10 @@ pie title Website Traffic Sources Analysis
     "Other Sources" : 2.6
 ```
 
-## Conclusion
+## 总结
 
-Mermaid is a powerful tool for creating various types of diagrams in Markdown documents. This article demonstrated how to use flowcharts, sequence diagrams, Gantt charts, class diagrams, state diagrams, and pie charts. These diagrams can help you express complex concepts, processes, and data structures more clearly.
+Mermaid 是在 Markdown 文档中创建各种类型图表的强大工具。本文演示了如何使用流程图、时序图、甘特图、类图、状态图和饼图。这些图表可以帮助你更清晰地表达复杂的概念、流程和数据结构。
 
-To use Mermaid, simply specify the mermaid language in a code block and describe the diagram using concise text syntax. Mermaid will automatically convert these descriptions into beautiful visual diagrams.
+要使用 Mermaid，只需在代码块中指定 mermaid 语言，并使用简洁的文本语法描述图表。Mermaid 会自动将这些描述转换为美观的可视化图表。
 
-Try using Mermaid diagrams in your next technical blog post or project documentation - they will make your content more professional and easier to understand!
+尝试在你的下一篇技术博客文章或项目文档中使用 Mermaid 图表——它们会让你的内容更专业、更易于理解！
