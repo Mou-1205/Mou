@@ -7,7 +7,7 @@ Hi，我是**某炜**，一个来自广州的初学开发者。
 
 生日 2007.12.05，目前在折腾代码和 AI Agent 工具的路上。目标是成为全栈大佬——虽然路还很长，但每一步都算数。
 
-<div class="text-xs text-neutral-400">Born on Dec 5, 2007. Learning to code and exploring AI Agent tools. Aspiring to become a full-stack developer — the road is long, but every step counts.</div>
+<div class="text-xs text-neutral-400">*内容均为吹捧，全靠AI加持。</div>
 
 平时喜欢写写代码、玩玩各种 Agent 工具，探索技术的边界。相信好的代码应该是清晰的、有表达力的，就像好的文字一样。
 

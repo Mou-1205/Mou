@@ -278,3 +278,19 @@ Vite 优化配置（开发环境）：
 5. **侧边栏显示断点**: 修改 `src/utils/grid-layout-utils.ts` 中的 Tailwind 断点前缀（lg/md/sm）
 6. **页面宽度**: 修改 `src/constants/constants.ts` 中的 `PAGE_WIDTH`
 7. **pnpm 强制要求**: 项目 `preinstall` 脚本会检查是否使用 pnpm，npm/yarn 会被拒绝
+
+## Project-specific Notes
+
+### `.文档/` 目录
+项目根目录下的 `.文档/` 文件夹用于存放：
+- 原始数据备份（projects.ts, skills.ts, timeline.ts）
+- 更新日志（如 `2026-07-02-更新记录.md`）
+- 待办事项（`待办.md`）
+- 参考图片等资源
+
+### 导航栏滚动行为
+顶栏（navbar）的滚动收起逻辑分布在两个文件：
+- `src/components/organisms/navigation/Navbar.astro`：`initSemifullScrollDetection()` 管理 `scrolled` class（毛玻璃效果，50px 阈值）
+- `src/scripts/handlers/back-to-top-handler.ts`：`updateNavbarVisibility()` 管理 `navbar-hidden` class（完全隐藏，20% 视口高度阈值）
+
+CSS 变量驱动：`wallpaper-navbar-transparent.css` 中 `#navbar > div` 的 `background` 等属性由 `--nav-bg` 等 CSS 变量控制，修改变量即可切换透明/毛玻璃状态。

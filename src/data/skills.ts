@@ -26,7 +26,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:javascript",
 		category: "frontend",
 		level: "beginner",
-		experience: { years: 0, months: 0 },
+		experience: { years: 0, months: 1 },
 		color: "#F7DF1E",
 	},
 	{
@@ -36,7 +36,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:typescript-icon",
 		category: "frontend",
 		level: "beginner",
-		experience: { years: 0, months: 0 },
+		experience: { years: 0, months: 1 },
 		color: "#3178C6",
 	},
 	{
@@ -46,7 +46,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:astro-icon",
 		category: "frontend",
 		level: "beginner",
-		experience: { years: 0, months: 0 },
+		experience: { years: 0, months: 2 },
 		projects: ["mouy-home"],
 		color: "#FF5D01",
 	},
@@ -57,7 +57,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:svelte-icon",
 		category: "frontend",
 		level: "beginner",
-		experience: { years: 0, months: 0 },
+		experience: { years: 0, months: 2 },
 		color: "#FF3E00",
 	},
 	{
@@ -67,7 +67,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:tailwindcss-icon",
 		category: "frontend",
 		level: "beginner",
-		experience: { years: 0, months: 0 },
+		experience: { years: 0, months: 1 },
 		color: "#06B6D4",
 	},
 
@@ -79,7 +79,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:rust",
 		category: "lang",
 		level: "beginner",
-		experience: { years: 0, months: 0 },
+		experience: { years: 0, months: 1 },
 		color: "#CE422B",
 	},
 
@@ -91,7 +91,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:git-icon",
 		category: "tools",
 		level: "beginner",
-		experience: { years: 0, months: 0 },
+		experience: { years: 0, months: 2 },
 		color: "#F05032",
 	},
 	{
@@ -101,7 +101,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:visual-studio-code",
 		category: "tools",
 		level: "beginner",
-		experience: { years: 0, months: 0 },
+		experience: { years: 0, months: 2 },
 		color: "#007ACC",
 	},
 ];
