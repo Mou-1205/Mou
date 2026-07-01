@@ -178,10 +178,9 @@ export class BackToTopHandler {
 			return;
 		}
 
-		const currentBannerHeight = BANNER_HEIGHT_HOME;
-
+		// 使用 20% 视口高度作为隐藏阈值
 		const threshold =
-			window.innerHeight * (currentBannerHeight / 100) -
+			window.innerHeight * 0.20 -
 			SCROLL_CONFIG.navbarHideOffset;
 
 		if (scrollTop >= threshold) {

@@ -251,6 +251,7 @@ export const en: Translation = {
 	[Key.skillsDatabase]: "Database",
 	[Key.skillsTools]: "Development Tools",
 	[Key.skillsOther]: "Other Skills",
+	[Key.skillsLang]: "Programming Languages",
 	[Key.skillLevel]: "Proficiency",
 	[Key.skillLevelBeginner]: "Beginner",
 	[Key.skillLevelIntermediate]: "Intermediate",

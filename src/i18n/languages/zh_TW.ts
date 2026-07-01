@@ -210,6 +210,7 @@ export const zh_TW: Translation = {
 	[Key.skillsDatabase]: "資料庫",
 	[Key.skillsTools]: "開發工具",
 	[Key.skillsOther]: "其他技能",
+	[Key.skillsLang]: "程式語言",
 	[Key.skillLevel]: "熟練度",
 	[Key.skillLevelBeginner]: "初學者",
 	[Key.skillLevelIntermediate]: "中級",

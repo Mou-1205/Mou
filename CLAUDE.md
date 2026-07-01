@@ -20,6 +20,9 @@ pnpm astro dev stop
 # 构建（完整流水线：更新追番数据 → astro build → pagefind 索引 → 字体压缩）
 pnpm build
 
+# 预览构建结果
+pnpm preview
+
 # 单步构建
 pnpm astro build                    # 仅 astro 构建
 node scripts/compress-fonts/index.js # 仅字体压缩
@@ -32,6 +35,9 @@ pnpm lint
 
 # 类型检查
 pnpm type-check
+
+# Astro 诊断检查
+pnpm check
 
 # 测试
 node --test tests/*.test.mjs        # 运行测试（Node.js 内置 test runner）
@@ -82,23 +88,36 @@ tsconfig.json 定义了以下别名，import 时优先使用：
 
 ### Tech Stack
 - **Framework:** Astro 7.0.0
-- **UI Components:** Svelte (音乐播放器、设置面板等交互组件)
-- **Styling:** Tailwind CSS 4 + Stylus (variables.styl 定义 CSS 变量)
+- **UI Components:** Svelte 5.x（音乐播放器、设置面板、搜索等交互组件）
+- **Styling:** Tailwind CSS 4 + Stylus（`variables.styl` 定义 oklch 色彩空间 CSS 变量）
+- **Icons:** Iconify（`astro-icon`，支持 fa7-brands、fa7-regular、fa7-solid、material-symbols、mdi、simple-icons）
 - **Content:** Markdown/MDX, Astro Content Collections
-- **Search:** Pagefind
-- **Page Transitions:** Swup
-- **Deployment:** Vercel (vercel.json 配置安全头 + /_astro/ 长缓存)
+- **Search:** Pagefind（构建后索引）
+- **Page Transitions:** Swup（`@swup/astro`）
+- **Code Blocks:** `astro-expressive-code`（语法高亮、行号、折叠、自定义复制按钮）
+- **Deployment:** Vercel（`vercel.json` 配置安全头 + `/_astro/` 长缓存 + cleanUrls）
+
+### Component Architecture
+
+```
+src/components/
+├── atoms/           # 原子 UI 元素（按钮、徽章等）
+├── comment/         # 评论系统组件
+├── common/          # 共享通用组件
+├── control/         # 控制组件（ThemeSwitch 等）
+├── features/        # 功能页面组件（anime, friends, devices）
+├── layout/          # 布局组件（Banner, RightSideBar）
+├── misc/            # 杂项组件
+├── organisms/       # 有机体级组件（Navbar, Footer）
+└── widgets/         # 侧边栏组件（profile, music, stats 等）
+```
 
 ### Key Directories
 
 ```
 src/
 ├── config/           # 所有配置文件（核心定制区域）→ 通过 index.ts 统一导出
-├── components/
-│   ├── widgets/      # 侧边栏组件（profile, music, stats 等）
-│   ├── features/     # 功能页面组件（anime, friends, devices）
-│   ├── layout/       # 布局组件（Banner, RightSideBar）
-│   └── organisms/    # 通用组件（Navbar, Footer）
+├── components/       # UI 组件（见上方架构）
 ├── content/
 │   ├── posts/        # 博客文章（.md/.mdx）
 │   └── spec/         # 特殊页面（about.md, friends.md 等）
@@ -113,11 +132,9 @@ src/
 │   ├── main.css         # 主样式入口
 │   └── banner.css       # Banner 相关样式
 ├── i18n/             # 国际化（zh_CN.ts, en.ts, ja.ts, zh_TW.ts）
-├── utils/            # 工具函数
+├── utils/            # 工具函数（含 widget-manager.ts 组件注册）
 ├── stores/           # Svelte stores（musicPlayerStore.ts）
-├── layouts/          # 布局模板
-│   ├── Layout.astro           # 基础布局
-│   └── MainGridLayout.astro   # 主网格布局（侧边栏+内容）
+├── layouts/          # 布局模板（Layout.astro, MainGridLayout.astro）
 ├── types/            # TypeScript 类型定义（config.ts 定义所有配置接口）
 └── constants/        # 常量（PAGE_WIDTH, BANNER_HEIGHT 等）
 ```

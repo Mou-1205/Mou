@@ -64,23 +64,16 @@
   }
 }
 
-/* Semi-Full 混合模式 (未滚动时透明) */
-body.wallpaper-transparent #navbar[data-transparent-mode="semifull"]:not(.scrolled) {
-  --nav-bg: transparent;
-  --nav-blur: none;
-  --nav-shadow: none;
-  --nav-radius: 0;
-}
-/* 移动端首页特殊处理 */
-body.wallpaper-transparent #navbar[data-transparent-mode="semifull"][data-is-home="true"]:not(.scrolled) {
+/* Semi-Full 混合模式 (未滚动时透明) — 通用，不需要 body.wallpaper-transparent */
+#navbar[data-transparent-mode="semifull"]:not(.scrolled) {
   --nav-bg: transparent;
   --nav-blur: none;
   --nav-shadow: none;
   --nav-radius: 0;
 }
 
-/* 混合模式滚动后 -> 回归毛玻璃 */
-body.wallpaper-transparent #navbar[data-transparent-mode="semifull"].scrolled {
+/* Semi-Full 混合模式滚动后 -> 回归毛玻璃 */
+#navbar[data-transparent-mode="semifull"].scrolled {
   --nav-bg: var(--card-bg-transparent);
   --nav-blur: blur(8px);
   --nav-shadow: var(--shadow-lg);

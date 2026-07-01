@@ -28,6 +28,8 @@ const getCategoryText = (category: string) => {
 			return i18n(I18nKey.skillsTools);
 		case "other":
 			return i18n(I18nKey.skillsOther);
+		case "lang":
+			return i18n(I18nKey.skillsLang);
 		default:
 			return category;
 	}
@@ -45,6 +47,8 @@ const getCategoryIcon = (category: string) => {
 			return "material-symbols:build";
 		case "other":
 			return "material-symbols:widgets";
+		case "lang":
+			return "material-symbols:code";
 		default:
 			return "material-symbols:category";
 	}

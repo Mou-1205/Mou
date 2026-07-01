@@ -253,6 +253,7 @@ export const ja: Translation = {
 	[Key.skillsDatabase]: "データベース",
 	[Key.skillsTools]: "開発ツール",
 	[Key.skillsOther]: "その他のスキル",
+	[Key.skillsLang]: "プログラミング言語",
 	[Key.skillLevel]: "熟練度",
 	[Key.skillLevelBeginner]: "初心者",
 	[Key.skillLevelIntermediate]: "中級者",

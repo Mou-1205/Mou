@@ -257,16 +257,6 @@ function initSemifullScrollDetection() {
         window.removeEventListener('scroll', window.semifullScrollHandler);
     }
     
-    // 获取当前是否为首页
-    // @ts-ignore
-    const isHomePage = navbar.dataset.isHome === 'true';
-
-    // 如果不是首页，在平板/桌面端强制显示为scrolled状态
-    if (!isHomePage) {
-        navbar.classList.add('scrolled');
-        return;
-    }
-    
     let ticking = false;
     
     function updateNavbarState() {

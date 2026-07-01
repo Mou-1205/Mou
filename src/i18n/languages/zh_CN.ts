@@ -171,6 +171,7 @@ export const zh_CN: Translation = {
 	[Key.skillsDatabase]: "数据库",
 	[Key.skillsTools]: "开发工具",
 	[Key.skillsOther]: "其他技能",
+	[Key.skillsLang]: "编程语言",
 	[Key.skillLevel]: "熟练度",
 	[Key.skillLevelBeginner]: "初学者",
 	[Key.skillLevelIntermediate]: "中级",
