@@ -23,10 +23,18 @@ export const friendsData: FriendItem[] = [
 	{
 		id: 2,
 		title: "腾讯云",
-		imgurl: "https://cloud.tencent.com/favicon.ico",
-		desc: "云服务器+EdgeOne均来自于此",
+		imgurl: "/assets/tencent-cloud.jpg",
+		desc: "站点的坚实后盾，跑得稳就行",
 		siteurl: "https://cloud.tencent.com/",
 		tags: ["供应商"],
+	},
+	{
+		id: 3,
+		title: "Luquiesceneの小屋",
+		imgurl: "https://luq-blog.xyz/avatar.webp",
+		desc: "To be or not to be: that is the question.",
+		siteurl: "https://luq-blog.xyz",
+		tags: ["技术"],
 	},
 ];
 

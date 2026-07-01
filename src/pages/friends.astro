@@ -67,6 +67,13 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 							>
 								点击复制
 							</button>
+							<button
+								id="copy-friend-config"
+								class="text-xs text-black/40 dark:text-white/40 hover:text-(--primary) transition-colors cursor-pointer"
+								title="复制友链配置"
+							>
+								复制配置
+							</button>
 						</div>
 						<p class="text-sm text-black/60 dark:text-white/60 mt-0.5">以好奇心构建，以清晰度交付</p>
 						<div class="flex flex-wrap gap-1.5 mt-2">
@@ -245,9 +252,32 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 				});
 			}
 
+			// 复制友链配置
+			function initCopyFriendConfig() {
+				const btn = document.getElementById("copy-friend-config");
+				if (!btn) return;
+				btn.addEventListener("click", () => {
+					const config = `{
+id: #,
+title: "MouyのHOME",
+imgurl: "https://mouy.site/_astro/avatar.DRYjHQPD_Z18abIF.webp",
+desc: "以好奇心构建，以清晰度交付。",
+siteurl: "https://mouy.site/",
+tags: ["生活"],
+},`;
+					navigator.clipboard.writeText(config).then(() => {
+						btn.textContent = "已复制 ✓";
+						setTimeout(() => {
+							btn.textContent = "复制配置";
+						}, 2000);
+					});
+				});
+			}
+
 			function init() {
 				runPing();
 				initCopyFriendInfo();
+				initCopyFriendConfig();
 				initCopyEmail();
 			}
 

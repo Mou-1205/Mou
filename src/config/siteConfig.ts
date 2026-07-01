@@ -144,15 +144,16 @@ export const siteConfig: SiteConfig = {
 
 		homeText: {
 			enable: true,
-			title: "我的小屋",
+			title: "My·Home",
 			switchable: true,
 
 			subtitle: [
-				"没有什么特别的，但有你在就够了",
-				"直到现在你依然是我的光",
-				"不知不觉间，你已经成了我的每一天",
-				"和你说话，每天都会变得开心一点",
-				"今天什么也不是，但也算是不错的一天",
+				"以好奇心构建，以清晰度交付",
+				"以好奇心探索，以专注力打磨",
+				"以问题为引，以答案为果",
+				"以好奇心发芽，以实践力扎根",
+				"今天的 bug，明天的经验",
+				"世界是复杂的，代码是诚实的",
 			],
 			typewriter: {
 				enable: true, // 启用副标题打字机效果
