@@ -16,9 +16,17 @@ export const friendsData: FriendItem[] = [
 		id: 1,
 		title: "辰渊尘站",
 		imgurl: "https://blog.mcxiaochen.top/images/congyu/touxiang.webp",
-		desc: "辰渊尘站",
+		desc: "有志不在年高，无志空活百岁。",
 		siteurl: "https://blog.mcxiaochen.top",
 		tags: ["技术"],
+	},
+	{
+		id: 2,
+		title: "腾讯云",
+		imgurl: "https://cloud.tencent.com/favicon.ico",
+		desc: "云服务器+EdgeOne均来自于此",
+		siteurl: "https://cloud.tencent.com/",
+		tags: ["供应商"],
 	},
 ];
 
