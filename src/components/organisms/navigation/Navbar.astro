@@ -99,8 +99,8 @@ const iconWebpSrc = hasIconPngFallback
 ---
 <div id="navbar" class="z-50 onload-animation group" data-transparent-mode={navbarTransparentMode} data-is-home={isHomePage}>
     <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--card-bg)] transition"></div> <!-- used for onload animation -->
-    <div class:list={[className, "!overflow-visible max-w-[var(--page-width)] h-[4.5rem] mx-auto flex items-center justify-between px-4"]}>
-        <a href={url('/')} class="btn-plain scale-animation rounded-lg h-[2.5rem] md:h-[3.25rem] md:[.enable-banner_&]:h-[2.5rem] md:[.enable-banner_&]:group-[.scrolled]:h-[3.25rem] px-5 font-bold active:scale-95 shrink-0 transition-all duration-300">
+    <div class:list={[className, "!overflow-visible max-w-[var(--page-width)] h-[4.5rem] mx-auto flex items-center md:justify-start justify-between px-4"]}>
+        <a href={url('/')} class="navbar-title-link btn-plain scale-animation rounded-lg h-[2.5rem] md:h-[3.25rem] md:[.enable-banner_&]:h-[2.5rem] md:[.enable-banner_&]:group-[.scrolled]:h-[3.25rem] px-5 font-bold active:scale-95 shrink-0 transition-all duration-300">
             <div class="flex flex-row items-center text-md">
 				{/* 使用navbarTitle配置或默认配置 */}
                 {siteConfig.navbarTitle ? (
@@ -134,6 +134,7 @@ const iconWebpSrc = hasIconPngFallback
                 )}
             </div>
         </a>
+        <div id="navbar-action-bar" class="flex items-center gap-1">
         <div id="navbar-links-container" class="hidden md:flex items-center space-x-1 transition-opacity duration-300">
             {links.map((l) => {
                 return <DropdownMenu link={l} />;
@@ -145,13 +146,11 @@ const iconWebpSrc = hasIconPngFallback
             </div>
             {/* 只在 sidebar 模式下显示移动端 TOC 按钮 */}
 			{siteConfig.toc.enable && siteConfig.toc.mobileTop && <MobileTOC client:only="svelte"></MobileTOC>}
-            <button aria-label="Display Settings" class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" id="display-settings-switch">
-                <Icon name="material-symbols:palette-outline" class="text-[1.25rem]"></Icon>
-            </button>
             <ThemeSwitch client:only="svelte"></ThemeSwitch>
             <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-lg w-11 h-11 active:scale-90 md:!hidden" id="nav-menu-switch">
                 <Icon name="material-symbols:unfold-more" class="text-[1.25rem]"></Icon>
             </button>
+        </div>
         </div>
         <NavMenuPanel links={links}></NavMenuPanel>
         <SettingsPanel client:only="svelte"></SettingsPanel>
@@ -163,18 +162,23 @@ const iconWebpSrc = hasIconPngFallback
 	const navbarLinksContainer = document.getElementById("navbar-links-container");
 
 	if (searchContainer && navbarLinksContainer) {
-		// 鼠标移入/触摸开始时隐藏导航链接
+		// 只隐藏"关于"和"其他"，保留其他链接
 		const hideLinks = () => {
 			if (window.matchMedia("(min-width: 1280px)").matches && window.matchMedia("(hover: hover)").matches) {
-				navbarLinksContainer.style.opacity = "0";
+				const aboutLink = navbarLinksContainer.querySelector('[data-name="About"]');
+				const othersLink = navbarLinksContainer.querySelector('[data-name="Others"]');
+				if (aboutLink) aboutLink.style.opacity = "0";
+				if (othersLink) othersLink.style.opacity = "0";
 			}
 		};
 
-		// 鼠标移出/触摸结束时显示导航链接
 		const showLinks = () => {
 			const navbar = document.getElementById("navbar");
 			if (navbar && !navbar.classList.contains("is-searching")) {
-				navbarLinksContainer.style.opacity = "1";
+				const aboutLink = navbarLinksContainer.querySelector('[data-name="About"]');
+				const othersLink = navbarLinksContainer.querySelector('[data-name="Others"]');
+				if (aboutLink) aboutLink.style.opacity = "1";
+				if (othersLink) othersLink.style.opacity = "1";
 			}
 		};
 
@@ -192,7 +196,6 @@ const iconWebpSrc = hasIconPngFallback
 				mutations.forEach((mutation) => {
 					if (mutation.type === "attributes" && mutation.attributeName === "class") {
 						if (!navbar.classList.contains("is-searching")) {
-							// 搜索框已折叠，如果此时鼠标不在搜索容器内，强制显示链接
 							if (!searchContainer.matches(':hover')) {
 								showLinks();
 							}

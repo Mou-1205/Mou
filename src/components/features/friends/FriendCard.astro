@@ -21,7 +21,12 @@ const hostname = new URL(friend.siteurl).hostname;
 	data-title={friend.title.toLowerCase()}
 	data-desc={friend.desc.toLowerCase()}
 	data-tags={friend.tags.join(",")}
+	data-siteurl={friend.siteurl}
 >
+	<!-- Ping 速度指示器 -->
+	<div class="ping-badge absolute top-3 right-3 z-20 px-2 py-0.5 rounded-md bg-(--primary)/80 text-white text-xs font-mono opacity-0 transition-opacity duration-300" data-ping-url={friend.siteurl}>
+		<span class="ping-text">测速中...</span>
+	</div>
 	<div class="p-6">
 		<!-- 头像和标题区 -->
 		<div class="flex items-start gap-4 mb-4">

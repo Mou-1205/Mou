@@ -68,7 +68,11 @@ import TypewriterText from "../../atoms/typewriter-text/TypewriterText.astro";
 							target="_blank"
 							class="btn-regular rounded-lg h-10 w-10 active:scale-90"
 						>
-							<Icon name={item.icon} class="text-[1.5rem]" />
+							{item.icon.startsWith("/") || item.icon.startsWith("http") ? (
+								<img src={item.icon} alt="" class="w-6 h-6 object-contain" />
+							) : (
+								<Icon name={item.icon} class="text-[1.5rem]" />
+							)}
 						</a>
 					))
 			}

@@ -174,7 +174,7 @@ if (siteConfig.font) {
 <!doctype html>
 <html
 	lang={siteLang}
-	class="bg-(--page-bg) text-[14px] md:text-[16px]"
+	class="text-[14px] md:text-[16px]"
 	data-overlayscrollbars-initialize
 	data-waves-config-enabled={siteConfig.banner?.waves?.enable ? "true" : "false"}
 	data-banner-title-config-enabled={siteConfig.banner?.homeText?.enable ? "true" : "false"}
@@ -296,10 +296,10 @@ if (siteConfig.font) {
 				transform: translateY(0);
 			}
 			.enable-banner #main-grid {
-				transform: translateY(var(--banner-height-extend));
+				transform: none;
+				margin-top: var(--banner-height-extend);
 			}
 			.enable-banner #top-row {
-				height: calc(var(--banner-height-home) - 4.5rem);
 				@apply transition-all duration-300;
 			}
 		}

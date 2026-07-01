@@ -22,7 +22,7 @@ export interface Project {
 export const projectsData: Project[] = [
 	{
 		id: "mizuki",
-		title: "Mizuki",
+		title: "MouyのHOME",
 		description:
 			"A next-gen Material Design 3 blog theme built with Astro, featuring i18n, dark mode, and responsive design.",
 		image: "/assets/projects/mizuki.webp",

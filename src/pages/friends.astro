@@ -5,6 +5,7 @@ import FriendCard from "@components/features/friends/FriendCard.astro";
 import { PageHeader } from "@components/features/page-header";
 import Markdown from "@components/misc/Markdown.astro";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
+import Image from "@components/atoms/Image/Image.astro";
 
 import { siteConfig } from "../config";
 import { getShuffledFriendsList } from "../data/friends";
@@ -47,6 +48,46 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 				title={i18n(I18nKey.friends)}
 				subtitle={i18n(I18nKey.friendsSubtitle)}
 			/>
+
+			<!-- 自我介绍卡片 -->
+			<div class="mb-6 p-5 rounded-xl border border-black/10 dark:border-white/10 bg-(--btn-regular-bg)/50">
+				<div class="flex items-center gap-4">
+					<Image
+						src="assets/images/avatar.jpg"
+						alt="avatar"
+						class="w-14 h-14 rounded-full ring-2 ring-(--primary)/30"
+					/>
+					<div class="flex-1 min-w-0">
+						<div class="flex items-center gap-2">
+							<h3 class="text-lg font-bold text-black/90 dark:text-white/90">MouyのHOME</h3>
+							<button
+								id="copy-friend-info"
+								class="text-xs text-black/40 dark:text-white/40 hover:text-(--primary) transition-colors cursor-pointer"
+								title="复制友链信息"
+							>
+								点击复制
+							</button>
+						</div>
+						<p class="text-sm text-black/60 dark:text-white/60 mt-0.5">以好奇心构建，以清晰度交付</p>
+						<div class="flex flex-wrap gap-1.5 mt-2">
+							<span class="px-2 py-0.5 text-xs rounded-md bg-(--primary)/10 text-(--primary)">技术</span>
+							<span class="px-2 py-0.5 text-xs rounded-md bg-(--primary)/10 text-(--primary)">生活</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- 友链申请须知 -->
+				<div class="mt-4 pt-4 border-t border-black/5 dark:border-white/5">
+					<h4 class="text-sm font-bold text-black/80 dark:text-white/80 mb-2">🔗 友链申请须知</h4>
+					<ol class="text-xs text-black/50 dark:text-white/50 space-y-1 list-decimal list-inside">
+						<li>请先添加本站友链，确保站点可正常访问</li>
+						<li>需有清晰的名称、描述和头像，建站满 1 个月</li>
+						<li>拥有原创内容，符合中华人民共和国相关法律法规</li>
+						<li>保持一定的更新频率，热爱分享</li>
+					</ol>
+					<p class="text-xs text-black/40 dark:text-white/40 mt-2">发送邮件至 <span id="copy-email" class="text-(--primary) hover:underline cursor-pointer">2506054842@qq.com</span> 即可申请，邮件标题：友链申请，格式参考：名称、链接、头像、描述、标签</p>
+				</div>
+			</div>
 
 			<!-- 搜索和筛选栏 -->
 			<div class="mb-6 space-y-3">
@@ -136,6 +177,87 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 
 	<!-- 引用全局脚本 -->
 	<script is:inline src="/js/friends-page-handler.js"></script>
+
+	<!-- Ping 测速脚本 -->
+	<script is:inline>
+		(function () {
+			function pingUrl(url) {
+				return new Promise((resolve) => {
+					const start = performance.now();
+					const img = new Image();
+					let settled = false;
+					const done = () => {
+						if (settled) return;
+						settled = true;
+						clearTimeout(timer);
+						const ms = Math.round(performance.now() - start);
+						resolve(ms);
+					};
+					img.onload = done;
+					img.onerror = done;
+					const timer = setTimeout(done, 8000);
+					img.src = url + (url.includes("?") ? "&" : "?") + "ping=" + Date.now();
+				});
+			}
+
+			function formatTime(ms) {
+				return (ms / 1000).toFixed(2) + " s";
+			}
+
+			async function runPing() {
+				const badges = document.querySelectorAll(".ping-badge[data-ping-url]");
+				for (const badge of badges) {
+					const url = badge.getAttribute("data-ping-url");
+					if (!url) continue;
+					const ms = await pingUrl(url);
+					badge.querySelector(".ping-text").textContent = formatTime(ms);
+					badge.classList.remove("opacity-0");
+					badge.classList.add("opacity-100");
+				}
+			}
+
+			// 复制邮箱
+			function initCopyEmail() {
+				const el = document.getElementById("copy-email");
+				if (!el) return;
+				el.addEventListener("click", () => {
+					navigator.clipboard.writeText("2506054842@qq.com").then(() => {
+						const orig = el.textContent;
+						el.textContent = "已复制 ✓";
+						setTimeout(() => { el.textContent = orig; }, 2000);
+					});
+				});
+			}
+
+			// 复制友链信息
+			function initCopyFriendInfo() {
+				const btn = document.getElementById("copy-friend-info");
+				if (!btn) return;
+				btn.addEventListener("click", () => {
+					const info =
+						"名称：MouyのHOME\n链接：https://mouy.site\n头像：https://mouy.site/assets/images/avatar.jpg\n描述：以好奇心构建，以清晰度交付\n标签：技术、生活";
+					navigator.clipboard.writeText(info).then(() => {
+						btn.textContent = "已复制 ✓";
+						setTimeout(() => {
+							btn.textContent = "点击复制";
+						}, 2000);
+					});
+				});
+			}
+
+			function init() {
+				runPing();
+				initCopyFriendInfo();
+				initCopyEmail();
+			}
+
+			if (document.readyState === "loading") {
+				document.addEventListener("DOMContentLoaded", init);
+			} else {
+				init();
+			}
+		})();
+	</script>
 
 	<div class="mt-4">
 		<Comment path="/friends/" />

@@ -21,6 +21,7 @@ export const WIDGET_COMPONENT_MAP = {
 	pio: "../components/widget/Pio.astro",
 	"site-stats": "../components/widgets/site-stats/SiteStats.astro",
 	calendar: "../components/widgets/calendar/Calendar.astro",
+	"sidebar-nav": "../components/widgets/sidebar-nav/SidebarNav.astro",
 	custom: null,
 } as const;
 

@@ -133,33 +133,6 @@ export const navBarConfig: NavBarConfig = {
 		// 预设链接：归档
 		LinkPreset.Archive,
 
-		// 自定义一级下拉菜单示例：外部链接集合
-		{
-			name: "Links",
-			url: "/links/",
-			icon: "material-symbols:link",
-			children: [
-				{
-					name: "GitHub",
-					url: "https://github.com/LyraVoid/Mizuki",
-					external: true, // 外部链接，新标签页打开
-					icon: "fa7-brands:github",
-				},
-				{
-					name: "Bilibili",
-					url: "https://space.bilibili.com/701864046",
-					external: true,
-					icon: "fa7-brands:bilibili",
-				},
-				{
-					name: "Gitee",
-					url: "https://gitee.com/matsuzakayuki/Mizuki",
-					external: true,
-					icon: "mdi:git",
-				},
-			],
-		},
-
 		// 自定义一级下拉菜单示例：个人内容页面
 		{
 			name: "My",
@@ -167,14 +140,9 @@ export const navBarConfig: NavBarConfig = {
 			icon: "material-symbols:person",
 			children: [
 				{
-					name: "Anime",
+					name: "追剧",
 					url: "/anime/",
 					icon: "material-symbols:movie",
-				},
-				{
-					name: "Diary",
-					url: "/diary/",
-					icon: "material-symbols:book",
 				},
 				{
 					name: "Gallery",
@@ -185,7 +153,7 @@ export const navBarConfig: NavBarConfig = {
 					name: "Devices",
 					url: "/devices/",
 					icon: "material-symbols:devices",
-					external: false, // 内部链接，当前页导航
+					external: false,
 				},
 			],
 		},
@@ -212,7 +180,7 @@ export const navBarConfig: NavBarConfig = {
 		// 自定义一级下拉菜单示例：其他页面
 		{
 			name: "Others",
-			url: "#", // "#" 作为占位 URL，点击不会跳转
+			url: "#",
 			icon: "material-symbols:more-horiz",
 			children: [
 				{

@@ -8,6 +8,8 @@ import { onDestroy, onMount } from "svelte";
 
 import type { SearchResult } from "@/global";
 
+let { compact = false }: { compact?: boolean } = $props();
+
 let keywordDesktop = $state("");
 let keywordMobile = $state("");
 let result: SearchResult[] = $state([]);
@@ -244,14 +246,14 @@ onDestroy(() => {
 </script>
 
 <!-- search bar for desktop view (collapsed by default) -->
-<div class="hidden lg:block relative w-11 h-11 shrink-0">
+<div class="hidden lg:block shrink-0 relative h-11 w-11">
 	<button
 		id="search-bar"
-		class="flex transition-all items-center h-11 rounded-lg absolute right-0 top-0 shrink-0 border-0 bg-transparent cursor-pointer
+		class="flex transition-all items-center h-11 rounded-lg absolute right-0 shrink-0 border-0 bg-transparent cursor-pointer
             {isDesktopSearchExpanded
 			? 'bg-black/4 hover:bg-black/6 focus-within:bg-black/6 dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10'
 			: 'btn-plain active:scale-90'}
-            {isDesktopSearchExpanded ? 'w-48' : 'w-11'}"
+            {isDesktopSearchExpanded ? (compact ? 'w-28' : 'w-48') : 'w-11'}"
 		aria-label="Search"
 		onmouseenter={() => {
 			if (!isDesktopSearchExpanded) {
@@ -288,7 +290,7 @@ onDestroy(() => {
 			onblur={handleBlur}
 			class="transition-all pl-10 text-sm bg-transparent outline-0
                 h-full {isDesktopSearchExpanded
-				? 'w-36'
+				? (compact ? 'w-20' : 'w-36')
 				: 'w-0'} text-black/50 dark:text-white/50"
 		/>
 	</button>

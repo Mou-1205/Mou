@@ -1,4 +1,4 @@
-/* ========== Mizuki Editor - Theme System ========== */
+/* ========== 某炜编辑器 - 主题系统 ========== */
 :root {
   --hue: 60;
   --bg-base: hsl(var(--hue) 10% 8%);
@@ -23,7 +23,7 @@
   --toolbar-h: 52px;
 }
 
-/* ========== Light Theme ========== */
+/* ========== 亮色主题 ========== */
 body.theme-light {
   --bg-base: hsl(var(--hue) 15% 97%);
   --bg-surface: hsl(var(--hue) 12% 93%);
@@ -47,7 +47,7 @@ body.theme-light {
   --code-tag: hsl(355 60% 48%);
 }
 
-/* ========== Deep Blue Theme ========== */
+/* ========== 深蓝主题 ========== */
 body.theme-deep-blue {
   --hue: 220;
   --bg-base: hsl(220 35% 10%);
@@ -72,7 +72,7 @@ body.theme-deep-blue {
   --code-tag: hsl(355 60% 65%);
 }
 
-/* ========== High Contrast Theme (WCAG AA+) ========== */
+/* ========== 高对比度主题 (WCAG AA+) ========== */
 body.theme-high-contrast {
   --bg-base: #000000;
   --bg-surface: #0a0a0a;
@@ -105,7 +105,7 @@ body { font-family:var(--font); background:var(--bg-base); color:var(--text-prim
 ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
 ::-webkit-scrollbar-thumb:hover { background:var(--border-light); }
 
-/* ========== Theme Picker ========== */
+/* ========== 主题选择器 ========== */
 .theme-picker-btn {
   position:fixed; bottom:24px; right:24px; z-index:999;
   width:48px; height:48px; border-radius:50%;
@@ -146,7 +146,7 @@ body { font-family:var(--font); background:var(--bg-base); color:var(--text-prim
 }
 .preset:hover { transform:scale(1.2); border-color:white; }
 
-/* ========== Toolbar ========== */
+/* ========== 工具栏 ========== */
 .toolbar {
   height:var(--toolbar-h); display:flex; align-items:center;
   padding:0 12px; gap:8px;
@@ -177,7 +177,7 @@ body { font-family:var(--font); background:var(--bg-base); color:var(--text-prim
 .view-btn.active { background:var(--accent-dim); color:var(--accent); }
 .view-btn:hover:not(.active) { color:var(--text-secondary); }
 
-/* Language Selector */
+/* 语言选择器 */
 .lang-btn { font-size:16px !important; }
 .lang-dropdown {
   position:fixed; top:var(--toolbar-h); right:12px; z-index:300;
@@ -196,13 +196,13 @@ body { font-family:var(--font); background:var(--bg-base); color:var(--text-prim
 .lang-opt.active { color:var(--accent); border-color:var(--accent); background:var(--accent-glow); }
 .lang-flag { font-size:16px; line-height:1; }
 
-/* ========== Main Layout ========== */
+/* ========== 主布局 ========== */
 .main-layout {
   display:flex; height:calc(100vh - var(--toolbar-h));
   transition:all .3s ease;
 }
 
-/* Module Panel */
+/* 模块面板 */
 .module-panel {
   width:280px; min-width:280px;
   background:var(--bg-surface); border-right:1px solid var(--border);
@@ -241,7 +241,7 @@ body { font-family:var(--font); background:var(--bg-base); color:var(--text-prim
 .module-item:active { transform:scale(.98); }
 .module-item .icon { font-size:15px; width:22px; text-align:center; }
 
-/* Editor */
+/* 编辑器 */
 .editor-section { flex:1; display:flex; flex-direction:column; min-width:0; }
 .editor-textarea {
   flex:1; width:100%; padding:20px 24px; border:none; resize:none;
@@ -250,7 +250,7 @@ body { font-family:var(--font); background:var(--bg-base); color:var(--text-prim
   outline:none; tab-size:2;
 }
 
-/* Preview */
+/* 预览 */
 .preview-section {
   flex:1; overflow-y:auto; border-left:1px solid var(--border);
   background:var(--bg-base); min-width:0;
@@ -286,7 +286,7 @@ body { font-family:var(--font); background:var(--bg-base); color:var(--text-prim
 .preview-content ul,.preview-content ol { padding-left:1.5em; margin:.5em 0; }
 .preview-content li { margin:.3em 0; }
 
-/* ========== Modals ========== */
+/* ========== 模态框 ========== */
 .modal { position:fixed; inset:0; z-index:500; display:flex; align-items:center; justify-content:center; }
 .modal-overlay { position:absolute; inset:0; background:rgba(0,0,0,.6); backdrop-filter:blur(4px); }
 .modal-content {
@@ -317,7 +317,7 @@ body { font-family:var(--font); background:var(--bg-base); color:var(--text-prim
 }
 .btn-secondary:hover { background:var(--bg-hover); color:var(--text-primary); }
 
-/* FM Grid */
+/* FM 网格 */
 .fm-grid { display:flex; flex-direction:column; gap:12px; }
 .fm-grid label { display:flex; flex-direction:column; gap:4px; font-size:12px; color:var(--text-secondary); font-weight:500; }
 .fm-grid input[type=text],.fm-grid input[type=date],.fm-grid input[type=number],.fm-grid textarea,.fm-grid select {
@@ -330,7 +330,7 @@ body { font-family:var(--font); background:var(--bg-base); color:var(--text-prim
 .fm-check { flex-direction:row !important; align-items:center !important; gap:6px !important; font-size:13px !important; cursor:pointer; }
 .fm-check input[type=checkbox] { accent-color:var(--accent); width:16px; height:16px; }
 
-/* Export */
+/* 导出 */
 .export-options { display:flex; flex-direction:column; gap:8px; }
 .export-btn {
   padding:14px 16px; border:1px solid var(--border); border-radius:var(--radius-sm);
@@ -340,7 +340,7 @@ body { font-family:var(--font); background:var(--bg-base); color:var(--text-prim
 }
 .export-btn:hover { background:var(--bg-hover); border-color:var(--accent); transform:translateX(4px); }
 
-/* Drop Overlay */
+/* 拖放覆盖层 */
 .drop-overlay {
   position:fixed; inset:0; z-index:600;
   background:rgba(0,0,0,.7); backdrop-filter:blur(8px);
@@ -353,7 +353,7 @@ body { font-family:var(--font); background:var(--bg-base); color:var(--text-prim
   animation:pulse 1.5s infinite;
 }
 
-/* ========== Theme Switcher UI ========== */
+/* ========== 主题切换器 UI ========== */
 .theme-switcher { margin-top:14px; border-top:1px solid var(--border); padding-top:12px; }
 .theme-switcher h4 { font-size:12px; color:var(--text-secondary); margin-bottom:8px; font-weight:500; letter-spacing:.4px; }
 .theme-options { display:flex; flex-direction:column; gap:4px; }
@@ -376,7 +376,7 @@ body { font-family:var(--font); background:var(--bg-base); color:var(--text-prim
 }
 .theme-opt-preview span { flex:1; }
 
-/* Theme-aware syntax highlighting */
+/* 主题感知语法高亮 */
 .preview-content .hljs-keyword { color:var(--code-keyword, hsl(280 65% 70%)); }
 .preview-content .hljs-string { color:var(--code-string, hsl(140 55% 60%)); }
 .preview-content .hljs-comment { color:var(--code-comment, hsl(0 0% 48%)); font-style:italic; }
@@ -388,25 +388,25 @@ body { font-family:var(--font); background:var(--bg-base); color:var(--text-prim
 .preview-content .hljs-type { color:hsl(40 70% 65%); }
 .preview-content .hljs-meta { color:var(--text-muted); }
 
-/* Light theme code block override */
+/* 亮色主题代码块覆盖 */
 body.theme-light .preview-content pre { background:hsl(var(--hue) 8% 96%); border-color:hsl(var(--hue) 8% 85%); }
 body.theme-light .preview-content code { color:hsl(var(--hue) 60% 38%); }
 body.theme-light .preview-content pre code { color:var(--text-primary); }
 body.theme-light .editor-textarea { background:hsl(var(--hue) 10% 98%); }
 
-/* High contrast code block override */
+/* 高对比度代码块覆盖 */
 body.theme-high-contrast .preview-content pre { background:#0d0d0d; border:2px solid #555; }
 body.theme-high-contrast .preview-content code { color:#ffdd00; background:#1a1a00; }
 body.theme-high-contrast .preview-content pre code { color:#f8f8f2; background:none; }
 
-/* Utilities */
+/* 工具类 */
 .hidden { display:none !important; }
 
-/* Animations */
+/* 动画 */
 @keyframes fadeSlideUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
 @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.6; } }
 
-/* ========== Responsive ========== */
+/* ========== 响应式 ========== */
 @media(max-width:1280px) {
   .module-panel { width:240px; min-width:240px; }
   .toolbar-center { gap:2px; }

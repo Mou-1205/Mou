@@ -1,47 +1,34 @@
 
-本站使用 **Astro** 框架构建，主题为 [某炜](https://github.com/LyraVoid/Mizuki)。
+> 以好奇心构建，以清晰度交付。
 
-::github{repo="LyraVoid/Mizuki"}
+## 关于我
 
-## 🌟 主题特性
+Hi，我是**某炜**，一个来自广州的初学开发者。
 
-### 🎨 设计与用户体验
-- **现代优雅设计** — 简洁极简的界面，优美的排版
-- **完全响应式** — 针对从手机到桌面的所有设备进行优化
-- **深色/浅色模式** — 自动主题切换，平滑过渡
-- **精美排版** — 使用 JetBrains Mono 字体提升可读性
-- **流畅动画** — 丝滑的页面过渡和交互效果
+生日 2007.12.05，目前在折腾代码和 AI Agent 工具的路上。目标是成为全栈大佬——虽然路还很长，但每一步都算数。
 
-### 🔍 内容与搜索
-- **高级搜索** — 由 [Pagefind](https://pagefind.app/) 驱动，快速精准
-- **增强 Markdown** — 扩展语法支持代码高亮和数学公式
-- **交互式目录** — 长文章自动滚动导航
-- **RSS 订阅生成** — 自动生成订阅源，随时获取更新
-- **阅读时间估算** — 了解文章阅读时长
-- **文章分类** — 使用标签和分类整理内容
+<div class="text-xs text-neutral-400">Born on Dec 5, 2007. Learning to code and exploring AI Agent tools. Aspiring to become a full-stack developer — the road is long, but every step counts.</div>
 
-### 📱 特色页面
-- **追番页面** — 追踪你的追番进度和评分
-- **友链页面** — 以精美卡片展示好友网站
-- **日记/动态页面** — 像社交媒体一样分享生活点滴
-- **归档页面** — 按时间线浏览所有文章
-- **关于页面** — 可自定义的个人介绍（就是这个页面！）
+平时喜欢写写代码、玩玩各种 Agent 工具，探索技术的边界。相信好的代码应该是清晰的、有表达力的，就像好的文字一样。
 
-### 🛠 技术特性
-- **增强代码块** — 由 [Expressive Code](https://expressive-code.com/) 驱动
-- **数学公式支持** — 使用 KaTeX 渲染 LaTeX 数学表达式
-- **图片优化** — PhotoSwipe 画廊，支持懒加载
-- **SEO 优化** — 内置站点地图和 meta 标签，提升搜索可见性
-- **性能优化** — 缓存和优化实现快速加载
-- **评论系统就绪** — 支持 Twikoo 评论集成
+## 技术栈
 
-### 🎯 高级 Markdown 特性
-- **提示框与告示框** — 精美的信息框，支持 `> [!NOTE]`、`> [!TIP]`、`> [!WARNING]`
-- **数学方程** — 使用 `$行内$` 和 `$$块级$$` 语法编写 LaTeX 公式
-- **GitHub 卡片** — 使用 `::github{repo="user/repo"}` 嵌入仓库卡片
-- **语法高亮** — 高级代码高亮，支持行号显示
-- **代码复制按钮** — 一键复制代码
+目前玩过 **C++**，正在学习前端和全栈开发的路上。
+
+正在探索：HTML / CSS / JavaScript / Astro
+
+**常用工具**：Git / AI Agent 工具
+
+## 项目
+
+- **[Mou-Two](https://WWW.MOUY.SITE)** — 个人网站，纯 HTML/CSS/JS 单文件架构
+- **[MouyのHOME](/)** — 这个博客，基于 Astro + Mizuki 主题
+
+## 联系我
+
+- GitHub: [Mou-1205](https://github.com/Mou-1205)
+- 抖音: [某炜](https://v.douyin.com/dZ95kkGCwJI)
 
 ---
 
-*使用 Astro 构建 ❤️ 灵感源自现代网页设计原则。*
+*本站使用 [Astro](https://astro.build) 构建，主题为 [Mizuki](https://github.com/LyraVoid/Mizuki)。*

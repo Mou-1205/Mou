@@ -36,7 +36,7 @@ const children =
 const hasChildren = children.length > 0;
 ---
 
-<div class:list={["dropdown-container group", className]} data-dropdown>
+<div class:list={["dropdown-container group", className]} data-dropdown data-name={link.name}>
 	{
 		hasChildren ? (
 			<>

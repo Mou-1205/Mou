@@ -12,7 +12,7 @@ interface Props {
 		totalEpisodes: number;
 		description: string;
 		year: string;
-		studio: string;
+		cast?: string;
 		genre: string[];
 	};
 	statusInfo: {
@@ -21,10 +21,9 @@ interface Props {
 		icon: string;
 	};
 	yearLabel: string;
-	studioLabel: string;
 }
 
-const { anime, statusInfo, yearLabel, studioLabel } = Astro.props;
+const { anime, statusInfo, yearLabel } = Astro.props;
 
 const progressPercent =
 	anime.totalEpisodes > 0 ? (anime.progress / anime.totalEpisodes) * 100 : 0;
@@ -114,7 +113,7 @@ const progressPercent =
 			{anime.title}
 		</h3>
 		<p
-			class="text-black/60 dark:text-white/60 text-xs mb-2 line-clamp-2"
+			class="text-black/60 dark:text-white/60 text-xs mb-2"
 			title={anime.description}
 		>
 			{anime.description}
@@ -131,17 +130,21 @@ const progressPercent =
 					{anime.year}
 				</span>
 			</div>
-			<div class="flex justify-between items-start">
-				<span class="text-black/50 dark:text-white/50 shrink-0 mt-0.5">
-					{studioLabel}
-				</span>
-				<span
-					class="text-black/70 dark:text-white/70 text-right ml-2 line-clamp-2 wrap-break-word"
-					title={anime.studio}
-				>
-					{anime.studio}
-				</span>
-			</div>
+			{
+				anime.cast && (
+					<div class="flex justify-between items-start">
+						<span class="text-black/50 dark:text-white/50 shrink-0 mt-0.5">
+							演员
+						</span>
+						<span
+							class="text-black/70 dark:text-white/70 text-right ml-2 line-clamp-2 wrap-break-word"
+							title={anime.cast}
+						>
+							{anime.cast}
+						</span>
+					</div>
+				)
+			}
 			<div class="flex flex-wrap gap-1 mt-2">
 				{
 					anime.genre.map((g) => (

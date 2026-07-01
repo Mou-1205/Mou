@@ -89,13 +89,20 @@ const style = Astro.props.style;
 			'widget-layout[data-id="announcement"]',
 		);
 
-		if (
-			widgetLayouts.length > 0 &&
-			localStorage.getItem("announcementClosed") === "true"
-		) {
-			widgetLayouts.forEach((widget) => {
-				(widget as HTMLElement).style.display = "none";
-			});
+		if (widgetLayouts.length > 0) {
+			// 如果公告不可关闭，清除之前的关闭状态
+			const closable = document.querySelector(
+				'widget-layout[data-id="announcement"] button[onclick="closeAnnouncement()"]',
+			);
+			if (!closable) {
+				localStorage.removeItem("announcementClosed");
+			}
+
+			if (localStorage.getItem("announcementClosed") === "true") {
+				widgetLayouts.forEach((widget) => {
+					(widget as HTMLElement).style.display = "none";
+				});
+			}
 		}
 	});
 

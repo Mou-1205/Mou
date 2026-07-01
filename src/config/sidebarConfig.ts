@@ -95,6 +95,16 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 动画延迟时间
 			animationDelay: 250,
 		},
+		{
+			// 组件类型：侧栏导航组件
+			type: "sidebar-nav",
+			// 组件位置
+			position: "top",
+			// CSS 类名
+			class: "onload-animation",
+			// 动画延迟时间
+			animationDelay: 0,
+		},
 	],
 
 	// 侧栏组件布局配置

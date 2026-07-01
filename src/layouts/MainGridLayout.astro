@@ -141,7 +141,7 @@ const defaultPostListLayout = siteConfig.postListLayout?.defaultMode || "list";
 			id="navbar-wrapper"
 			class="pointer-events-auto sticky top-0 transition-all"
 		>
-			<Navbar />
+			<Navbar compactSearch={true} />
 		</div>
 	</div>
 
@@ -158,11 +158,10 @@ const defaultPostListLayout = siteConfig.postListLayout?.defaultMode || "list";
 		class={`absolute w-full z-30 pointer-events-none ${mobileNonHomeBannerClass ? "mobile-main-no-banner" : ""} ${siteConfig.wallpaperMode.defaultMode === "none" ? "no-banner-layout" : ""} ${transparentClass}`}
 		style={`top: ${finalMainPanelTop}`}
 	>
-		<!-- The pointer-events-none here prevent blocking the click event of the TOC -->
-		<div class="relative max-w-(--page-width) mx-auto pointer-events-auto">
+		<div class="relative max-w-(--page-width) mx-auto">
 			<div
 				id="main-grid"
-				class={`transition duration-700 w-full left-0 right-0 grid ${gridCols} grid-rows-none md:grid-rows-[auto] mx-auto gap-4 px-2 md:px-4 ${!mobileShowSidebar || !hasMobileDrawerComponents ? "mobile-no-sidebar" : ""} ${hasRightSidebarComponents ? "mobile-both-sidebar" : ""}`}
+				class={`transition duration-700 w-full left-0 right-0 grid ${gridCols} grid-rows-none md:grid-rows-[auto] mx-auto gap-4 px-2 md:px-4 pointer-events-auto ${!mobileShowSidebar || !hasMobileDrawerComponents ? "mobile-no-sidebar" : ""} ${hasRightSidebarComponents ? "mobile-both-sidebar" : ""}`}
 				data-layout-mode={defaultPostListLayout}
 			>
 				<!-- Banner image credit -->
@@ -277,6 +276,7 @@ const defaultPostListLayout = siteConfig.postListLayout?.defaultMode || "list";
 		.right-sidebar-container #right-sidebar {
 			height: fit-content;
 		}
+
 	</style>
 
 	<!-- 侧边栏TOC模式 -->
@@ -325,3 +325,26 @@ const defaultPostListLayout = siteConfig.postListLayout?.defaultMode || "list";
   Banner 和网格布局样式已提取到 src/styles/banner.css
   该文件通过 src/styles/main.css 导入
 -->
+
+<script>
+	// 搜索展开时隐藏导航栏里的 "Others" 下拉按钮（保持占位）
+	function toggleOthersVisibility(hide: boolean) {
+		const othersEl = document.querySelector('[data-name="Others"]');
+		if (othersEl) {
+			(othersEl as HTMLElement).style.opacity = hide ? "0" : "1";
+			(othersEl as HTMLElement).style.pointerEvents = hide ? "none" : "auto";
+			(othersEl as HTMLElement).style.visibility = hide ? "hidden" : "visible";
+			(othersEl as HTMLElement).style.transition = "opacity 0.15s ease, visibility 0.15s ease";
+		}
+	}
+
+	function initSearchHover() {
+		const searchContainer = document.getElementById("search-container");
+		if (!searchContainer) return;
+		searchContainer.addEventListener("mouseenter", () => toggleOthersVisibility(true));
+		searchContainer.addEventListener("mouseleave", () => toggleOthersVisibility(false));
+	}
+
+	initSearchHover();
+	document.addEventListener("swup:content", initSearchHover);
+</script>

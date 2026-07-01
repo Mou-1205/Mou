@@ -4,10 +4,7 @@ export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
 	enable: true,
 	src: {
 		desktop: [
-			"/assets/desktop-banner/1.webp",
-			"/assets/desktop-banner/2.webp",
-			"/assets/desktop-banner/3.webp",
-			"/assets/desktop-banner/4.webp",
+			"/assets/desktop-banner/背景.png",
 		],
 		mobile: [
 			"/assets/mobile-banner/1.webp",
@@ -18,7 +15,7 @@ export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
 	},
 	position: "center",
 	carousel: {
-		enable: true,
+		enable: false,
 		interval: 5,
 	},
 	zIndex: -1,

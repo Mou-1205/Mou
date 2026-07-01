@@ -746,6 +746,81 @@ const bannerFormats = getImageFormats();
 			</Icon>
 		</a>
 	)}
+
+	<!-- Banner 亮度自动检测：根据图片明暗切换文字颜色 -->
+	<script is:inline data-swup-ignore-script>
+		(function () {
+			function getBrightness(img) {
+				var canvas = document.createElement("canvas");
+				var ctx = canvas.getContext("2d");
+				var w = (canvas.width = Math.min(img.naturalWidth || img.width, 100));
+				var h = (canvas.height = Math.min(img.naturalHeight || img.height, 100));
+				ctx.drawImage(img, 0, 0, w, h);
+				var data = ctx.getImageData(0, 0, w, h).data;
+				var sum = 0;
+				var len = data.length;
+				for (var i = 0; i < len; i += 4) {
+					sum += 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+				}
+				return sum / (len / 4) / 255;
+			}
+
+			function detectAndApply() {
+				var wrapper = document.getElementById("banner-wrapper");
+				if (!wrapper) return;
+
+				var isMobile = window.innerWidth < 768;
+				var img;
+				if (isMobile) {
+					img = wrapper.querySelector(".banner-image-slot-mobile img") ||
+						wrapper.querySelector("#banner-single-container img.block");
+				}
+				if (!img) {
+					img = wrapper.querySelector(".banner-image-slot-desktop img") ||
+						wrapper.querySelector("#banner-single-container img.hidden") ||
+						wrapper.querySelector("#banner-single-container img:nth-child(2)") ||
+						wrapper.querySelector("#banner-single-container img");
+				}
+				if (!img || !img.complete || !img.naturalWidth) return;
+
+				var brightness = getBrightness(img);
+				wrapper.classList.remove("banner-light", "banner-dark");
+				wrapper.classList.add(brightness > 0.55 ? "banner-light" : "banner-dark");
+			}
+
+			// 图片加载后检测
+			var wrapper = document.getElementById("banner-wrapper");
+			if (wrapper) {
+				var imgs = wrapper.querySelectorAll("img");
+				var loaded = 0;
+				var total = imgs.length || 1;
+				function checkReady() {
+					loaded++;
+					if (loaded >= total) detectAndApply();
+				}
+				imgs.forEach(function (img) {
+					if (img.complete) checkReady();
+					else {
+						img.addEventListener("load", checkReady);
+						img.addEventListener("error", checkReady);
+					}
+				});
+				if (imgs.length === 0) detectAndApply();
+			}
+
+			// Swup 导航后重新检测
+			document.addEventListener("swup:contentReplaced", function () {
+				setTimeout(detectAndApply, 100);
+			});
+
+			// 窗口缩放时重新检测（可能切换了桌面/移动端图片）
+			var resizeTimer;
+			window.addEventListener("resize", function () {
+				clearTimeout(resizeTimer);
+				resizeTimer = setTimeout(detectAndApply, 200);
+			});
+		})();
+	</script>
 </div>
 
 <style>
@@ -754,6 +829,7 @@ const bannerFormats = getImageFormats();
 		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 		animation: fadeInUp 1s ease-out;
 		font-weight: bold;
+		transition: color 0.5s ease;
 	}
 
 	.banner-subtitle {
@@ -761,7 +837,28 @@ const bannerFormats = getImageFormats();
 		animation: fadeInUp 1s ease-out 0.3s both;
 		min-height: 1.5em;
 		line-height: 1.2;
+		transition: color 0.5s ease;
 	}
+
+	/* 深色背景 → 白字 */
+	.banner-dark .banner-title,
+	.banner-dark .banner-subtitle,
+	.banner-dark #page-overlay-title,
+	.banner-dark #page-overlay-meta,
+	.banner-dark #banner-credit {
+		color: white;
+	}
+	.banner-dark #page-overlay-meta { color: rgba(255, 255, 255, 0.8); }
+	.banner-dark #banner-credit { color: rgba(255, 255, 255, 0.75); }
+	.banner-dark #banner-credit .text-\[1\.25rem\] { color: rgba(255, 255, 255, 0.75); }
+
+	/* 浅色背景 → 深字 */
+	.banner-light .banner-title { color: #1f2937; text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8); }
+	.banner-light .banner-subtitle { color: rgba(31, 41, 55, 0.9); text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6); }
+	.banner-light #page-overlay-title { color: #1f2937; text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8); }
+	.banner-light #page-overlay-meta { color: rgba(55, 65, 81, 0.8); }
+	.banner-light #banner-credit { color: rgba(55, 65, 81, 0.75); }
+	.banner-light #banner-credit .text-\[1\.25rem\] { color: rgba(55, 65, 81, 0.75); }
 
 	@keyframes fadeInUp {
 		from {

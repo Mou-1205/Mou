@@ -22,7 +22,7 @@ export const timelineData: TimelineItem[] = [
 	},
 	{
 		id: "mizuki-blog-project",
-		title: "Mizuki Personal Blog Project",
+		title: "Mouy的博客项目",
 		description:
 			"A personal blog website developed using the Astro framework as a practical project for learning frontend technologies.",
 		type: "project",

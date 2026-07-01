@@ -17,7 +17,7 @@ interface AnimeItem {
 	totalEpisodes: number;
 	description: string;
 	year: string;
-	studio: string;
+	cast?: string;
 	genre: string[];
 }
 
@@ -26,10 +26,9 @@ interface Props {
 	hiddenAnimeList: AnimeItem[];
 	statusMap: Record<string, StatusInfo>;
 	yearLabel: string;
-	studioLabel: string;
 }
 
-const { visibleAnimeList, hiddenAnimeList, statusMap, yearLabel, studioLabel } =
+const { visibleAnimeList, hiddenAnimeList, statusMap, yearLabel } =
 	Astro.props;
 
 const hasHiddenItems = hiddenAnimeList.length > 0;
@@ -51,7 +50,6 @@ const hasHiddenItems = hiddenAnimeList.length > 0;
 					anime={anime}
 					statusInfo={statusInfo}
 					yearLabel={yearLabel}
-					studioLabel={studioLabel}
 				/>
 			);
 		})
@@ -71,7 +69,6 @@ const hasHiddenItems = hiddenAnimeList.length > 0;
 					anime={anime}
 					statusInfo={statusInfo}
 					yearLabel={yearLabel}
-					studioLabel={studioLabel}
 				/>
 			);
 		})
