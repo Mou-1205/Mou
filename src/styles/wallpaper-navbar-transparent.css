@@ -1,0 +1,323 @@
+/* 集中管理颜色与状态，修改一处即可全局生效 */
+:root {
+  /* --- 基础 Token --- */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --radius-std: 0.75rem;
+
+  /* --- 状态变量 (默认值) --- */
+  --nav-bg: transparent;
+  --nav-blur: none;
+  --nav-shadow: none;
+  --nav-radius: var(--radius-std);
+
+  /* --- 面板变量 (默认跟随 Navbar，特定情况分离) --- */
+  --panel-bg: var(--card-bg-transparent);
+  --panel-blur: blur(20px);
+}
+
+/* Dark Mode 适配 */
+:root.dark {
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+/* --- 滚动透明度控制 (Dynamic Transparent) --- */
+
+/* Semi (毛玻璃) */
+#navbar[data-dynamic-transparent="semi"] {
+  --nav-bg: var(--card-bg-transparent);
+  --nav-blur: blur(8px);
+  --nav-shadow: var(--shadow-lg);
+}
+
+/* None (实心) */
+#navbar[data-dynamic-transparent="none"] {
+  --nav-bg: var(--card-bg);
+  --nav-blur: none;
+  --nav-shadow: var(--shadow-sm);
+
+  /* 联动子面板 */
+  --panel-bg: var(--card-bg);
+  --panel-blur: none;
+}
+
+/* --- 首页 Banner 沉浸式 (Wallpaper Transparent) --- */
+
+/* 桌面端 Full 模式 */
+@media (width >= 1280px) {
+  body.wallpaper-transparent #navbar[data-transparent-mode="full"] {
+    --nav-bg: transparent;
+    --nav-blur: none;
+    --nav-shadow: none;
+    --nav-radius: 0;
+  }
+}
+
+/* 移动端 Full 模式 (仅首页) */
+@media (width < 1280px) {
+  body.wallpaper-transparent #navbar[data-transparent-mode="full"][data-is-home="true"] {
+    --nav-bg: transparent;
+    --nav-blur: none;
+    --nav-shadow: none;
+    --nav-radius: 0;
+  }
+}
+
+/* Semi-Full 混合模式 (未滚动时透明) */
+body.wallpaper-transparent #navbar[data-transparent-mode="semifull"]:not(.scrolled) {
+  --nav-bg: transparent;
+  --nav-blur: none;
+  --nav-shadow: none;
+  --nav-radius: 0;
+}
+/* 移动端首页特殊处理 */
+body.wallpaper-transparent #navbar[data-transparent-mode="semifull"][data-is-home="true"]:not(.scrolled) {
+  --nav-bg: transparent;
+  --nav-blur: none;
+  --nav-shadow: none;
+  --nav-radius: 0;
+}
+
+/* 混合模式滚动后 -> 回归毛玻璃 */
+body.wallpaper-transparent #navbar[data-transparent-mode="semifull"].scrolled {
+  --nav-bg: var(--card-bg-transparent);
+  --nav-blur: blur(8px);
+  --nav-shadow: var(--shadow-lg);
+  --nav-radius: var(--radius-std);
+}
+
+/* 导航栏样式核心 (Navbar Core) */
+#navbar > div {
+  border: none !important;
+  outline: none;
+
+  /* 核心外观由变量驱动 — !important 防止被 main.css 的 .wallpaper-transparent 覆盖 */
+  background: var(--nav-bg) !important;
+  backdrop-filter: var(--nav-blur) !important;
+  box-shadow: var(--nav-shadow) !important;
+  border-radius: var(--nav-radius);
+
+  /* 性能优化 */
+  will-change: background, backdrop-filter, box-shadow;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 强制吸附 — 使用 fixed 替代 sticky，兼容所有滚动容器 */
+#navbar-wrapper {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 50 !important;
+}
+
+/* fixed 脱离文档流，需要占位防止内容跳动 */
+#top-row {
+  height: 4.5rem;
+}
+
+/* ============================================
+   桌面端：透明穿透 + 毛玻璃 action bar
+   ============================================ */
+@media (min-width: 768px) {
+  /* 顶层容器全部穿透点击 */
+  #top-row {
+    pointer-events: none;
+  }
+
+  #navbar-wrapper {
+    pointer-events: none;
+  }
+
+  #navbar-wrapper #navbar {
+    pointer-events: none;
+  }
+
+  /* 内层容器取消所有视觉样式，只做布局 */
+  #navbar-wrapper #navbar > div {
+    width: 100%;
+    max-width: var(--page-width);
+    min-width: 0;
+    height: 4.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1rem;
+    gap: 1rem;
+    justify-content: space-between;
+    background: transparent !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    border: none !important;
+    border-radius: 0;
+    box-shadow: none !important;
+    pointer-events: none;
+  }
+
+  /* =============================================
+     Mica 哑光 + 液态玻璃
+     - Mica: 低饱和哑光底色，融入背景而非反射
+     - 液态玻璃: 边缘折射、轻微色散、流动感
+     - 不做高光镜面反射，保持内敛质感
+     ============================================= */
+
+  /* --- 左侧品牌入口 --- */
+  #navbar-wrapper #navbar .navbar-title-link {
+    height: 3.75rem;
+    padding-left: 0.75rem;
+    padding-right: 1rem;
+    border-radius: 1rem;
+    pointer-events: auto;
+    align-self: center;
+    background: rgba(255, 255, 255, 0.35);
+    -webkit-backdrop-filter: blur(40px) saturate(1.4);
+    backdrop-filter: blur(40px) saturate(1.4);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  #navbar-wrapper #navbar .navbar-title-link:hover {
+    background: rgba(255, 255, 255, 0.45);
+  }
+
+  :root.dark #navbar-wrapper #navbar .navbar-title-link {
+    background: rgba(0, 0, 0, 0.35);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  :root.dark #navbar-wrapper #navbar .navbar-title-link:hover {
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  #navbar-wrapper #navbar .navbar-title-link img {
+    width: 2.6rem;
+    height: 2.6rem;
+  }
+
+  #navbar-wrapper #navbar .navbar-title-link span {
+    font-size: 1.35rem;
+    line-height: 1;
+  }
+
+  /* --- 右侧液态玻璃 action bar --- */
+  #navbar-wrapper #navbar-action-bar {
+    width: fit-content;
+    max-width: min(68%, calc(100vw - 14rem));
+    min-width: 0;
+    height: 3.25rem;
+    margin-left: auto;
+    margin-right: 0;
+    padding: 0.375rem;
+    align-self: center;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.35);
+    -webkit-backdrop-filter: blur(40px) saturate(1.4);
+    backdrop-filter: blur(40px) saturate(1.4);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    pointer-events: auto;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  #navbar-wrapper #navbar-action-bar:hover {
+    background: rgba(255, 255, 255, 0.45);
+  }
+
+  :root.dark #navbar-wrapper #navbar-action-bar {
+    background: rgba(0, 0, 0, 0.35);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  :root.dark #navbar-wrapper #navbar-action-bar:hover {
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  /* action bar 内部：统一 2.5rem 高度，全部居中对齐 */
+  #navbar-wrapper #navbar-links-container {
+    gap: 0.125rem;
+    margin-left: 0;
+    margin-right: auto;
+    font-size: 0.8125rem;
+  }
+
+  #navbar-wrapper #navbar-action-bar .btn-plain {
+    height: 2.5rem;
+    padding-left: 0.375rem;
+    padding-right: 0.375rem;
+    font-size: 0.8125rem;
+  }
+
+  /* 搜索框：高度统一 + 下移居中 */
+  #navbar-wrapper #navbar-action-bar #search-bar {
+    height: 2.5rem !important;
+    top: 2px !important;
+    font-size: 0.8125rem;
+  }
+
+  /* ThemeSwitch 统一高度 */
+  #navbar-wrapper #navbar-action-bar .theme-switch-btn {
+    height: 2.5rem;
+    width: 2.5rem;
+  }
+}
+
+/* ============================================
+   子组件样式 (Sub-Components)
+   ============================================ */
+:is(.dropdown-content, #nav-menu-panel, #mobile-toc-panel, #display-setting, #search-panel, .float-panel) {
+  /* 使用面板专用变量 */
+  background: var(--panel-bg);
+  backdrop-filter: var(--panel-blur);
+  box-shadow: var(--shadow-lg);
+  border: none;
+
+  /* 优化过渡 */
+  transition:
+    background 0.3s ease,
+    backdrop-filter 0.3s ease;
+}
+
+/* Banner 模式下的特殊增强 */
+@media (width >= 1280px) {
+  body.wallpaper-transparent :is(.dropdown-content, #display-setting, #search-panel) {
+    background: rgba(255, 255, 255, 0.85);
+  }
+  :root.dark body.wallpaper-transparent :is(.dropdown-content, #display-setting, #search-panel) {
+    background: rgba(24, 25, 38, 0.85);
+  }
+}
+
+@media (width < 1280px) {
+  /* 修正移动端 Navbar 布局 */
+  #navbar > div {
+    border-radius: 0.5rem;
+    margin: 0;
+    width: 100%;
+    max-width: none;
+  }
+
+  /* 搜索框内部颜色处理 */
+  body:has(#navbar[data-dynamic-transparent="none"]) #search-panel #search-bar-inside {
+    background: rgba(0, 0, 0, 0.08);
+  }
+  :root.dark body:has(#navbar[data-dynamic-transparent="none"]) #search-panel #search-bar-inside {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  /* 非首页时，移动端各个弹出面板不透明 */
+  #navbar:not([data-is-home="true"]) :is(#nav-menu-panel, #mobile-toc-panel, #search-panel, #display-setting) {
+    background: var(--card-bg);
+    backdrop-filter: none;
+  }
+}

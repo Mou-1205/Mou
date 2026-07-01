@@ -1,0 +1,48 @@
+---
+import { Icon } from "astro-icon/components";
+import { navBarConfig } from "../../../config";
+import { url } from "../../../utils/url-utils";
+
+const links = navBarConfig.links;
+---
+
+<div class="card-base p-3">
+  <div class="font-bold text-lg mb-3 dark:text-neutral-50">导航</div>
+  <nav class="space-y-1">
+    {links.map((link) => (
+      <div>
+        {link.children ? (
+          <div class="mb-2">
+            <div class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-black/70 dark:text-white/70">
+              {link.icon && <Icon name={link.icon} class="w-4 h-4" />}
+              <span>{link.name}</span>
+            </div>
+            <div class="ml-4 space-y-0.5">
+              {link.children.map((child) => (
+                <a
+                  href={child.external ? child.url : url(child.url)}
+                  target={child.external ? "_blank" : undefined}
+                  rel={child.external ? "noopener noreferrer" : undefined}
+                  class="flex items-center gap-2 px-3 py-1.5 text-sm text-black/60 dark:text-white/60 hover:text-(--primary) hover:bg-(--btn-regular-bg) rounded-lg transition-colors"
+                >
+                  {child.icon && <Icon name={child.icon} class="w-3.5 h-3.5" />}
+                  <span>{child.name}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <a
+            href={link.external ? link.url : url(link.url)}
+            target={link.external ? "_blank" : undefined}
+            rel={link.external ? "noopener noreferrer" : undefined}
+            class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-black/70 dark:text-white/70 hover:text-(--primary) hover:bg-(--btn-regular-bg) rounded-lg transition-colors"
+          >
+            {link.icon && <Icon name={link.icon} class="w-4 h-4" />}
+            <span>{link.name}</span>
+          </a>
+        )}
+      </div>
+    ))}
+  </nav>
+</div>

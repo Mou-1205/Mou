@@ -1,0 +1,113 @@
+/* utils */
+white(a)
+  rgba(255, 255, 255, a)
+
+black(a)
+  rgba(0, 0, 0, a)
+
+rainbow-light = linear-gradient(to right, oklch(0.80 0.10 0), oklch(0.80 0.10 30), oklch(0.80 0.10 60), oklch(0.80 0.10 90), oklch(0.80 0.10 120), oklch(0.80 0.10 150), oklch(0.80 0.10 180), oklch(0.80 0.10 210), oklch(0.80 0.10 240), oklch(0.80 0.10 270), oklch(0.80 0.10 300), oklch(0.80 0.10 330), oklch(0.80 0.10 360))
+rainbow-dark = linear-gradient(to right, oklch(0.70 0.10 0), oklch(0.70 0.10 30), oklch(0.70 0.10 60), oklch(0.70 0.10 90), oklch(0.70 0.10 120), oklch(0.70 0.10 150), oklch(0.70 0.10 180), oklch(0.70 0.10 210), oklch(0.70 0.10 240), oklch(0.70 0.10 270), oklch(0.70 0.10 300), oklch(0.70 0.10 330), oklch(0.70 0.10 360))
+
+:root
+  --radius-large 1rem
+  --content-delay 150ms
+  --wallpaper-opacity 0.8
+  --wallpaper-blur 0px
+  --card-transparent-opacity 0.5
+
+/* An util to define variables that vary with light and dark mode */
+define(vars)
+  :root
+    for key, value in vars
+      {key}: value[0]
+  :root.dark
+    for key, value in vars
+      if length(value) > 1
+        {key}: value[1]
+
+define({
+  --primary: oklch(0.50 0.10 145) oklch(0.55 0.10 145)
+  --page-bg: oklch(0.96 0.01 85) oklch(0.15 0.01 85)
+  --card-bg: oklch(0.99 0.002 85) oklch(0.20 0.01 85)
+  --card-bg-transparent: rgba(255, 253, 250, 0.8) rgba(23, 23, 23, 0.8)
+
+  --btn-content: oklch(0.50 0.10 145) oklch(0.60 0.10 145)
+
+  --btn-regular-bg: oklch(0.96 0.01 85) oklch(0.25 0.02 85)
+  --btn-regular-bg-hover: oklch(0.93 0.02 85) oklch(0.30 0.03 85)
+  --btn-regular-bg-active: oklch(0.90 0.03 85) oklch(0.35 0.04 85)
+
+  --btn-plain-bg-hover: oklch(0.96 0.01 85) oklch(0.28 0.025 85)
+  --btn-plain-bg-active: oklch(0.98 0.005 85) oklch(0.25 0.02 85)
+
+  --btn-card-bg-hover: oklch(0.98 0.005 85) oklch(0.28 0.025 85)
+  --btn-card-bg-active: oklch(0.93 0.02 85) oklch(0.33 0.03 85)
+
+  --enter-btn-bg: var(--btn-regular-bg)
+  --enter-btn-bg-hover: var(--btn-regular-bg-hover)
+  --enter-btn-bg-active: var(--btn-regular-bg-active)
+
+  --deep-text: oklch(0.15 0.01 85)
+
+  --title-active: oklch(0.50 0.10 145)
+
+  --line-divider: black(0.08) white(0.08)
+
+  --line-color: black(0.1) white(0.1)
+  --meta-divider: black(0.2) white(0.2)
+  --content-meta: oklch(0.35 0.01 85) oklch(0.65 0.01 85)
+
+  --inline-code-bg: var(--btn-regular-bg)
+  --inline-code-color: var(--btn-content)
+  --selection-bg: oklch(0.90 0.05 145) oklch(0.40 0.08 145)
+  --codeblock-selection: var(--selection-bg)
+  --codeblock-bg: oklch(0.97 0.005 85) oklch(0.17 0.015 85)
+  --codeblock-topbar-bg: oklch(0.94 0.01 85) oklch(0.12 0.015 85)
+
+  --license-block-bg: black(0.03) var(--codeblock-bg)
+
+  --link-underline: oklch(0.93 0.04 85) oklch(0.40 0.08 145)
+  --link-hover: oklch(0.95 0.025 85) oklch(0.45 0.10 145)
+  --link-active: oklch(0.90 0.05 85) oklch(0.35 0.07 145)
+
+  --float-panel-bg: oklch(0.99 0.002 85) oklch(0.18 0.01 85)
+
+  --scrollbar-bg-light: black(0.4)
+  --scrollbar-bg-hover-light: black(0.5)
+  --scrollbar-bg-active-light: black(0.6)
+
+  --scrollbar-bg-dark: white(0.4)
+  --scrollbar-bg-hover-dark: white(0.5)
+  --scrollbar-bg-active-dark: white(0.6)
+
+  --scrollbar-bg: var(--scrollbar-bg-light) var(--scrollbar-bg-dark)
+  --scrollbar-bg-hover: var(--scrollbar-bg-hover-light) var(--scrollbar-bg-hover-dark)
+  --scrollbar-bg-active: var(--scrollbar-bg-active-light) var(--scrollbar-bg-active-dark)
+
+  --color-selection-bar: rainbow-light rainbow-dark
+
+  --display-light-icon: 1 0
+  --display-dark-icon: 0 1
+
+  --admonitions-color-tip: oklch(0.50 0.10 145) oklch(0.55 0.10 145)
+  --admonitions-color-note: oklch(0.7 0.14 250) oklch(0.75 0.14 250)
+  --admonitions-color-important: oklch(0.7 0.14 310) oklch(0.75 0.14 310)
+  --admonitions-color-warning: oklch(0.7 0.14 60) oklch(0.75 0.14 60)
+  --admonitions-color-caution: oklch(0.6 0.2 25) oklch(0.65 0.2 25)
+
+  --toc-badge-bg: oklch(0.90 0.045 145) var(--btn-regular-bg)
+  --toc-btn-hover: oklch(0.92 0.015 85) oklch(0.22 0.02 85)
+  --toc-btn-active: oklch(0.90 0.015 85) oklch(0.25 0.02 85)
+  --toc-width: calc((100vw - var(--page-width)) / 2 - 1rem)
+  --toc-item-active: oklch(0.50 0.10 145) oklch(0.35 0.07 145)
+})
+
+/* 非全屏壁纸模式下，--card-bg-transparent 应该和 --card-bg 一致（不透明） */
+body:not(.wallpaper-transparent)
+  --card-bg-transparent: var(--card-bg)
+
+body.wallpaper-transparent
+  --card-bg-transparent: unquote("rgba(255, 255, 255, var(--card-transparent-opacity, 0.8))")
+
+:root.dark body.wallpaper-transparent
+  --card-bg-transparent: unquote("rgba(23, 23, 23, var(--card-transparent-opacity, 0.8))")
