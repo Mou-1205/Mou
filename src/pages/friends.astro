@@ -188,23 +188,20 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 	<!-- Ping 测速脚本 -->
 	<script is:inline>
 		(function () {
-			function pingUrl(url) {
-				return new Promise((resolve) => {
-					const start = performance.now();
-					const img = new Image();
-					let settled = false;
-					const done = () => {
-						if (settled) return;
-						settled = true;
-						clearTimeout(timer);
-						const ms = Math.round(performance.now() - start);
-						resolve(ms);
-					};
-					img.onload = done;
-					img.onerror = done;
-					const timer = setTimeout(done, 8000);
-					img.src = url + (url.includes("?") ? "&" : "?") + "ping=" + Date.now();
-				});
+			async function pingUrl(url) {
+				const target = url + (url.includes("?") ? "&" : "?") + "ping=" + Date.now();
+				const start = performance.now();
+				const controller = new AbortController();
+				const timer = setTimeout(() => controller.abort(), 8000);
+
+				try {
+					await fetch(target, { method: "HEAD", mode: "no-cors", cache: "no-cache", signal: controller.signal });
+					clearTimeout(timer);
+					return Math.round(performance.now() - start);
+				} catch (e) {
+					clearTimeout(timer);
+					return null; // 超时/DNS失败/网络错误 → 不可达
+				}
 			}
 
 			function formatTime(ms) {
@@ -217,7 +214,7 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 					const url = badge.getAttribute("data-ping-url");
 					if (!url) continue;
 					const ms = await pingUrl(url);
-					badge.querySelector(".ping-text").textContent = formatTime(ms);
+					badge.querySelector(".ping-text").textContent = ms !== null ? formatTime(ms) : "未知";
 					badge.classList.remove("opacity-0");
 					badge.classList.add("opacity-100");
 				}

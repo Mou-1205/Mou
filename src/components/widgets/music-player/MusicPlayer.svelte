@@ -623,24 +623,6 @@ onDestroy(() => {
 			}
 		}
 
-		@keyframes spin-continuous {
-			from {
-				transform: rotate(0deg);
-			}
-			to {
-				transform: rotate(360deg);
-			}
-		}
-
-		:global(.cover-container img) {
-			animation: spin-continuous 3s linear infinite;
-			animation-play-state: paused;
-		}
-
-		:global(.cover-container img.spinning) {
-			animation-play-state: running;
-		}
-
 		:global(button.bg-\\[var\\(--primary\\)\\]) {
 			box-shadow: 0 0 0 2px var(--primary);
 			border: none;
