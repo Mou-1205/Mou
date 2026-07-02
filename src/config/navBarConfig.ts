@@ -155,27 +155,16 @@ export const navBarConfig: NavBarConfig = {
 					icon: "material-symbols:devices",
 					external: false,
 				},
+				{
+					name: "关于我",
+					url: "/about/",
+					icon: "material-symbols:info",
+				},
 			],
 		},
 
-		// 自定义一级下拉菜单示例：关于相关
-		{
-			name: "About",
-			url: "/content/",
-			icon: "material-symbols:info",
-			children: [
-				{
-					name: "About",
-					url: "/about/",
-					icon: "material-symbols:person",
-				},
-				{
-					name: "Friends",
-					url: "/friends/",
-					icon: "material-symbols:group",
-				},
-			],
-		},
+		// 预设链接：友链
+		LinkPreset.Friends,
 
 		// 自定义一级下拉菜单示例：其他页面
 		{

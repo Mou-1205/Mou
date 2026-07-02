@@ -175,7 +175,6 @@ if (siteConfig.font) {
 <html
 	lang={siteLang}
 	class="text-[14px] md:text-[16px]"
-	data-overlayscrollbars-initialize
 	data-waves-config-enabled={siteConfig.banner?.waves?.enable ? "true" : "false"}
 	data-banner-title-config-enabled={siteConfig.banner?.homeText?.enable ? "true" : "false"}
 	data-post-list-layout-enabled={siteConfig.postListLayout?.enable ? "true" : "false"}
@@ -243,7 +242,6 @@ if (siteConfig.font) {
 			{ "enable-banner": enableBanner, "enable-card-border": siteConfig.card?.border },
 		]}
 		style={bodyFontFamily ? `font-family: ${bodyFontFamily};` : ""}
-		data-overlayscrollbars-initialize
 	>
 		<noscript
 			><iframe
@@ -323,13 +321,13 @@ if (siteConfig.font) {
 	@layer utilities {
 		@media (width >= 1280px) {
 			.enable-banner #sidebar-sticky {
-				top: calc(1rem - var(--banner-height-extend)) !important;
+				top: 2.5rem !important;
 			}
 			.enable-banner #left-sidebar-sticky {
-				top: calc(1rem - var(--banner-height-extend)) !important;
+				top: 2.5rem !important;
 			}
 			.enable-banner #right-sidebar-sticky {
-				top: calc(1rem - var(--banner-height-extend)) !important;
+				top: 2.5rem !important;
 			}
 		}
 		.navbar-hidden {

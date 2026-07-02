@@ -87,9 +87,17 @@ const subtitle = i18n(I18nKey.timelineSubtitle);
 				<FilterTabs tabs={filterTabs} dataAttr="type" />
 			</div>
 
-			<div id="timeline-list" class="timeline-list">
-				{timelineData.map((item) => <TimelineCard item={item} />)}
-			</div>
+			{timelineData.length > 0 ? (
+				<div id="timeline-list" class="timeline-list">
+					{timelineData.map((item) => <TimelineCard item={item} />)}
+				</div>
+			) : (
+				<div class="flex flex-col items-center justify-center py-20 text-center">
+					<Icon name="material-symbols:hourglass-empty" class="text-6xl text-black/15 dark:text-white/15 mb-4" />
+					<p class="text-xl text-black/40 dark:text-white/40 mb-2">即将揭晓</p>
+					<p class="text-sm text-black/25 dark:text-white/25">正在准备中，敬请期待</p>
+				</div>
+			)}
 
 			<div id="no-results" class="hidden text-center py-16">
 				<Icon

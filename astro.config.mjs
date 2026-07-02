@@ -200,7 +200,6 @@ export default defineConfig({
 				"svelte",
 				"svelte/transition",
 				"svelte/easing",
-				"overlayscrollbars",
 				"@fancyapps/ui",
 				"marked",
 				"sanitize-html",

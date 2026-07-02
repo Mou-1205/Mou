@@ -162,12 +162,12 @@ const iconWebpSrc = hasIconPngFallback
 	const navbarLinksContainer = document.getElementById("navbar-links-container");
 
 	if (searchContainer && navbarLinksContainer) {
-		// 只隐藏"关于"和"其他"，保留其他链接
+		// 只隐藏"友链"和"其他"，保留其他链接
 		const hideLinks = () => {
 			if (window.matchMedia("(min-width: 1280px)").matches && window.matchMedia("(hover: hover)").matches) {
-				const aboutLink = navbarLinksContainer.querySelector('[data-name="About"]');
+				const friendsLink = navbarLinksContainer.querySelector('[data-name="友链"]');
 				const othersLink = navbarLinksContainer.querySelector('[data-name="Others"]');
-				if (aboutLink) aboutLink.style.opacity = "0";
+				if (friendsLink) friendsLink.style.opacity = "0";
 				if (othersLink) othersLink.style.opacity = "0";
 			}
 		};
@@ -175,9 +175,9 @@ const iconWebpSrc = hasIconPngFallback
 		const showLinks = () => {
 			const navbar = document.getElementById("navbar");
 			if (navbar && !navbar.classList.contains("is-searching")) {
-				const aboutLink = navbarLinksContainer.querySelector('[data-name="About"]');
+				const friendsLink = navbarLinksContainer.querySelector('[data-name="友链"]');
 				const othersLink = navbarLinksContainer.querySelector('[data-name="Others"]');
-				if (aboutLink) aboutLink.style.opacity = "1";
+				if (friendsLink) friendsLink.style.opacity = "1";
 				if (othersLink) othersLink.style.opacity = "1";
 			}
 		};
