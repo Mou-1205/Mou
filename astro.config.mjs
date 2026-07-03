@@ -52,7 +52,7 @@ export default defineConfig({
 	integrations: [
 		oddmisc({
 			umami: {
-				shareUrl: false,
+				shareUrl: "https://umami.mouy.site/share/Qrn4zpCdbVVkCM2R",
 			},
 		}),
 		swup({

@@ -1,0 +1,171 @@
+---
+import I18nKey from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getSortedPosts } from "@utils/content-utils";
+import { formatDateToYYYYMMDD } from "@/utils/date-utils";
+import { Icon } from "astro-icon/components";
+
+const posts = (await getSortedPosts()).filter((post) => !post.data.encrypted);
+const recentPosts = posts.slice(0, 10);
+
+const t = (key: string) => i18n(key as I18nKey);
+---
+
+<MainGridLayout title={t("sitemap")}>
+	<script>
+		import("../../../scripts/right-sidebar-layout.js");
+	</script>
+	<div class="onload-animation">
+		<div class="card-base rounded-(--radius-large) p-8 mb-6">
+			<div class="text-center">
+				<div
+					class="inline-flex items-center justify-center w-16 h-16 bg-(--primary) rounded-2xl mb-4"
+				>
+					<Icon
+						name="material-symbols:map"
+						class="text-white text-3xl"
+					/>
+				</div>
+				<h1 class="text-3xl font-bold text-(--primary) mb-3">
+					{t("sitemap")}
+				</h1>
+				<p class="text-75 max-w-2xl mx-auto">
+					{t("sitemapSubtitle")}
+				</p>
+			</div>
+		</div>
+
+		<div class="card-base rounded-(--radius-large) p-6 mb-6">
+			<div
+				class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4"
+			>
+				<div class="flex items-center">
+					<div
+						class="w-12 h-12 bg-(--primary) rounded-xl flex items-center justify-center mr-4"
+					>
+						<Icon
+							name="material-symbols:link"
+							class="text-white text-xl"
+						/>
+					</div>
+					<div>
+						<h3 class="font-semibold text-90 mb-1">
+							{t("sitemapLink")}
+						</h3>
+						<p class="text-sm text-75">
+							{t("sitemapCopyToTool")}
+						</p>
+					</div>
+				</div>
+				<div class="flex flex-col sm:flex-row gap-3">
+					<code
+						class="bg-(--card-bg) px-3 py-2 rounded-lg text-sm font-mono text-75 border border-(--line-divider) break-all"
+					>
+						{Astro.site}sitemap-index.xml
+					</code>
+					<button
+						id="copy-sitemap-btn"
+						class="px-4 py-2 bg-(--primary) text-white rounded-lg hover:opacity-80 transition-all duration-200 font-medium text-sm whitespace-nowrap"
+						data-url={`${Astro.site}sitemap-index.xml`}
+					>
+						{t("sitemapCopyLink")}
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="card-base rounded-(--radius-large) p-6 mb-6">
+			<h2 class="text-xl font-bold text-90 mb-4 flex items-center">
+				<Icon
+					name="material-symbols:article"
+					class="mr-2 text-(--primary)"
+				/>
+				{t("sitemapLatestPages")}
+			</h2>
+			<div class="space-y-3">
+				{
+					recentPosts.map((post) => (
+						<article class="bg-(--card-bg) rounded-xl p-4 border border-(--line-divider) hover:border-(--primary) transition-all duration-300">
+							<div class="flex items-center justify-between gap-4">
+								<h3 class="text-lg font-semibold text-90 hover:text-(--primary) transition-colors flex-1">
+									<a
+										href={`/posts/${post.id}/`}
+										class="hover:underline"
+									>
+										{post.data.title}
+									</a>
+								</h3>
+								<time
+									datetime={post.data.published.toISOString()}
+									class="text-sm text-60 whitespace-nowrap"
+								>
+									{formatDateToYYYYMMDD(post.data.published)}
+								</time>
+							</div>
+						</article>
+					))
+				}
+			</div>
+		</div>
+
+		<div class="card-base rounded-(--radius-large) p-6">
+			<h2 class="text-xl font-bold text-90 mb-4 flex items-center">
+				<Icon
+					name="material-symbols:help-outline"
+					class="mr-2 text-(--primary)"
+				/>
+				{t("sitemapWhatIsSitemap")}
+			</h2>
+			<div class="text-75 space-y-3">
+				<p>
+					{t("sitemapWhatIsSitemapDescription")}
+				</p>
+				<ul class="list-disc list-inside space-y-1 ml-4">
+					<li>{t("sitemapBenefit1")}</li>
+					<li>{t("sitemapBenefit2")}</li>
+					<li>{t("sitemapBenefit3")}</li>
+				</ul>
+				<p class="text-sm">
+					{t("sitemapHowToUse")}
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		const init = () => {
+			const btn = document.getElementById("copy-sitemap-btn");
+			if (btn) {
+				btn.addEventListener("click", async function () {
+					const url = this.getAttribute("data-url");
+					if (!url) {
+						return;
+					}
+					try {
+						await navigator.clipboard.writeText(url);
+						const originalText = this.textContent || "Copy Link";
+						this.textContent = "Sitemap link copied to clipboard!";
+						this.style.backgroundColor =
+							"var(--success-color, #10b981)";
+
+						setTimeout(() => {
+							this.textContent = originalText;
+							this.style.backgroundColor = "";
+						}, 2000);
+					} catch (err) {
+						console.error("复制失败:", err);
+						const originalText = this.textContent || "Copy Link";
+						this.textContent =
+							"Copy failed, please copy the link manually";
+						setTimeout(() => {
+							this.textContent = originalText;
+						}, 2000);
+					}
+				});
+			}
+		};
+		init();
+		document.addEventListener("astro:after-swap", init);
+	</script>
+</MainGridLayout>

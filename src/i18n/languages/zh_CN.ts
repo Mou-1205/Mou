@@ -284,6 +284,24 @@ export const zh_CN: Translation = {
 	[Key.atomCopied]: "Atom 链接已复制到剪贴板！",
 	[Key.atomCopyFailed]: "复制失败，请手动复制链接",
 
+	// Sitemap 页面
+	[Key.sitemap]: "站点地图",
+	[Key.sitemapSubtitle]: "查看网站所有页面的结构化列表",
+	[Key.sitemapLink]: "Sitemap 链接",
+	[Key.sitemapCopyToTool]: "复制链接到 SEO 工具或搜索引擎",
+	[Key.sitemapCopyLink]: "复制链接",
+	[Key.sitemapLatestPages]: "最新页面",
+	[Key.sitemapWhatIsSitemap]: "什么是 Sitemap？",
+	[Key.sitemapWhatIsSitemapDescription]:
+		"Sitemap（站点地图）是一个 XML 文件，列出了网站中所有可供抓取的页面。它帮助搜索引擎：",
+	[Key.sitemapBenefit1]: "更高效地发现和索引网站页面",
+	[Key.sitemapBenefit2]: "了解页面的更新频率和优先级",
+	[Key.sitemapBenefit3]: "提升新页面或深层页面的收录速度",
+	[Key.sitemapHowToUse]:
+		"将 Sitemap 提交到 Google Search Console、Bing Webmaster Tools 等平台，可以帮助搜索引擎更快收录你的网站。",
+	[Key.sitemapCopied]: "Sitemap 链接已复制到剪贴板！",
+	[Key.sitemapCopyFailed]: "复制失败，请手动复制链接",
+
 	// 壁纸模式
 	[Key.wallpaperBanner]: "横幅模式",
 	[Key.wallpaperFullscreen]: "全屏模式",

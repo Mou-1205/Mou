@@ -276,6 +276,22 @@ enum I18nKey {
 	atomCopied = "atomCopied",
 	atomCopyFailed = "atomCopyFailed",
 
+	// Sitemap page
+	sitemap = "sitemap",
+	sitemapSubtitle = "sitemapSubtitle",
+	sitemapLink = "sitemapLink",
+	sitemapCopyToTool = "sitemapCopyToTool",
+	sitemapCopyLink = "sitemapCopyLink",
+	sitemapLatestPages = "sitemapLatestPages",
+	sitemapWhatIsSitemap = "sitemapWhatIsSitemap",
+	sitemapWhatIsSitemapDescription = "sitemapWhatIsSitemapDescription",
+	sitemapBenefit1 = "sitemapBenefit1",
+	sitemapBenefit2 = "sitemapBenefit2",
+	sitemapBenefit3 = "sitemapBenefit3",
+	sitemapHowToUse = "sitemapHowToUse",
+	sitemapCopied = "sitemapCopied",
+	sitemapCopyFailed = "sitemapCopyFailed",
+
 	// Wallpaper mode
 	wallpaperBanner = "wallpaperBanner",
 	wallpaperFullscreen = "wallpaperFullscreen",

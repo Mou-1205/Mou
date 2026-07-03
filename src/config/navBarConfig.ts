@@ -187,6 +187,12 @@ export const navBarConfig: NavBarConfig = {
 					url: "/timeline/",
 					icon: "material-symbols:timeline",
 				},
+				{
+					name: "Umami",
+					url: "https://umami.mouy.site",
+					icon: "material-symbols:analytics",
+					external: true,
+				},
 			],
 		},
 	],
