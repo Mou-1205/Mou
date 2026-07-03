@@ -189,7 +189,7 @@ export const navBarConfig: NavBarConfig = {
 				},
 				{
 					name: "Umami",
-					url: "https://umami.mouy.site",
+					url: "https://umami.mouy.site/share/Qrn4zpCdbVVkCM2R",
 					icon: "material-symbols:analytics",
 					external: true,
 				},
