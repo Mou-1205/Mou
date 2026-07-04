@@ -95,7 +95,7 @@ tsconfig.json 定义了以下别名，import 时优先使用：
 - **Search:** Pagefind（构建后索引）
 - **Page Transitions:** Swup（`@swup/astro`）
 - **Code Blocks:** `astro-expressive-code`（语法高亮、行号、折叠、自定义复制按钮）
-- **Deployment:** Vercel（`vercel.json` 配置安全头 + `/_astro/` 长缓存 + cleanUrls）
+- **Deployment:** EdgeOne（`vercel.json` 配置安全头 + `/_astro/` 长缓存 + cleanUrls）
 
 ### Component Architecture
 
@@ -260,7 +260,7 @@ Vite 优化配置（开发环境）：
 
 - `.github/workflows/deploy.yml` — 自动部署
 - `.github/workflows/lint.yml` — PR lint 检查
-- 部署平台：Vercel（`vercel.json` 配置安全头 + `/_astro/` 长缓存 + cleanUrls）
+- 部署平台：EdgeOne
 
 ## Content Sync（代码/内容分离）
 
@@ -294,3 +294,14 @@ Vite 优化配置（开发环境）：
 - `src/scripts/handlers/back-to-top-handler.ts`：`updateNavbarVisibility()` 管理 `navbar-hidden` class（完全隐藏，20% 视口高度阈值）
 
 CSS 变量驱动：`wallpaper-navbar-transparent.css` 中 `#navbar > div` 的 `background` 等属性由 `--nav-bg` 等 CSS 变量控制，修改变量即可切换透明/毛玻璃状态。
+
+### Banner 配置
+- 桌面端和移动端分别配置图片：`siteConfig.banner.src.desktop/mobile`
+- 壁纸层独立配置：`fullscreenWallpaperConfig`（支持轮播、模糊、透明度）
+- 轮播间隔单位：秒
+- 图片质量：`siteConfig.imageOptimization.quality`（推荐 85-95）
+
+### 文章 URL
+- 默认 URL 格式：`/posts/{filename}/`
+- 支持自定义 `permalink` 字段覆盖
+- 支持 `alias` 字段设置别名跳转
