@@ -1,8 +1,8 @@
 ---
-title: Mou：一个零框架的个人开发者网站
+title: 一个零框架的个人开发者网站
 published: 2026-07-02T19:42:00+08:00
 pinned: false
-description: 某炜用纯 HTML/CSS/JS 构建的个人网站，单文件架构，零依赖，记录从想法到上线的全过程。
+description: 用纯 HTML/CSS/JS 构建的个人网站，单文件架构，零依赖，记录从想法到上线的全过程。
 tags: [前端, HTML, CSS, JavaScript, 个人项目]
 category: 项目分享
 author: 某炜
