@@ -113,16 +113,14 @@ export const siteConfig: SiteConfig = {
 			mobile: [
 				"/assets/mobile-banner/1.webp",
 				"/assets/mobile-banner/2.webp",
-				"/assets/mobile-banner/3.webp",
-				"/assets/mobile-banner/4.webp",
 			], // 移动横幅图片
 		}, // 使用本地横幅图片
 
 		position: "center", // 等同于 object-position，仅支持 'top', 'center', 'bottom'。默认为 'center'
 
 		carousel: {
-			enable: false,
-			interval: 3,
+			enable: true,
+			interval: 10,
 			switchable: true,
 		},
 
@@ -233,7 +231,7 @@ export const siteConfig: SiteConfig = {
 	// 图片优化配置
 	imageOptimization: {
 		formats: "webp", // 图片输出格式："avif"、"webp" 或 "both"（avif+webp，最优质量但构建更慢）
-		quality: 85, // 图片质量，推荐 70-85
+		quality: 95, // 图片质量，推荐 70-85
 		noReferrerDomains: [
 			// 需要添加 referrerpolicy="no-referrer" 的域名（支持通配符）
 			"*.hdslb.com", // Bilibili CDN

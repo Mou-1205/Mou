@@ -9,22 +9,20 @@ export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
 		mobile: [
 			"/assets/mobile-banner/1.webp",
 			"/assets/mobile-banner/2.webp",
-			"/assets/mobile-banner/3.webp",
-			"/assets/mobile-banner/4.webp",
 		],
 	},
 	position: "center",
 	carousel: {
-		enable: false,
-		interval: 5,
+		enable: true,
+		interval: 10,
 	},
 	zIndex: -1,
 	opacity: 0.8,
-	blur: 1,
+	blur: 0,
 	switchable: true,
 	overlay: {
 		opacity: 0.8, // 壁纸不透明度，0-1
-		blur: 1.5, // 背景模糊半径（px）
+		blur: 0, // 背景模糊半径（px）
 		cardOpacity: 0.8, // 卡片不透明度，0-1
 		switchable: {
 			opacity: true,
