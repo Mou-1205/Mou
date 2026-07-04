@@ -53,7 +53,7 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 			<div class="mb-6 p-5 rounded-xl border border-black/10 dark:border-white/10 bg-(--btn-regular-bg)/50">
 				<div class="flex items-center gap-4">
 					<Image
-						src="assets/images/avatar.jpg"
+						src="/avatar.jpg"
 						alt="avatar"
 						class="w-14 h-14 rounded-full ring-2 ring-(--primary)/30"
 					/>
@@ -239,7 +239,7 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 				if (!btn) return;
 				btn.addEventListener("click", () => {
 					const info =
-						"名称：MouyのHOME\n链接：https://mouy.site\n头像：https://mouy.site/assets/images/avatar.jpg\n描述：以好奇心构建，以清晰度交付\n标签：技术、生活";
+						"名称：MouyのHOME\n链接：https://mouy.site\n头像：https://mouy.site/avatar.jpg\n描述：以好奇心构建，以清晰度交付\n标签：技术、生活";
 					navigator.clipboard.writeText(info).then(() => {
 						btn.textContent = "已复制 ✓";
 						setTimeout(() => {
@@ -257,7 +257,7 @@ const allTags = Array.from(new Set(friendsList.flatMap((item) => item.tags)));
 					const config = `{
 id: #,
 title: "MouyのHOME",
-imgurl: "https://mouy.site/_astro/avatar.DRYjHQPD_Z18abIF.webp",
+imgurl: "https://mouy.site/avatar.jpg",
 desc: "以好奇心构建，以清晰度交付。",
 siteurl: "https://mouy.site/",
 tags: ["生活"],

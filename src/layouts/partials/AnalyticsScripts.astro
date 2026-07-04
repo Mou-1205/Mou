@@ -6,8 +6,9 @@
  * 包含:
  * - Google Tag Manager (GTM)
  * - Microsoft Clarity (可选，通过 thirdPartyAnalytics 配置控制)
+ * - Umami (自托管统计)
  *
- * 使用 requestIdleCallback 延迟加载以优化性能
+ * 使用用户交互触发延迟加载以优化性能
  */
 
 interface Props {
@@ -75,6 +76,15 @@ const clarityEnable =
 					y.parentNode.insertBefore(t, y);
 				})(window, document, "clarity", "script", clarityId);
 			}
+
+			// Umami 统计
+			(function () {
+				const umamiScript = document.createElement("script");
+				umamiScript.defer = true;
+				umamiScript.src = "https://umami.mouy.site/script.js";
+				umamiScript.setAttribute("data-website-id", "6cf9f3d2-7b8e-412a-ae97-7b0b5003a7a6");
+				document.head.appendChild(umamiScript);
+			})();
 		}
 
 		// 仅在用户交互后加载分析脚本，减少初始页面加载负担

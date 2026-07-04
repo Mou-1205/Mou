@@ -253,6 +253,9 @@ if (siteConfig.font) {
 		<!-- 页面顶部渐变高光效果 - 只在full和semifull模式下显示 -->
 		{shouldShowTopHighlight && <div class="top-gradient-highlight" />}
 
+		<!-- Liquid Glass Canvas 粒子背景 -->
+		<div class="fluid-canvas-container fluid-canvas-container--fixed"></div>
+
 		<ConfigCarrier />
 		<PageProgressBar
 			enable={siteConfig.pageProgressBar?.enable ?? false}

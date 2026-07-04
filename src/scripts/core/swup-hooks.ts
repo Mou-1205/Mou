@@ -22,6 +22,9 @@ export interface SwupHookHandlers {
 	cleanupFancybox?: () => void;
 	initCustomScrollbar?: () => void;
 	checkKatex?: () => void;
+	reinitFluidEffects?: () => void;
+	reinitInteractions?: () => void;
+	reinitAdvancedEffects?: () => void;
 }
 
 // 访问对象类型
@@ -176,6 +179,15 @@ export class SwupHooksManager {
 			this.handlers.initFancybox?.();
 			this.handlers.checkKatex?.();
 			this.handlers.initCustomScrollbar?.();
+
+			// 重新初始化 Liquid Glass 流体效果
+			this.handlers.reinitFluidEffects?.();
+
+			// 重新初始化 Liquid Glass 交互增强
+			this.handlers.reinitInteractions?.();
+
+			// 重新初始化 Liquid Glass 高级特性
+			this.handlers.reinitAdvancedEffects?.();
 
 			// 处理 TOC 重新初始化
 			this.handleTOCReinit();

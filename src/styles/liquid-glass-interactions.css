@@ -1,0 +1,299 @@
+/**
+ * Liquid Glass Phase 2 — 交互增强
+ * 6 个交互功能：按钮状态、鼠标追踪、滚动边缘、卡片动画、侧栏玻璃、Hero 毛玻璃
+ * 全部基于 Phase 1 的 CSS 变量系统
+ */
+
+/* ==========================================================================
+   1. 按钮 hover / active 状态 — .btn-glass
+   ========================================================================== */
+
+.btn-glass {
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  background: var(--glass-bg-light);
+  border: var(--navbar-glass-border);
+  border-radius: var(--radius-control, 12px);
+  box-shadow: var(--shadow-glass);
+  transition:
+    background var(--duration-normal) var(--ease-glass),
+    transform var(--duration-normal) var(--ease-glass),
+    box-shadow var(--duration-normal) var(--ease-glass),
+    border-color var(--duration-normal) var(--ease-glass);
+  will-change: transform, background, box-shadow;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.btn-glass:hover {
+  background: var(--glass-bg-light-hover);
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.15),
+    0 2px 6px rgba(0, 0, 0, 0.1),
+    0 6px 20px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.btn-glass:active {
+  background: var(--glass-bg-light-active);
+  transform: translateY(0);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* 深色模式 */
+:root.dark .btn-glass {
+  background: var(--glass-bg-dark);
+}
+
+:root.dark .btn-glass:hover {
+  background: var(--glass-bg-dark-hover);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.25),
+    0 6px 20px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+:root.dark .btn-glass:active {
+  background: var(--glass-bg-dark-active);
+}
+
+/* ==========================================================================
+   2. 鼠标追踪高光 — .glass-morph-button
+   ========================================================================== */
+
+.glass-morph-button {
+  position: relative;
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  background: var(--glass-bg-light);
+  border: var(--navbar-glass-border);
+  border-radius: var(--radius-control, 12px);
+  box-shadow: var(--shadow-glass);
+  transition:
+    background var(--duration-normal) var(--ease-glass),
+    box-shadow var(--duration-normal) var(--ease-glass);
+  will-change: background;
+  cursor: pointer;
+}
+
+/* 鼠标追踪高光层 — 使用 CSS 变量驱动位置 */
+.glass-morph-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  background: radial-gradient(
+    circle 120px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.35),
+    transparent 60%
+  );
+  transition: opacity var(--duration-normal) var(--ease-glass);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glass-morph-button:hover::before {
+  opacity: 1;
+}
+
+/* 深色模式高光 */
+:root.dark .glass-morph-button {
+  background: var(--glass-bg-dark);
+}
+
+:root.dark .glass-morph-button::before {
+  background: radial-gradient(
+    circle 120px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.12),
+    transparent 60%
+  );
+}
+
+/* 内容需要在高光层之上 */
+.glass-morph-button > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   3. 滚动边缘效果 — .scroll-container
+   ========================================================================== */
+
+.scroll-container {
+  position: relative;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 顶部渐变遮罩 */
+.scroll-container::before {
+  content: "";
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: block;
+  height: 2rem;
+  margin-bottom: -2rem;
+  background: linear-gradient(
+    to bottom,
+    var(--page-bg, #fff),
+    transparent
+  );
+  opacity: var(--scroll-top-fade, 0);
+  pointer-events: none;
+  z-index: 5;
+  transition: opacity var(--duration-normal) var(--ease-glass);
+}
+
+/* 底部渐变遮罩 */
+.scroll-container::after {
+  content: "";
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: block;
+  height: 2rem;
+  margin-top: -2rem;
+  background: linear-gradient(
+    to top,
+    var(--page-bg, #fff),
+    transparent
+  );
+  opacity: var(--scroll-bottom-fade, 0);
+  pointer-events: none;
+  z-index: 5;
+  transition: opacity var(--duration-normal) var(--ease-glass);
+}
+
+/* 深色模式渐变颜色 */
+:root.dark .scroll-container::before {
+  background: linear-gradient(to bottom, var(--page-bg, #111), transparent);
+}
+
+:root.dark .scroll-container::after {
+  background: linear-gradient(to top, var(--page-bg, #111), transparent);
+}
+
+/* ==========================================================================
+   4. 卡片 hover 动画 — .post-card-glass
+   ========================================================================== */
+
+.post-card-glass {
+  transition:
+    transform var(--duration-normal) var(--ease-glass),
+    background var(--duration-normal) var(--ease-glass),
+    box-shadow var(--duration-normal) var(--ease-glass);
+  will-change: transform, box-shadow;
+}
+
+.post-card-glass:hover {
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.06),
+    0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+/* Hover lift only for non-3D cards (3D rotation provides its own spatial feedback) */
+.post-card-glass:not(.glass-3d-refraction):hover {
+  transform: translateY(-4px);
+}
+
+/* 壁纸透明模式下，hover 时增强半透明感 */
+body.wallpaper-transparent .post-card-glass:hover {
+  background: var(--card-bg-transparent) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(200%) !important;
+  backdrop-filter: blur(12px) saturate(200%) !important;
+}
+
+/* 深色模式卡片 hover */
+:root.dark .post-card-glass:hover {
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.2),
+    0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+/* 点击时回弹（仅非 3D 卡片） */
+.post-card-glass:active {
+  transition-duration: 100ms;
+}
+.post-card-glass:not(.glass-3d-refraction):active {
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   5. 侧栏玻璃效果 — 仅在壁纸透明模式下对单个卡片生效
+   ========================================================================== */
+
+/* 壁纸透明模式下自动应用 */
+body.wallpaper-transparent .sidebar-column-root .card-base,
+body.wallpaper-transparent #right-sidebar .card-base {
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  background: var(--glass-bg-light);
+  border: var(--navbar-glass-border);
+  box-shadow: var(--shadow-glass);
+}
+
+:root.dark body.wallpaper-transparent .sidebar-column-root .card-base,
+:root.dark body.wallpaper-transparent #right-sidebar .card-base {
+  background: var(--glass-bg-dark);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ==========================================================================
+   无障碍支持
+   ========================================================================== */
+
+/* 减少透明度：禁用所有毛玻璃效果 */
+@media (prefers-reduced-transparency: reduce) {
+  .btn-glass,
+  .glass-morph-button {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--card-bg, #fff);
+  }
+
+  :root.dark .btn-glass,
+  :root.dark .glass-morph-button {
+    background: var(--card-bg, #1a1a1a);
+  }
+
+  .glass-morph-button::before {
+    display: none;
+  }
+
+  body.wallpaper-transparent .sidebar-column-root .card-base,
+  body.wallpaper-transparent #right-sidebar .card-base {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--card-bg, #fff) !important;
+  }
+
+}
+
+/* 减少动画：禁用所有过渡和变换 */
+@media (prefers-reduced-motion: reduce) {
+  .btn-glass,
+  .glass-morph-button,
+  .post-card-glass {
+    transition-duration: 0.01ms !important;
+  }
+
+  .post-card-glass:hover {
+    transform: none;
+  }
+
+  .btn-glass:hover,
+  .btn-glass:active {
+    transform: none;
+  }
+}

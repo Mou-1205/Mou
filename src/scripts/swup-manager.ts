@@ -7,6 +7,9 @@ import { widgetConfigs } from "../config";
 import { initLinkPreloading } from "../utils/navigation-utils";
 import { SWUP_SELECTORS } from "./core/swup-config";
 import { SwupHooksManager } from "./core/swup-hooks";
+import { initAllInteractions } from "./effects/liquid-glass-interactions";
+import { initAllFluidEffects, destroyAllFluidEffects } from "./effects/liquid-glass-fluid";
+import { initAllAdvancedEffects, destroyAllAdvancedEffects } from "./effects/liquid-glass-advanced";
 import { setupSakuraOnDOMReady } from "./effects/sakura-effect";
 import {
 	destroyTransitionEffect,
@@ -67,6 +70,15 @@ export class SwupManager {
 		// 设置 Sakura 特效
 		this.setupSakura();
 
+		// 初始化 Liquid Glass 交互增强
+		this.initLiquidGlassInteractions();
+
+		// 初始化 Liquid Glass 流体效果
+		this.initLiquidGlassFluid();
+
+		// 初始化 Liquid Glass 高级特性
+		this.initLiquidGlassAdvanced();
+
 		// 初始化 Swup 钩子
 		this.initSwupHooks();
 
@@ -120,6 +132,17 @@ export class SwupManager {
 			checkKatex: () => {
 				checkKatex();
 			},
+			reinitFluidEffects: () => {
+				destroyAllFluidEffects();
+				initAllFluidEffects();
+			},
+			reinitInteractions: () => {
+				initAllInteractions();
+			},
+			reinitAdvancedEffects: () => {
+				destroyAllAdvancedEffects();
+				initAllAdvancedEffects();
+			},
 		});
 
 		// 如果 Swup 已经就绪，直接设置钩子
@@ -145,6 +168,39 @@ export class SwupManager {
 				initFancybox();
 				checkKatex();
 			}
+		}
+	}
+
+	/**
+	 * 初始化 Liquid Glass 交互增强
+	 */
+	private initLiquidGlassInteractions(): void {
+		try {
+			initAllInteractions();
+		} catch (error) {
+			console.error("SwupManager: Liquid Glass 交互初始化失败", error);
+		}
+	}
+
+	/**
+	 * 初始化 Liquid Glass 流体效果
+	 */
+	private initLiquidGlassFluid(): void {
+		try {
+			initAllFluidEffects();
+		} catch (error) {
+			console.error("SwupManager: Liquid Glass 流体效果初始化失败", error);
+		}
+	}
+
+	/**
+	 * 初始化 Liquid Glass 高级特性
+	 */
+	private initLiquidGlassAdvanced(): void {
+		try {
+			initAllAdvancedEffects();
+		} catch (error) {
+			console.error("SwupManager: Liquid Glass 高级特性初始化失败", error);
 		}
 	}
 
@@ -209,6 +265,8 @@ export class SwupManager {
 		this.backToTopHandler.destroy();
 		this.panelHandler.destroy();
 		destroyTransitionEffect();
+		destroyAllFluidEffects();
+		destroyAllAdvancedEffects();
 		this.initialized = false;
 	}
 

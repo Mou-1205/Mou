@@ -1,13 +1,25 @@
 /**
  * 导航栏半透明样式
+ * 使用 Liquid Glass 设计系统变量
  */
 
 #navbar > div {
   background: var(--card-bg);
   border-radius: var(--radius-large);
   will-change: background, backdrop-filter, box-shadow;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--duration-normal, 350ms) var(--ease-glass, cubic-bezier(0.25, 0.46, 0.45, 0.94));
 }
+
+/* 无障碍支持：减少透明度时禁用 backdrop-filter */
+/* 暂时禁用，确保毛玻璃效果可见 */
+/*
+@media (prefers-reduced-transparency: reduce) {
+  #navbar > div {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+*/
 
 /* 桌面端 - 亮色 */
 @media (width >= 1280px) {
@@ -164,6 +176,7 @@
     width: 100%;
     margin-left: 0;
     margin-right: 0;
+    -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
 
@@ -180,6 +193,7 @@
   body:has(#banner-wrapper) #mobile-toc-panel,
   #banner-wrapper ~ * #search-panel,
   body:has(#banner-wrapper) #search-panel {
+    -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
 }
@@ -253,3 +267,30 @@
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   }
 }
+
+/* ==========================================================================
+   无障碍支持：减少透明度
+   ========================================================================== */
+/* 暂时禁用，确保毛玻璃效果可见 */
+/*
+@media (prefers-reduced-transparency: reduce) {
+  #navbar[data-transparent-mode="semi"] > div,
+  #navbar[data-transparent-mode="semifull"].scrolled > div {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: var(--card-bg) !important;
+    border: 1px solid var(--line-divider) !important;
+  }
+
+  .float-panel,
+  .dropdown-content,
+  #display-setting,
+  #nav-menu-panel,
+  #mobile-toc-panel,
+  #search-panel {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: var(--card-bg) !important;
+  }
+}
+*/

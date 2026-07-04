@@ -1,0 +1,152 @@
+/**
+ * Liquid Glass 设计系统
+ * 基于 Apple iOS 26 的 Liquid Glass 设计规范
+ * 提供毛玻璃效果的 CSS 变量和基础样式
+ */
+
+/* ==========================================================================
+   CSS 变量系统
+   ========================================================================== */
+:root {
+  /* --- 材质参数 --- */
+  --glass-blur: 20px;
+  --glass-saturation: 180%;
+  --glass-bg-light: rgba(200, 200, 200, 0.4);
+  --glass-bg-dark: rgba(30, 30, 30, 0.4);
+
+  /* --- 交互状态 --- */
+  --glass-bg-light-hover: rgba(255, 255, 255, 0.4);
+  --glass-bg-light-active: rgba(255, 255, 255, 0.5);
+  --glass-bg-dark-hover: rgba(30, 30, 30, 0.4);
+  --glass-bg-dark-active: rgba(30, 30, 30, 0.5);
+
+  /* --- Hero 专用（需要比导航栏更强的模糊） --- */
+  --hero-glass-blur: 16px;
+  --hero-glass-saturation: 180%;
+  --hero-glass-bg-light: rgba(255, 255, 255, 0.25);
+  --hero-glass-bg-dark: rgba(0, 0, 0, 0.3);
+
+  /* --- 圆角 --- */
+  --radius-pill: 24px;
+
+  /* --- 阴影 --- */
+  --shadow-glass:
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.08),
+    0 4px 12px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+
+  /* --- 过渡 --- */
+  --ease-glass: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --duration-normal: 350ms;
+
+  /* --- 导航栏专用变量 --- */
+  --navbar-glass-bg: var(--glass-bg-light);
+  --navbar-glass-border: 1px solid rgba(255, 255, 255, 0.3);
+  --navbar-glass-shadow: var(--shadow-glass);
+}
+
+/* 深色模式适配 */
+:root.dark {
+  --navbar-glass-bg: var(--glass-bg-dark);
+  --navbar-glass-border: 1px solid rgba(255, 255, 255, 0.08);
+  --navbar-glass-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 1px 3px rgba(0, 0, 0, 0.2),
+    0 4px 12px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ==========================================================================
+   无障碍支持：减少透明度
+   ========================================================================== */
+/* 暂时禁用，确保毛玻璃效果可见 */
+/*
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --glass-blur: 0px;
+    --glass-saturation: 100%;
+    --glass-bg-light: var(--card-bg, #ffffff);
+    --glass-bg-dark: var(--card-bg, #1a1a1a);
+    --navbar-glass-bg: var(--card-bg, #ffffff);
+    --navbar-glass-border: 1px solid var(--line-divider, rgba(0, 0, 0, 0.1));
+    --navbar-glass-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  :root.dark {
+    --navbar-glass-bg: var(--card-bg, #1a1a1a);
+    --navbar-glass-border: 1px solid var(--line-divider, rgba(255, 255, 255, 0.1));
+    --navbar-glass-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+*/
+
+/* ==========================================================================
+   毛玻璃基础类（可复用工具类，供未来组件使用）
+   iOS 26 风格液态玻璃效果
+   ========================================================================== */
+.liquid-glass {
+  position: relative;
+  background: var(--navbar-glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  border: var(--navbar-glass-border);
+  box-shadow: var(--navbar-glass-shadow);
+  transition: background var(--duration-normal) var(--ease-glass),
+              backdrop-filter var(--duration-normal) var(--ease-glass),
+              box-shadow var(--duration-normal) var(--ease-glass),
+              border-color var(--duration-normal) var(--ease-glass);
+  will-change: background, backdrop-filter, box-shadow;
+  overflow: hidden;
+}
+
+/* 高光折射层 - 模拟光线穿过玻璃 */
+.liquid-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.1) 40%,
+    transparent 60%,
+    rgba(255, 255, 255, 0.15) 100%
+  );
+  pointer-events: none;
+  z-index: -1; /* 放到文字后面 */
+}
+
+/* 边缘高光 - 模拟玻璃边缘折射 */
+.liquid-glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+  z-index: -1; /* 放到文字后面 */
+}
+
+/* 深色模式高光 */
+:root.dark .liquid-glass::before {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.05) 40%,
+    transparent 60%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+}
+
+:root.dark .liquid-glass::after {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+}

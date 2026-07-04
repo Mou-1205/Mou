@@ -4,13 +4,21 @@
 @import "./albums.css";
 /* 导入追番页面样式 */
 @import "./anime.css";
-/* 导入动画样式 */
+/* 导入动画样式（必须在 Liquid Glass 之前，确保动效不被覆盖） */
 @import "./transition.css";
 @import "./animation-enhancements.css";
 /* 导入渐变按钮样式 */
 @import "./gradient-buttons.css";
 /* 导入 Banner 和网格布局样式 */
 @import "./banner.css";
+/* 导入 Liquid Glass 设计系统（在动画样式之后，避免覆盖动效） */
+@import "./liquid-glass.css";
+/* 导入 Liquid Glass 交互增强 */
+@import "./liquid-glass-interactions.css";
+/* 导入 Liquid Glass 流体效果 */
+@import "./liquid-glass-fluid.css";
+/* 导入 Liquid Glass 高级特性 */
+@import "./liquid-glass-advanced.css";
 /* 加密内容样式已移除，现在直接使用非加密文章的样式 */
 
 @plugin "@tailwindcss/typography";
