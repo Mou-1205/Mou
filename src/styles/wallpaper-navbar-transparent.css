@@ -220,7 +220,7 @@
       0 0 0 1px rgba(255, 255, 255, 0.2);
     pointer-events: auto;
     transition: all var(--duration-normal) var(--ease-glass);
-    overflow: hidden;
+    overflow: visible;
   }
 
   /* 高光折射层 */
