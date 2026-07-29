@@ -1,0 +1,3229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>MouyのHOME</title>
+  <subtitle>Hi!!!!</subtitle>
+  <link href="https://mouy.site/" rel="alternate" type="text/html"/>
+  <link href="https://mouy.site/atom.xml" rel="self" type="application/atom+xml"/>
+  <id>https://mouy.site/</id>
+  <updated>2026-07-29T14:21:51.879Z</updated>
+  <language>zh_CN</language>
+  <entry>
+    <title>1.21.1 Fabric Mou 整合包完整使用指南</title>
+    <link href="https://mouy.site/posts/1.21.1-fabric-mou-guide/" rel="alternate" type="text/html"/>
+    <id>https://mouy.site/posts/1.21.1-fabric-mou-guide/</id>
+    <published>2026-07-29T13:30:00.000Z</published>
+    <updated>2026-07-29T14:10:00.000Z</updated>
+    <summary>覆盖 47 个模组的完整中文教程，包括安装、快捷键、生电建筑工具、物品管理、地图界面、性能优化和依赖说明。</summary>
+    <content type="html"><![CDATA[<h1>1.21.1 Fabric Mou 整合包完整使用指南</h1>
+<blockquote>
+<p>一篇文章看懂整合包内 47 个模组的定位、操作方式、快捷键、配置位置、依赖关系与注意事项。</p>
+</blockquote>
+<p>本文基于整合包当前实际文件和配置整理。文中的版本号与快捷键均指整合包内配置，不代表模组的最新版本或默认设置。</p>
+<h2>下载整合包</h2>
+<p><a href="https://github.com/Mou-1205/Mou/releases/download/mou-modpack-v0.1.0/Mou.0.1.0.zip">下载 Mou 0.1.0（GitHub Release）</a></p>
+<ul>
+<li>Minecraft：1.21.1</li>
+<li>Fabric Loader：0.19.3</li>
+<li>文件大小：约 120 MiB</li>
+<li>SHA-256：<code>2785A0372B7B203CAF6A887C1FC28B4230B70D116A5EE8D98F4D7F07902D72A1</code></li>
+</ul>
+<p>下载后可以使用 PCL 直接导入压缩包，也可以从压缩包中的 <code>.mrpack</code> 文件导入到支持 Modrinth 整合包格式的启动器。首次启动前请确认启动器使用 Java 21。</p>
+<blockquote>
+<p>[!IMPORTANT]
+投影、自由相机、灵活放置、连锁操作和 Carpet 规则可能受到服务器规则限制。进入多人服务器前，请先确认允许使用的功能范围。</p>
+</blockquote>
+<h2>整合包基本信息</h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>当前配置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Minecraft</td>
+<td>1.21.1</td>
+</tr>
+<tr>
+<td>Fabric Loader</td>
+<td>0.19.3</td>
+</tr>
+<tr>
+<td>Java</td>
+<td>21</td>
+</tr>
+<tr>
+<td>模组数量</td>
+<td>47 个</td>
+</tr>
+<tr>
+<td>主要用途</td>
+<td>生电调试、投影施工、建筑辅助、地图记录、物品管理、性能优化</td>
+</tr>
+</tbody>
+</table>
+<p>整合包的核心逻辑可以分成五组：</p>
+<ol>
+<li><strong>生电与建造</strong>：Carpet、Litematica、MiniHUD、Tweakeroo 等。</li>
+<li><strong>物品与交互</strong>：连锁操作、背包整理、潜影盒预览、附魔处理等。</li>
+<li><strong>地图、信息与界面</strong>：JourneyMap、Jade、JEI、按键管理与皮肤加载。</li>
+<li><strong>性能与渲染</strong>：Sodium、Lithium、Iris、ModernFix 等。</li>
+<li><strong>前置与依赖库</strong>：为其他模组提供接口和运行环境，本身通常不需要操作。</li>
+</ol>
+<h2>安装与首次启动</h2>
+<h3>环境要求</h3>
+<ul>
+<li>使用 64 位 Java 21。</li>
+<li>使用 Minecraft 1.21.1 对应的 Fabric Loader。</li>
+<li>不要混入 Forge、NeoForge 或其他 Minecraft 版本的模组。</li>
+<li>首次启动建议分配 4–6 GB 内存，使用大型资源包或光影时再按需增加。</li>
+</ul>
+<h3>首次启动流程</h3>
+<ol>
+<li>启动游戏后打开 Mod Menu，确认模组列表正常。</li>
+<li>创建测试世界，不要立刻进入唯一的重要存档。</li>
+<li>检查 Sodium 视频设置、JourneyMap、JEI、Jade 和 Masa 系模组菜单。</li>
+<li>使用 Controlling 检查按键冲突。</li>
+<li>确认没有启动、渲染和按键异常后，再导入存档、原理图与地图数据。</li>
+</ol>
+<h3>重要目录</h3>
+<table>
+<thead>
+<tr>
+<th>目录或文件</th>
+<th>用途</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mods/</code></td>
+<td>模组文件</td>
+<td>更新前备份</td>
+</tr>
+<tr>
+<td><code>config/</code></td>
+<td>模组配置和快捷键</td>
+<td>必须备份</td>
+</tr>
+<tr>
+<td><code>saves/</code></td>
+<td>单人世界</td>
+<td>必须备份</td>
+</tr>
+<tr>
+<td><code>schematics/</code></td>
+<td>Litematica 原理图</td>
+<td>建议备份</td>
+</tr>
+<tr>
+<td><code>journeymap/</code></td>
+<td>地图和路径点</td>
+<td>迁移实例时备份</td>
+</tr>
+<tr>
+<td><code>shaderpacks/</code></td>
+<td>Iris 光影包</td>
+<td>按需备份</td>
+</tr>
+<tr>
+<td><code>resourcepacks/</code></td>
+<td>资源包</td>
+<td>按需备份</td>
+</tr>
+<tr>
+<td><code>options.txt</code></td>
+<td>语言、视频和原版按键</td>
+<td>排错前备份</td>
+</tr>
+<tr>
+<td><code>logs/latest.log</code></td>
+<td>最近一次启动日志</td>
+<td>出错时优先查看</td>
+</tr>
+</tbody>
+</table>
+<h2>推荐学习顺序</h2>
+<ol>
+<li>先用 Controlling 处理按键冲突。</li>
+<li>学习 Litematica 的投影、材料列表和验证器。</li>
+<li>学习 MiniHUD 的结构边界、刷怪范围和光照显示。</li>
+<li>学习 Tweakeroo 的自由相机与灵活放置。</li>
+<li>在测试世界学习 Carpet 与 GCA。</li>
+<li>配置 JourneyMap、JEI、Jade 和物品整理功能。</li>
+<li>最后根据电脑性能决定是否开启 Iris 光影和动态光源。</li>
+</ol>
+<h2>快捷键总览</h2>
+<blockquote>
+<p>这里记录的是整合包当前配置。组合键使用“+”表示同时按下。</p>
+</blockquote>
+<h3>最常用快捷键</h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>快捷键</th>
+<th>模组</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Litematica 主菜单</td>
+<td>M</td>
+<td>Litematica</td>
+</tr>
+<tr>
+<td>Litematica 配置</td>
+<td>M + C</td>
+<td>Litematica</td>
+</tr>
+<tr>
+<td>MiniHUD 配置</td>
+<td>H + C</td>
+<td>MiniHUD</td>
+</tr>
+<tr>
+<td>MiniHUD 总开关</td>
+<td>H</td>
+<td>MiniHUD</td>
+</tr>
+<tr>
+<td>Tweakeroo 配置</td>
+<td>X + C</td>
+<td>Tweakeroo</td>
+</tr>
+<tr>
+<td>自由相机</td>
+<td>F4</td>
+<td>Tweakeroo</td>
+</tr>
+<tr>
+<td>JourneyMap 全屏地图</td>
+<td>J</td>
+<td>JourneyMap</td>
+</tr>
+<tr>
+<td>JourneyMap 小地图</td>
+<td>M</td>
+<td>JourneyMap</td>
+</tr>
+<tr>
+<td>FTB Ultimine</td>
+<td>`（反引号）</td>
+<td>FTB Ultimine</td>
+</tr>
+<tr>
+<td>潜影盒紧凑预览</td>
+<td>Shift</td>
+<td>Shulker Box Tooltip</td>
+</tr>
+<tr>
+<td>潜影盒完整预览</td>
+<td>Alt + Shift</td>
+<td>Shulker Box Tooltip</td>
+</tr>
+<tr>
+<td>Zoomify</td>
+<td>鼠标侧键 4 / F6</td>
+<td>Zoomify</td>
+</tr>
+<tr>
+<td>村民交易刷新</td>
+<td>C</td>
+<td>Trade Cycling</td>
+</tr>
+</tbody>
+</table>
+<h3>全部已知快捷键</h3>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>模组</th>
+<th>功能</th>
+<th>快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>生电与建造</td>
+<td>Litematica（投影）</td>
+<td>打开主菜单</td>
+<td>M</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Litematica（投影）</td>
+<td>打开配置</td>
+<td>M + C</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Litematica（投影）</td>
+<td>放置管理</td>
+<td>M + P</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Litematica（投影）</td>
+<td>选择管理</td>
+<td>M + S</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Litematica（投影）</td>
+<td>材料列表</td>
+<td>M + L</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Litematica（投影）</td>
+<td>验证器</td>
+<td>M + V</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Litematica（投影）</td>
+<td>切换所有渲染</td>
+<td>M + R</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Litematica（投影）</td>
+<td>切换投影渲染</td>
+<td>M + G</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Litematica（投影）</td>
+<td>启用/禁用工具</td>
+<td>M + T</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Litematica（投影）</td>
+<td>上一层/下一层</td>
+<td>Page Down / Page Up</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Litematica（投影）</td>
+<td>简单放置使用键</td>
+<td>鼠标右键</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Litematica（投影）</td>
+<td>重新渲染投影</td>
+<td>F3 + M</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>MiniHUD（迷你 HUD）</td>
+<td>总渲染开关</td>
+<td>H</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>MiniHUD（迷你 HUD）</td>
+<td>打开配置</td>
+<td>H + C</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>MiniHUD（迷你 HUD）</td>
+<td>容器预览</td>
+<td>左 Alt</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>MiniHUD（迷你 HUD）</td>
+<td>预览切换</td>
+<td>鼠标中键</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Tweakeroo（TK）</td>
+<td>打开配置</td>
+<td>X + C</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Tweakeroo（TK）</td>
+<td>自由相机/灵魂出窍</td>
+<td>F4</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Tweakeroo（TK）</td>
+<td>快速放置</td>
+<td>U</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Tweakeroo（TK）</td>
+<td>工具自动切换</td>
+<td>\</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Tweakeroo（TK）</td>
+<td>相机预设管理</td>
+<td>X + P</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Tweakeroo（TK）</td>
+<td>灵活放置偏移</td>
+<td>左 Ctrl</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Tweakeroo（TK）</td>
+<td>灵活放置旋转</td>
+<td>左 Alt</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Tweakeroo（TK）</td>
+<td>限制到平面</td>
+<td>Z + 1</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Tweakeroo（TK）</td>
+<td>限制到表面</td>
+<td>Z + 2</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Tweakeroo（TK）</td>
+<td>限制到列</td>
+<td>Z + 3</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Tweakeroo（TK）</td>
+<td>限制到直线</td>
+<td>Z + 4</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Tweakeroo（TK）</td>
+<td>限制到对角线</td>
+<td>Z + 5</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Tweakeroo（TK）</td>
+<td>限制到层</td>
+<td>Z + 6</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Trade Cycling（村民交易刷新）</td>
+<td>刷新交易</td>
+<td>C</td>
+</tr>
+<tr>
+<td>物品与交互</td>
+<td>FTB Ultimine（连锁破坏）</td>
+<td>启用连锁操作</td>
+<td>`（反引号）</td>
+</tr>
+<tr>
+<td>物品与交互</td>
+<td>FTB Ultimine（连锁破坏）</td>
+<td>下一形状</td>
+<td>按住 ` + ↑</td>
+</tr>
+<tr>
+<td>物品与交互</td>
+<td>FTB Ultimine（连锁破坏）</td>
+<td>上一形状</td>
+<td>按住 ` + ↓</td>
+</tr>
+<tr>
+<td>物品与交互</td>
+<td>FTB Ultimine（连锁破坏）</td>
+<td>显示形状菜单</td>
+<td>按住 ` + 潜行</td>
+</tr>
+<tr>
+<td>物品与交互</td>
+<td>Shulker Box Tooltip（潜影盒预览）</td>
+<td>紧凑预览</td>
+<td>Shift</td>
+</tr>
+<tr>
+<td>物品与交互</td>
+<td>Shulker Box Tooltip（潜影盒预览）</td>
+<td>完整槽位预览</td>
+<td>Alt + Shift</td>
+</tr>
+<tr>
+<td>物品与交互</td>
+<td>Shulker Box Tooltip（潜影盒预览）</td>
+<td>锁定提示框并查看内部物品</td>
+<td>左 Ctrl</td>
+</tr>
+<tr>
+<td>物品与交互</td>
+<td>Mouse Tweaks（鼠标整理增强）</td>
+<td>右键拖动</td>
+<td>连续放置一个物品</td>
+</tr>
+<tr>
+<td>物品与交互</td>
+<td>Mouse Tweaks（鼠标整理增强）</td>
+<td>Shift + 左键拖动</td>
+<td>快速移动经过的物品堆</td>
+</tr>
+<tr>
+<td>物品与交互</td>
+<td>Mouse Tweaks（鼠标整理增强）</td>
+<td>滚轮</td>
+<td>在鼠标所在槽位与另一侧容器间移动物品</td>
+</tr>
+<tr>
+<td>物品与交互</td>
+<td>AppleSkin（苹果皮）</td>
+<td>查看食物信息</td>
+<td>悬停食物；当前配置无需 Shift</td>
+</tr>
+<tr>
+<td>物品与交互</td>
+<td>Zoomify（缩放）</td>
+<td>主缩放键</td>
+<td>鼠标侧键 4</td>
+</tr>
+<tr>
+<td>物品与交互</td>
+<td>Zoomify（缩放）</td>
+<td>备用缩放键</td>
+<td>F6</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>JourneyMap（旅行地图）</td>
+<td>全屏地图</td>
+<td>J</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>JourneyMap（旅行地图）</td>
+<td>切换小地图</td>
+<td>M</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>JourneyMap（旅行地图）</td>
+<td>小地图预设</td>
+<td>\</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>JourneyMap（旅行地图）</td>
+<td>小地图类型</td>
+<td></td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>[JourneyMap（旅行地图）</td>
+<td>新建路径点</td>
+<td>.</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>JourneyMap（旅行地图）</td>
+<td>全屏地图中新建路径点</td>
+<td>,</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>JourneyMap（旅行地图）</td>
+<td>路径点管理</td>
+<td>N</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>JourneyMap（旅行地图）</td>
+<td>切换实体名称</td>
+<td>G</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>JourneyMap（旅行地图）</td>
+<td>放大/缩小</td>
+<td>= / -</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>JourneyMap（旅行地图）</td>
+<td>地图选项</td>
+<td>左 Win</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>Jade（方块/实体信息）</td>
+<td>打开配置</td>
+<td>小键盘 0</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>Jade（方块/实体信息）</td>
+<td>显示/隐藏信息框</td>
+<td>小键盘 1</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>Jade（方块/实体信息）</td>
+<td>液体信息</td>
+<td>小键盘 2</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>Jade（方块/实体信息）</td>
+<td>查看配方</td>
+<td>小键盘 3</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>Jade（方块/实体信息）</td>
+<td>查看用途</td>
+<td>小键盘 4</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>Jade（方块/实体信息）</td>
+<td>朗读信息</td>
+<td>小键盘 5</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>JEI（物品与配方浏览）</td>
+<td>显示/隐藏物品列表</td>
+<td>O</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>JEI（物品与配方浏览）</td>
+<td>聚焦搜索框</td>
+<td>F</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>JEI（物品与配方浏览）</td>
+<td>查看配方</td>
+<td>R 或左键</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>JEI（物品与配方浏览）</td>
+<td>查看用途</td>
+<td>U 或右键</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>JEI（物品与配方浏览）</td>
+<td>加入书签</td>
+<td>A</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>JEI（物品与配方浏览）</td>
+<td>配方返回</td>
+<td>Backspace</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>JEI（物品与配方浏览）</td>
+<td>上一/下一页</td>
+<td>Page Up / Page Down</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>Neat（实体血条）</td>
+<td>显示开关</td>
+<td>当前未绑定</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>IMBlocker（输入法冲突修复）</td>
+<td>解除/切换输入法锁定</td>
+<td>右 Shift</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>Mod Menu（模组菜单）</td>
+<td>直接打开模组菜单</td>
+<td>当前未绑定</td>
+</tr>
+<tr>
+<td>性能与渲染</td>
+<td>EntityCulling（实体遮挡剔除）</td>
+<td>剔除开关</td>
+<td>当前未绑定</td>
+</tr>
+<tr>
+<td>性能与渲染</td>
+<td>Dynamic FPS（动态帧率）</td>
+<td>强制省电模式</td>
+<td>当前未绑定</td>
+</tr>
+<tr>
+<td>性能与渲染</td>
+<td>Dynamic FPS（动态帧率）</td>
+<td>禁用 Dynamic FPS</td>
+<td>当前未绑定</td>
+</tr>
+<tr>
+<td>性能与渲染</td>
+<td>Iris（光影加载器）</td>
+<td>重新加载光影</td>
+<td>R</td>
+</tr>
+<tr>
+<td>性能与渲染</td>
+<td>Iris（光影加载器）</td>
+<td>开关光影</td>
+<td>K</td>
+</tr>
+<tr>
+<td>性能与渲染</td>
+<td>Iris（光影加载器）</td>
+<td>光影包选择</td>
+<td>O</td>
+</tr>
+<tr>
+<td>性能与渲染</td>
+<td>Iris（光影加载器）</td>
+<td>线框模式</td>
+<td>当前未绑定</td>
+</tr>
+<tr>
+<td>性能与渲染</td>
+<td>LambDynamicLights（动态光源）</td>
+<td>动态光源开关</td>
+<td>当前未绑定</td>
+</tr>
+<tr>
+<td>前置与依赖库</td>
+<td>MaLiLib</td>
+<td>打开 MaLiLib 配置列表</td>
+<td>A + C</td>
+</tr>
+</tbody>
+</table>
+<h3>已知冲突</h3>
+<ul>
+<li><strong>M</strong>：Litematica 前缀键，同时 JourneyMap 用于切换小地图；Litematica 组合键需要连续/组合输入，通常仍可使用。</li>
+<li><strong>O</strong>：JEI 物品列表开关与 Iris 光影包选择冲突，建议修改 Iris 为 <code>Ctrl + O</code>。</li>
+<li><strong>R</strong>：JEI 查看配方与 Iris 重载光影冲突，建议修改 Iris 为 <code>Ctrl + R</code>。</li>
+<li>****：JourneyMap 小地图预设与 Tweakeroo 工具切换存在冲突。</li>
+<li><strong>C</strong>：Trade Cycling 与部分模组默认配置入口可能冲突。</li>
+<li><strong>左 Alt</strong>：Litematica、MiniHUD、Tweakeroo 多处作为修饰键，操作前确认当前工具模式。</li>
+</ul>
+<h3>建议的未绑定功能</h3>
+<ul>
+<li>EntityCulling 开关：建议绑定仅用于排错的组合键。</li>
+<li>LambDynamicLights 开关：建议绑定，刷怪测试前快速关闭。</li>
+<li>Neat 血条开关：建议绑定，截图和大型实体农场时关闭。</li>
+<li>Dynamic FPS 强制/禁用：一般保持未绑定即可。</li>
+</ul>
+<h2>全部模组使用教程</h2>
+<p>下面按整合包分类逐个介绍全部 47 个模组。前置库也会说明是否能删除、由哪些模组使用以及排错时应该检查什么。</p>
+<h2>生电与建造</h2>
+<p>投影施工、生电调试、自由相机、灵活放置和村民交易工具。</p>
+<h3>Carpet Mod（地毯）</h3>
+<blockquote>
+<p>生电整合包的规则控制、假人测试和调试核心。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>carpet</code></li>
+<li><strong>当前版本</strong>：<code>1.4.147+v240613</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>快速入门</strong>
+进入有权限的单人世界后，在聊天框输入 <code>/carpet</code> 查看规则。使用 <code>/carpet &lt;规则名&gt;</code> 查看说明，使用 <code>/carpet &lt;规则名&gt; &lt;值&gt;</code> 临时修改规则；追加 <code>setDefault</code> 可把规则写入当前世界配置。</p>
+<p><strong>假人教程</strong></p>
+<ul>
+<li>生成假人：<code>/player Bot spawn</code></li>
+<li>让假人站到指定位置：先站好位置和朝向，再生成同名假人。</li>
+<li>攻击：<code>/player Bot attack continuous</code></li>
+<li>持续使用物品：<code>/player Bot use continuous</code></li>
+<li>停止动作：<code>/player Bot stop</code></li>
+<li>下线：<code>/player Bot kill</code></li>
+<li>移动、跳跃、潜行、转向可通过 <code>/player Bot move ...</code>、<code>jump</code>、<code>sneak</code>、<code>look</code> 子命令组合。</li>
+</ul>
+<p><strong>生电常用方法</strong></p>
+<ol>
+<li>用假人测试刷怪塔挂机位、村民繁殖、农场收集和区块加载边界。</li>
+<li>修改规则前先用 <code>/carpet &lt;规则名&gt;</code> 阅读说明，避免把测试规则永久写入主世界。</li>
+<li>世界级规则保存在存档目录的 <code>carpet.conf</code>；整合包默认规则位于 <code>config/carpet/default_carpet.conf</code>。</li>
+<li>使用 <code>/log</code> 订阅 TPS、mobcaps 等记录器时，可在聊天栏持续观察服务器状态。</li>
+</ol>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>主世界只永久保存明确需要的规则，临时测试结束后恢复默认。</li>
+<li>假人名称不要与真实玩家重名。</li>
+<li>结构方块范围功能与 Tweakeroo 有冲突时，以 Carpet 规则结果为准。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>无额外模组依赖，或依赖已打包在模组内部。</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/carpet/default_carpet.conf</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/gnembon/fabric-carpet">项目主页或官方文档</a></li>
+</ul>
+<h3>Gugle Carpet Addition（GCA）</h3>
+<blockquote>
+<p>围绕 Carpet 扩展的生电规则、假人交互和实用功能集合。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>gca_wrapper</code></li>
+<li><strong>当前版本</strong>：<code>2.12.6+build.94</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>使用方式</strong>
+GCA 通过 Carpet 规则系统工作。输入 <code>/carpet</code> 后搜索带有 GCA 分类或前缀的规则；输入 <code>/carpet &lt;规则名&gt;</code> 查看该版本内置说明。</p>
+<p><strong>推荐流程</strong></p>
+<ol>
+<li>新建测试世界，先确认规则作用和默认值。</li>
+<li>用 <code>/carpet &lt;规则名&gt; &lt;值&gt;</code> 临时启用。</li>
+<li>验证机器不会被规则改变后，再决定是否写入世界默认配置。</li>
+<li>配合 Carpet 假人完成挂机、自动操作、容器交互和农场压力测试。</li>
+</ol>
+<p><strong>为什么不列死全部规则</strong>
+GCA 的规则会随构建版本调整，教程以游戏内 <code>/carpet</code> 自动补全和说明为准，避免博客中的旧规则名称误导玩家。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>它不是独立替代品，必须与 Carpet 一起使用。</li>
+<li>升级 GCA 后先在测试世界检查旧规则。</li>
+<li>服务器使用时应由服主统一管理规则。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>无额外模组依赖，或依赖已打包在模组内部。</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>世界目录/carpet.conf</code></li>
+<li><code>config/carpet/default_carpet.conf</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/Gu-ZT/gugle-carpet-addition">项目主页或官方文档</a></li>
+</ul>
+<h3>Litematica（投影）</h3>
+<blockquote>
+<p>建筑和生电机器的区域选择、原理图保存、放置、材料统计与逐层施工工具。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>litematica</code></li>
+<li><strong>当前版本</strong>：<code>0.19.61</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>打开主菜单</td>
+<td>M</td>
+</tr>
+<tr>
+<td>打开配置</td>
+<td>M + C</td>
+</tr>
+<tr>
+<td>放置管理</td>
+<td>M + P</td>
+</tr>
+<tr>
+<td>选择管理</td>
+<td>M + S</td>
+</tr>
+<tr>
+<td>材料列表</td>
+<td>M + L</td>
+</tr>
+<tr>
+<td>验证器</td>
+<td>M + V</td>
+</tr>
+<tr>
+<td>切换所有渲染</td>
+<td>M + R</td>
+</tr>
+<tr>
+<td>切换投影渲染</td>
+<td>M + G</td>
+</tr>
+<tr>
+<td>启用/禁用工具</td>
+<td>M + T</td>
+</tr>
+<tr>
+<td>上一层/下一层</td>
+<td>Page Down / Page Up</td>
+</tr>
+<tr>
+<td>简单放置使用键</td>
+<td>鼠标右键</td>
+</tr>
+<tr>
+<td>重新渲染投影</td>
+<td>F3 + M</td>
+</tr>
+</tbody>
+</table>
+<p><strong>制作原理图</strong></p>
+<ol>
+<li>按 <code>M</code> 打开主菜单，在区域选择中创建选区。</li>
+<li>手持木棍作为选择工具：左键设置角点 1，右键设置角点 2，中键选择已有元素。</li>
+<li>检查选区尺寸和包含范围。</li>
+<li>使用 <code>Ctrl + Alt + S</code> 保存为原理图文件。</li>
+</ol>
+<p><strong>加载与放置</strong></p>
+<ol>
+<li><code>M → 加载原理图</code> 选择文件。</li>
+<li>创建放置后按 <code>M + P</code> 打开放置管理。</li>
+<li>调整坐标、旋转、镜像和子区域开关。</li>
+<li>按 <code>M + G</code> 控制投影显示，按 <code>M + R</code> 控制全部渲染。</li>
+</ol>
+<p><strong>生存施工</strong></p>
+<ul>
+<li><code>M + L</code> 打开材料列表，查看总需求、缺少数量和已完成数量。</li>
+<li>使用逐层模式配合 Page Up/Page Down，适合从下到上施工。</li>
+<li>简单放置需要服务器或 Carpet 支持准确放置协议；不支持时仍可把投影视作普通施工参考。</li>
+<li><code>M + V</code> 打开验证器，检查错误方块、缺失方块和多余方块。</li>
+</ul>
+<p><strong>文件位置</strong>
+原理图通常保存在实例的 <code>schematics</code> 目录。发布整合包时不要未经授权分发他人的建筑原理图。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>大型投影先关闭不需要的子区域，显著降低渲染压力。</li>
+<li>先确认原点与旋转方向，再开始收集材料。</li>
+<li>Easy Place 不是服务器权限绕过工具。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>malilib</code>：<code>&gt;=0.21.10-</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/litematica.json</code></li>
+<li><code>config/litematica/</code></li>
+<li><code>schematics/</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/maruohon/litematica">项目主页或官方文档</a></li>
+</ul>
+<h3>MiniHUD（迷你 HUD）</h3>
+<blockquote>
+<p>显示坐标、区块、刷怪范围、结构边界、光照和各种生电调试覆盖层。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>minihud</code></li>
+<li><strong>当前版本</strong>：<code>0.32.60</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>总渲染开关</td>
+<td>H</td>
+</tr>
+<tr>
+<td>打开配置</td>
+<td>H + C</td>
+</tr>
+<tr>
+<td>容器预览</td>
+<td>左 Alt</td>
+</tr>
+<tr>
+<td>预览切换</td>
+<td>鼠标中键</td>
+</tr>
+</tbody>
+</table>
+<p><strong>基础使用</strong>
+按 <code>H + C</code> 打开配置。先在信息行中启用需要的文本，再在渲染器中启用结构、区块和范围覆盖层。<code>H</code> 是总开关，出现画面过于杂乱时可立即关闭。</p>
+<p><strong>生电常用覆盖层</strong></p>
+<ul>
+<li>区块边界：规划区块加载器、红石跨区块线路和刷怪塔位置。</li>
+<li>史莱姆区块：寻找史莱姆农场位置。</li>
+<li>光照信息：检查真实方块光与天空光，不要被动态光源视觉效果误导。</li>
+<li>刷怪球体/范围：围绕挂机点检查 24、32、128 格等关键距离。</li>
+<li>结构边界：定位要塞、海底神殿、女巫小屋等依赖结构边界的机器。</li>
+<li>蜂箱、村民、方块实体等信息行：按需要启用，避免长期显示全部内容。</li>
+</ul>
+<p><strong>推荐配置方法</strong>
+为“日常”“刷怪塔调试”“区块边界”建立不同使用习惯，每次只打开一组覆盖层。大型结构边界和实体信息不要长期全开。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>动态光源只改变视觉，刷怪判断以 MiniHUD 读取的真实光照为准。</li>
+<li>覆盖层看不到时检查总开关 H 和对应渲染器开关。</li>
+<li>多人服务器部分数据可能需要服务端支持。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>malilib</code>：<code>&gt;=0.21.10-</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/minihud.json</code></li>
+<li><code>config/minihud/</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/maruohon/minihud">项目主页或官方文档</a></li>
+</ul>
+<h3>Tweakeroo（TK）</h3>
+<blockquote>
+<p>自由相机、灵活放置、快速方块放置、工具切换和大量客户端操作增强。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>tweakeroo</code></li>
+<li><strong>当前版本</strong>：<code>0.21.61</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>打开配置</td>
+<td>X + C</td>
+</tr>
+<tr>
+<td>自由相机/灵魂出窍</td>
+<td>F4</td>
+</tr>
+<tr>
+<td>快速放置</td>
+<td>U</td>
+</tr>
+<tr>
+<td>工具自动切换</td>
+<td>\</td>
+</tr>
+<tr>
+<td>相机预设管理</td>
+<td>X + P</td>
+</tr>
+<tr>
+<td>灵活放置偏移</td>
+<td>左 Ctrl</td>
+</tr>
+<tr>
+<td>灵活放置旋转</td>
+<td>左 Alt</td>
+</tr>
+<tr>
+<td>限制到平面</td>
+<td>Z + 1</td>
+</tr>
+<tr>
+<td>限制到表面</td>
+<td>Z + 2</td>
+</tr>
+<tr>
+<td>限制到列</td>
+<td>Z + 3</td>
+</tr>
+<tr>
+<td>限制到直线</td>
+<td>Z + 4</td>
+</tr>
+<tr>
+<td>限制到对角线</td>
+<td>Z + 5</td>
+</tr>
+<tr>
+<td>限制到层</td>
+<td>Z + 6</td>
+</tr>
+</tbody>
+</table>
+<p><strong>自由相机</strong>
+按 <code>F4</code> 进入自由相机。玩家实体仍留在原地，适合检查建筑背面、机器内部和整体比例。<code>X + P</code> 可管理相机预设位置。配置里还能决定自由相机时是否允许玩家输入、移动玩家、显示手和状态栏。</p>
+<p><strong>灵活方块放置</strong></p>
+<ol>
+<li>在 <code>X + C</code> 中启用 Flexible Block Placement。</li>
+<li>按住左 Ctrl 调整放置偏移，按住左 Alt 调整旋转方向。</li>
+<li>对活塞、观察者、漏斗、楼梯等方向敏感方块尤其有用。</li>
+<li>服务端支持准确放置协议时可靠性更高。</li>
+</ol>
+<p><strong>放置限制</strong>
+使用 <code>Z + 数字</code> 选择平面、表面、列、直线、对角线或层限制，适合快速铺墙、道路和大面积平台。</p>
+<p><strong>快速放置与工具切换</strong>
+<code>U</code> 切换快速方块放置；反斜杠切换工具自动选择。使用前先在测试区域确认速度，避免连续误放或误拆。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>Freecam 与独立 Freecam 模组功能高度重复，不需要重复安装。</li>
+<li>Carpet 和 Tweakeroo 同时修改结构方块范围时会发生覆盖冲突。</li>
+<li>快速点击、持续使用和快速放置不要在服务器禁止自动操作时使用。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>malilib</code>：<code>&gt;=0.21.9-</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/tweakeroo.json</code></li>
+<li><code>config/tweakeroo/</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/maruohon/tweakeroo">项目主页或官方文档</a></li>
+</ul>
+<h3>Trade Cycling（村民交易刷新）</h3>
+<blockquote>
+<p>在村民尚未锁定交易时，用快捷键快速重置工作站并刷新交易。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>trade_cycling</code></li>
+<li><strong>当前版本</strong>：<code>1.21.1-1.0.20</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>刷新交易</td>
+<td>C</td>
+</tr>
+</tbody>
+</table>
+<p><strong>使用步骤</strong></p>
+<ol>
+<li>放置村民对应工作站，让村民获得职业。</li>
+<li>打开交易界面并查看第一轮交易。</li>
+<li>在尚未与该村民完成任何交易时按 <code>C</code>。</li>
+<li>模组会尝试重置工作站并让村民重新获取职业，随后生成新交易。</li>
+<li>出现目标交易后完成一次交易，将职业和交易锁定。</li>
+</ol>
+<p><strong>建筑党用途</strong>
+可快速获得修补、精准采集、效率等附魔书，以及石匠提供的石英、砖块和装饰材料交易。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>只对尚未锁定交易的村民有效。</li>
+<li>确保工作站可被正常破坏、重新放置且村民能寻路绑定。</li>
+<li>多人服务器必须允许对应行为。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>无额外模组依赖，或依赖已打包在模组内部。</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/trade_cycling/</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://www.curseforge.com/minecraft/mc-mods/trade-cycling">项目主页或官方文档</a></li>
+</ul>
+<h2>物品与交互</h2>
+<p>连锁操作、附魔处理、装备槽、背包整理、容器预览和缩放。</p>
+<h3>FTB Ultimine（连锁破坏）</h3>
+<blockquote>
+<p>按住快捷键一次挖掘或处理成片方块，可切换不同形状。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>ftbultimine</code></li>
+<li><strong>当前版本</strong>：<code>2101.1.15</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>启用连锁操作</td>
+<td>`（反引号）</td>
+</tr>
+<tr>
+<td>下一形状</td>
+<td>按住 ` + ↑</td>
+</tr>
+<tr>
+<td>上一形状</td>
+<td>按住 ` + ↓</td>
+</tr>
+<tr>
+<td>显示形状菜单</td>
+<td>按住 ` + 潜行</td>
+</tr>
+</tbody>
+</table>
+<p><strong>基础挖掘</strong>
+按住反引号键再破坏方块，模组会高亮即将处理的方块。当前服务器配置单次最多处理 64 个方块，并按每个方块增加饥饿消耗。</p>
+<p><strong>形状切换</strong>
+当前配置要求按住 Ultimine 键才能用方向键切换形状。常见模式包括连通同类方块、平面、直线和范围形状。按住 Ultimine 键并潜行可显示形状菜单。</p>
+<p><strong>右键批量操作</strong>
+当前配置允许按住 Ultimine 键批量收割作物、用锄头耕地、用铲子铺路、用斧头去皮或除蜡；普通右键成熟作物也会直接收割。</p>
+<p><strong>建筑注意事项</strong>
+拆除临时脚手架和大片同类方块很快，但机器附近极易误拆。观察白色预览轮廓后再操作。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>红石机器附近建议临时改为单方块模式。</li>
+<li>当前 prevent_tool_break 为 0，不会主动保留最后耐久。</li>
+<li>该模组改变原版挖掘方式，发布博客时应明确标为便利功能。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric</code>：<code>&gt;=0.100.1+1.21</code></li>
+<li><code>architectury</code>：<code>&gt;=13.0.6</code></li>
+<li><code>ftblibrary</code>：<code>&gt;=2101.1.28</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/ftbultimine-client.snbt</code></li>
+<li><code>config/ftbultimine-server.snbt</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://docs.feed-the-beast.com/docs/mods/suite/Ultimine/">项目主页或官方文档</a></li>
+</ul>
+<h3>Grind Enchantments（砂轮增强）</h3>
+<blockquote>
+<p>使用砂轮把物品附魔转移到书上，并可拆分附魔书。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>grindenchantments</code></li>
+<li><strong>当前版本</strong>：<code>4.0.0+1.21.1</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>提取物品附魔</strong></p>
+<ol>
+<li>把带附魔的工具、武器或装备放进砂轮上方槽位。</li>
+<li>在另一个输入槽放入普通书。</li>
+<li>输出会得到附魔书，同时返还去除附魔后的物品。</li>
+</ol>
+<p><strong>拆分附魔书</strong>
+把带多个附魔的附魔书放入上方，再放入一本空书，可把列表顶部的附魔转移到另一本文书中。重复操作即可逐项拆分。</p>
+<p><strong>用途</strong>
+适合回收探索获得的装备附魔、整理仓库中的附魔书，以及保留建筑工具上的高价值附魔。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>它明显改变原版砂轮机制。</li>
+<li>操作前检查诅咒附魔和经验消耗规则。</li>
+<li>重要装备先用普通物品测试一次。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-lifecycle-events-v1</code>：<code>*</code></li>
+<li><code>fabric-api-base</code>：<code>*</code></li>
+<li><code>fabric-registry-sync-v0</code>：<code>*</code></li>
+<li><code>fabric-networking-api-v1</code>：<code>*</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/grindenchantments/</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://www.curseforge.com/minecraft/mc-mods/grind-enchantments">项目主页或官方文档</a></li>
+</ul>
+<h3>Elytra Slot（鞘翅槽位）</h3>
+<blockquote>
+<p>通过 Trinkets 增加独立鞘翅槽，让胸甲与鞘翅同时装备。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>elytraslot</code></li>
+<li><strong>当前版本</strong>：<code>9.0.1+1.21.1</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>使用方法</strong>
+打开玩家物品栏，在 Trinkets 饰品栏中找到鞘翅槽，把鞘翅拖入该槽位。装备后仍可在原胸甲栏穿戴胸甲，飞行操作与原版鞘翅一致。</p>
+<p><strong>卸载前处理</strong>
+移除 Elytra Slot 或 Trinkets 前，必须先把额外槽位中的鞘翅取出并放回普通物品栏或箱子。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>属于改变原版装备平衡的便利模组。</li>
+<li>多人服务器需要服务端也安装相同模组。</li>
+<li>槽位没有显示时先确认 Trinkets 正常加载。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric</code>：<code>*</code></li>
+<li><code>trinkets</code>：<code>*</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li>通常不生成需要玩家维护的独立配置文件。</li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://modrinth.com/mod/elytra-slot">项目主页或官方文档</a></li>
+</ul>
+<h3>Trinkets（饰品栏 API）</h3>
+<blockquote>
+<p>提供可由其他模组注册的额外装备槽；本整合包主要用于 Elytra Slot。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>trinkets</code></li>
+<li><strong>当前版本</strong>：<code>3.10.0</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>玩家如何使用</strong>
+Trinkets 本身主要提供槽位系统，不一定添加可装备物品。打开物品栏后，通过饰品栏界面放入兼容物品。本整合包中最直接的用途是为 Elytra Slot 提供独立鞘翅槽。</p>
+<p><strong>数据包作者</strong>
+高级用户可以通过数据包定义槽位组、槽位数量和允许装备的物品标签。普通玩家无需配置。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>不要因为看到空槽位就随意移除，它可能是其他装备模组的依赖。</li>
+<li>移除前先清空所有额外槽位。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code>：<code>&gt;=0.51.2</code></li>
+<li><code>cardinal-components-entity</code>：<code>&gt;=3.0.0-0</code></li>
+<li><code>cardinal-components-base</code>：<code>&gt;=3.0.0-0</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li>通常不生成需要玩家维护的独立配置文件。</li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/emilyploszaj/trinkets">项目主页或官方文档</a></li>
+</ul>
+<h3>Inventory Profiles Next（一键整理）</h3>
+<blockquote>
+<p>提供容器排序、自动补货、物品锁定、配置档和自定义排序规则。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>inventoryprofilesnext</code></li>
+<li><strong>当前版本</strong>：<code>2.2.6</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>快速开始</strong>
+打开物品栏或箱子后，界面边缘会出现排序按钮。可分别按名称、数量或类别整理玩家背包和容器。第一次使用先在设置中确认按钮位置，避免与 JEI/Jade 界面重叠。</p>
+<p><strong>自动补货</strong>
+启用 Auto Refill 后，快捷栏中的方块或工具耗尽时，会尝试从背包补入同类物品。建筑连续铺方块非常实用，但处理带名称、耐久或 NBT 的物品时应检查匹配规则。</p>
+<p><strong>锁定槽位</strong>
+把重要工具、火箭和食物所在槽位锁定，排序时这些槽位不会被打乱。大型仓库操作前尤其建议锁定快捷栏。</p>
+<p><strong>配置档</strong>
+在 Hotkeys → Profiles 中设置“保存当前状态”“应用配置档”等快捷键。可为建筑、红石施工、探索分别保存快捷栏布局。本实例尚未为 Profiles 分配快捷键，需要玩家自行设置。</p>
+<p><strong>自定义规则</strong>
+规则文件位于配置目录，可用物品 ID、标签和通配符定义排序优先级。修改后先用普通箱子测试。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>不要对复杂分类仓库无脑点击双向移动按钮。</li>
+<li>服务器延迟高时减少连续排序操作。</li>
+<li>当前配置的 Profiles 和 Auto Refill 功能处于关闭状态，可按需开启。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>libipn</code>：<code>&gt;=6.6.3 &lt;6.7</code></li>
+<li><code>fabric-language-kotlin</code>：<code>&gt;=1.13.10+kotlin.2.3.20</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/inventoryprofilesnext/</code></li>
+<li><code>config/libIPN/</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://inventory-profiles-next.github.io/">项目主页或官方文档</a></li>
+</ul>
+<h3>Shulker Box Tooltip（潜影盒预览）</h3>
+<blockquote>
+<p>在物品提示框中直接预览潜影盒和其他容器物品，适合建筑材料管理。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>shulkerboxtooltip</code></li>
+<li><strong>当前版本</strong>：<code>5.1.3+1.21.1</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>紧凑预览</td>
+<td>Shift</td>
+</tr>
+<tr>
+<td>完整槽位预览</td>
+<td>Alt + Shift</td>
+</tr>
+<tr>
+<td>锁定提示框并查看内部物品</td>
+<td>左 Ctrl</td>
+</tr>
+</tbody>
+</table>
+<p><strong>基础使用</strong>
+把鼠标停在物品栏、箱子或 JEI 界面中的潜影盒上：按住 Shift 显示紧凑预览；按住 Alt + Shift 显示完整 9×3 槽位布局；预览出现后按住左 Ctrl 锁定提示框，即可把鼠标移入预览并查看内部物品的详细提示。</p>
+<p><strong>建筑材料工作流</strong></p>
+<ol>
+<li>给潜影盒使用铁砧命名，例如“石材”“红石元件”“深板岩”。</li>
+<li>配合颜色分类潜影盒。</li>
+<li>在仓库中直接按 Shift 检查，无需反复放置和打开。</li>
+<li>与 Litematica 材料列表搭配，快速确认每个盒子携带的材料。</li>
+</ol>
+<p><strong>配置</strong>
+通过 Mod Menu 选择 Shulker Box Tooltip 并点击齿轮，可调整预览模式、颜色、容器类型和锁定方式。配置文件会在首次启动后生成到 <code>config/shulkerboxtooltip.json5</code>。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>当前安装版本为 5.1.3+1.21.1。</li>
+<li>若 Shift 没反应，检查是否被其他 Tooltip 模组占用。</li>
+<li>该模组主要是显示增强，不会修改潜影盒数据。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-resource-loader-v0</code>：<code>*</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/shulkerboxtooltip.json5</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://modrinth.com/mod/shulkerboxtooltip">项目主页或官方文档</a></li>
+</ul>
+<h3>Mouse Tweaks（鼠标整理增强）</h3>
+<blockquote>
+<p>改进物品栏拖拽、连续分发和快速收集操作。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>mousetweaks</code></li>
+<li><strong>当前版本</strong>：<code>2.26</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>右键拖动</td>
+<td>连续放置一个物品</td>
+</tr>
+<tr>
+<td>Shift + 左键拖动</td>
+<td>快速移动经过的物品堆</td>
+</tr>
+<tr>
+<td>滚轮</td>
+<td>在鼠标所在槽位与另一侧容器间移动物品</td>
+</tr>
+</tbody>
+</table>
+<p><strong>右键拖动</strong>
+拿起一组物品后按住右键划过多个槽位，可向每个槽位连续放入一个物品，比原版重复点击更快。</p>
+<p><strong>Shift 拖动</strong>
+按住 Shift 和鼠标左键划过物品堆，可把经过的物品快速移动到另一侧容器。</p>
+<p><strong>滚轮搬运</strong>
+鼠标指向物品后滚动滚轮，可以在玩家背包和当前容器之间连续转移同类物品。滚动方向与行为可在配置文件中调整。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>与 Inventory Profiles Next 同时使用时先熟悉两者边界。</li>
+<li>高延迟服务器不要过快滚动。</li>
+<li>误操作时检查 MouseTweaks.cfg 中的 WheelTweak 设置。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code>：<code>*</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/MouseTweaks.cfg</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://www.curseforge.com/minecraft/mc-mods/mouse-tweaks">项目主页或官方文档</a></li>
+</ul>
+<h3>AppleSkin（苹果皮）</h3>
+<blockquote>
+<p>显示食物恢复量、饱和度、消耗进度和 HUD 预测。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>appleskin</code></li>
+<li><strong>当前版本</strong>：<code>3.0.6+mc1.21</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查看食物信息</td>
+<td>悬停食物；当前配置无需 Shift</td>
+</tr>
+</tbody>
+</table>
+<p><strong>显示内容</strong></p>
+<ul>
+<li>食物提示中显示饥饿值与饱和度。</li>
+<li>手持食物时在饥饿条上预览恢复结果。</li>
+<li>在 HUD 中显示当前饱和度和消耗进度。</li>
+<li>F3 调试界面显示饥饿、饱和度和消耗数据。</li>
+</ul>
+<p>当前配置已开启自动显示，不必按 Shift。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>只改变客户端显示，不改变食物数值。</li>
+<li>HUD 太拥挤时可关闭健康恢复预测或消耗条。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code>：<code>*</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/appleskin.json5</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/squeek502/AppleSkin">项目主页或官方文档</a></li>
+</ul>
+<h3>Zoomify（缩放）</h3>
+<blockquote>
+<p>可平滑缩放、滚轮调倍率并保存缩放行为。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>zoomify</code></li>
+<li><strong>当前版本</strong>：<code>2.15.2+1.21.1</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主缩放键</td>
+<td>鼠标侧键 4</td>
+</tr>
+<tr>
+<td>备用缩放键</td>
+<td>F6</td>
+</tr>
+</tbody>
+</table>
+<p><strong>基础缩放</strong>
+按住鼠标侧键 4 进入缩放，松开恢复。没有侧键时使用 F6。缩放过程中可根据配置使用滚轮调整倍率。</p>
+<p><strong>建筑用途</strong></p>
+<ul>
+<li>从远处检查立面比例和重复图案。</li>
+<li>对齐远距离桥梁、道路和屋顶轮廓。</li>
+<li>观察生电机器状态而不进入危险区域。</li>
+</ul>
+<p><strong>配置</strong>
+通过 Mod Menu 打开 Zoomify 设置，可调整初始倍率、滚轮灵敏度、平滑动画、保持缩放和鼠标灵敏度补偿。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>F6 可能与其他辅助功能冲突。</li>
+<li>缩放只放大现有画面，不会增加服务器发送的区块距离。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-language-kotlin</code>：<code>&gt;=1.13.8+kotlin.2.3.0</code></li>
+<li><code>yet_another_config_lib_v3</code>：<code>&gt;=3.6.6</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/zoomify.json</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://modrinth.com/mod/zoomify">项目主页或官方文档</a></li>
+</ul>
+<h2>地图、信息与界面</h2>
+<p>地图、配方、方块信息、按键管理、输入法、皮肤与局域网设置。</p>
+<h3>JourneyMap（旅行地图）</h3>
+<blockquote>
+<p>提供小地图、全屏地图、路径点、洞穴地图和地图记录。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>journeymap</code></li>
+<li><strong>当前版本</strong>：<code>1.21.1-6.0.1</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>全屏地图</td>
+<td>J</td>
+</tr>
+<tr>
+<td>切换小地图</td>
+<td>M</td>
+</tr>
+<tr>
+<td>小地图预设</td>
+<td>\</td>
+</tr>
+<tr>
+<td>小地图类型</td>
+<td>[</td>
+</tr>
+<tr>
+<td>新建路径点</td>
+<td>.</td>
+</tr>
+<tr>
+<td>全屏地图中新建路径点</td>
+<td>,</td>
+</tr>
+<tr>
+<td>路径点管理</td>
+<td>N</td>
+</tr>
+<tr>
+<td>切换实体名称</td>
+<td>G</td>
+</tr>
+<tr>
+<td>放大/缩小</td>
+<td>= / -</td>
+</tr>
+<tr>
+<td>地图选项</td>
+<td>左 Win</td>
+</tr>
+</tbody>
+</table>
+<p><strong>第一次使用</strong>
+按 <code>J</code> 打开全屏地图。当前 JourneyMap 数据目录已清空，进入世界后会根据探索范围重新生成地图。按 <code>M</code> 切换小地图，反斜杠切换预设。</p>
+<p><strong>路径点</strong></p>
+<ol>
+<li>在游戏中按句号快速创建当前位置路径点。</li>
+<li>在全屏地图中移动到目标位置，按逗号创建地图坐标路径点。</li>
+<li>按 <code>N</code> 打开路径点管理，可编辑名称、颜色、维度和可见性。</li>
+<li>对生电世界建议使用统一前缀：<code>[农场]</code>、<code>[仓库]</code>、<code>[传送门]</code>、<code>[施工]</code>。</li>
+</ol>
+<p><strong>建筑用途</strong></p>
+<ul>
+<li>标记采石场、材料仓库、主城区与机器坐标。</li>
+<li>使用全屏地图检查道路、城区轮廓和大型地形工程。</li>
+<li>为不同维度建立传送门路径点，记录坐标换算后的出口。</li>
+</ul>
+<p><strong>空间管理</strong>
+地图数据位于 <code>journeymap/data</code>。不再使用的服务器地图可单独删除；单人地图删除后不会损坏世界，但会丢失已探索地图记录。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>定期清理不再玩的多人服务器地图。</li>
+<li>路径点很重要时单独备份 JourneyMap 数据。</li>
+<li>左 Win 作为地图选项键较特殊，可改成不易冲突的组合键。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code>：<code>&gt;=0.100.4</code></li>
+<li><code>commonnetworking</code>：<code>&gt;=1.0.16-1.21</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>journeymap/config/</code></li>
+<li><code>journeymap/data/</code></li>
+<li><code>config/journeymap-server.json</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://teamjm.github.io/journeymap-docs/">项目主页或官方文档</a></li>
+</ul>
+<h3>JourneyMap Integration（JMI）</h3>
+<blockquote>
+<p>把其他模组或服务器信息整合为 JourneyMap 路径点和标记。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>jmi</code></li>
+<li><strong>当前版本</strong>：<code>1.21.1-1.9</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>使用方式</strong>
+JMI 本身通常没有独立主界面，功能通过 JourneyMap 路径点和配置文件体现。当前配置允许相关整合生成地图标记，也可以根据特定方块或消息创建路径点。</p>
+<p><strong>配置建议</strong>
+打开 <code>config/jmi-client.json5</code>，按需要启用或关闭各模组整合。若地图上出现大量无用标记，优先关闭对应集成，而不是删除 JourneyMap 数据。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>必须与 JourneyMap 同时存在。</li>
+<li>整合对象未安装时，对应开关通常不会生效。</li>
+<li>地图标记过多会影响可读性。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code>：<code>*</code></li>
+<li><code>journeymap</code>：<code>*</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/jmi-client.json5</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://www.curseforge.com/minecraft/mc-mods/journeymap-integration">项目主页或官方文档</a></li>
+</ul>
+<h3>Jade（方块/实体信息）</h3>
+<blockquote>
+<p>查看准星所指方块、容器、红石状态和实体信息。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>jade</code></li>
+<li><strong>当前版本</strong>：<code>15.10.5+fabric</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>打开配置</td>
+<td>小键盘 0</td>
+</tr>
+<tr>
+<td>显示/隐藏信息框</td>
+<td>小键盘 1</td>
+</tr>
+<tr>
+<td>液体信息</td>
+<td>小键盘 2</td>
+</tr>
+<tr>
+<td>查看配方</td>
+<td>小键盘 3</td>
+</tr>
+<tr>
+<td>查看用途</td>
+<td>小键盘 4</td>
+</tr>
+<tr>
+<td>朗读信息</td>
+<td>小键盘 5</td>
+</tr>
+</tbody>
+</table>
+<p><strong>基础使用</strong>
+把准星对准方块或实体，屏幕顶部会显示名称、模组来源和附加信息。按小键盘 1 快速隐藏或显示 Overlay，小键盘 0 打开详细配置。</p>
+<p><strong>生电用途</strong></p>
+<ul>
+<li>查看容器、漏斗和方块实体状态。</li>
+<li>确认作物成熟度、蜂箱蜂蜜等级和红石组件朝向。</li>
+<li>检查实体生命、职业和基础属性。</li>
+<li>小键盘 3/4 可跳转 JEI 配方或用途页面。</li>
+</ul>
+<p><strong>显示控制</strong>
+在配置中按插件逐项关闭不需要的信息。建筑模式建议只保留方块名称、状态和容器概要，避免遮挡画面。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>没有小键盘的键盘应先重绑定。</li>
+<li>与 MiniHUD/Neat 同时显示时可能拥挤。</li>
+<li>服务器不提供的数据无法仅靠客户端读取。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code>：<code>&gt;=0.99</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/jade/</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://modrinth.com/mod/jade">项目主页或官方文档</a></li>
+</ul>
+<h3>JEI（物品与配方浏览）</h3>
+<blockquote>
+<p>浏览物品列表、配方、用途、搜索和书签。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>jei</code></li>
+<li><strong>当前版本</strong>：<code>19.39.0.371</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>显示/隐藏物品列表</td>
+<td>O</td>
+</tr>
+<tr>
+<td>聚焦搜索框</td>
+<td>F</td>
+</tr>
+<tr>
+<td>查看配方</td>
+<td>R 或左键</td>
+</tr>
+<tr>
+<td>查看用途</td>
+<td>U 或右键</td>
+</tr>
+<tr>
+<td>加入书签</td>
+<td>A</td>
+</tr>
+<tr>
+<td>配方返回</td>
+<td>Backspace</td>
+</tr>
+<tr>
+<td>上一/下一页</td>
+<td>Page Up / Page Down</td>
+</tr>
+</tbody>
+</table>
+<p><strong>搜索</strong>
+按 <code>F</code> 聚焦搜索框。直接输入名称搜索；使用 <code>@模组名</code> 按模组过滤，使用 <code>#标签</code>、<code>$工具提示</code> 等高级前缀可进一步筛选，实际可用前缀以 JEI 配置提示为准。</p>
+<p><strong>配方与用途</strong>
+鼠标指向物品按 <code>R</code> 查看制作方式，按 <code>U</code> 查看该物品参与的配方。鼠标左键/右键也分别绑定了配方和用途。</p>
+<p><strong>书签</strong>
+指向物品按 <code>A</code> 加入左侧书签。建筑项目前可把全部材料加入书签，作为施工采购清单。再次按 A 移除。</p>
+<p><strong>配方转移</strong>
+打开工作台配方页面后点击转移按钮，把背包中的材料摆入工作台。服务器端或配方复杂时可能只显示缺少材料。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>当前 O 同时也是 Iris 光影包界面快捷键，发生冲突时建议修改其中一个。</li>
+<li>JER 插件曾出现过加载警告，若配方界面异常可先禁用 JER 排查。</li>
+<li>作弊模式必须由玩家主动开启，不建议整合包默认启用。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code>：<code>&gt;=0.102.0+1.21</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/jei/</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/mezz/JustEnoughItems">项目主页或官方文档</a></li>
+</ul>
+<h3>Just Enough Resources（JER）</h3>
+<blockquote>
+<p>在 JEI 中展示矿物分布、怪物掉落、地牢战利品和世界生成信息。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>jeresources</code></li>
+<li><strong>当前版本</strong>：<code>1.6.0.17</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>使用方式</strong>
+打开 JEI 配方界面后，JER 会新增矿物生成、怪物掉落、世界生成和战利品等分类。对矿物按用途键 <code>U</code>，可查看高度分布；对怪物掉落物查看配方/用途可进入对应掉落页面。</p>
+<p><strong>生电用途</strong>
+可快速查怪物掉落、刷怪条件和矿物高度，但原版生电玩家也应以 Wiki、实际测试和 MiniHUD 数据为准。</p>
+<p><strong>故障排查</strong>
+如果 JEI 启动时出现 JER 插件异常、分类空白或物品缺失，可先移除 JER 测试；JEI 本体不依赖 JER。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>它是 JEI 扩展，不是独立物品浏览器。</li>
+<li>世界生成数据可能因版本、数据包或服务器配置而不准确。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric</code>：<code>*</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/jei/jeresources/（若生成）</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://www.curseforge.com/minecraft/mc-mods/just-enough-resources-jer">项目主页或官方文档</a></li>
+</ul>
+<h3>Neat（实体血条）</h3>
+<blockquote>
+<p>在实体头顶显示生命值、护甲、属性与状态。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>neat</code></li>
+<li><strong>当前版本</strong>：<code>1.21-47-FABRIC</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>显示开关</td>
+<td>当前未绑定</td>
+</tr>
+</tbody>
+</table>
+<p><strong>使用方式</strong>
+靠近实体并保持视线，实体头顶会出现血条。当前配置最大显示距离 24 格，无视线时最多 8 格；显示当前生命、最大生命、百分比和护甲。</p>
+<p><strong>配置建议</strong>
+通过 Mod Menu 调整距离、背景、血条尺寸、文字高度和信息项。建筑截图或视频中建议关闭，避免画面杂乱。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>本整合包未绑定开关键，建议设置一个不冲突的快捷键。</li>
+<li>与 Jade 同时启用时信息重复。</li>
+<li>大量实体农场可能增加界面绘制负担。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric</code>：<code>&gt;=0.100</code></li>
+<li><code>cloth-config</code>：<code>&gt;=15.0.140</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/neat-client.json5</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://www.curseforge.com/minecraft/mc-mods/neat">项目主页或官方文档</a></li>
+</ul>
+<h3>Better Ping Display（延迟数字显示）</h3>
+<blockquote>
+<p>在多人游戏列表中显示精确延迟数值。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>betterpingdisplay</code></li>
+<li><strong>当前版本</strong>：<code>1.1.1</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>使用方式</strong>
+打开多人游戏服务器列表，信号图标附近会显示毫秒延迟。它没有必要的游戏内快捷键，也不会改变网络连接。</p>
+<p><strong>判断延迟</strong>
+低延迟适合红石操作和连续放置；延迟突然升高时应避免快速容器操作或批量施工。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>只改变显示，不会降低 Ping。</li>
+<li>本地单人世界没有明显用途。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>无额外模组依赖，或依赖已打包在模组内部。</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/betterpingdisplay.json</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/vladmarica/better-ping-display-fabric">项目主页或官方文档</a></li>
+</ul>
+<h3>Controlling（键位搜索）</h3>
+<blockquote>
+<p>增强控制设置，支持搜索、按键筛选和冲突定位。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>controlling</code></li>
+<li><strong>当前版本</strong>：<code>19.0.5</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>使用方法</strong>
+进入“选项 → 控制”，使用新增搜索框按功能名查找快捷键。可按未绑定、冲突、类别或具体按键进行筛选。</p>
+<p><strong>整合包维护流程</strong></p>
+<ol>
+<li>搜索“未绑定”，给常用功能设置按键。</li>
+<li>搜索“冲突”，重点检查 O、M、I、F、C、反斜杠和小键盘。</li>
+<li>每次新增模组后重新检查冲突。</li>
+<li>不常用功能保持未绑定，减少误触。</li>
+</ol>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>依赖 Searchables。</li>
+<li>更换键盘布局后重新检查小键盘和符号键。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code>：<code>*</code></li>
+<li><code>searchables</code>：<code>&gt;=1.0.1</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li>通常不生成需要玩家维护的独立配置文件。</li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://www.curseforge.com/minecraft/mc-mods/controlling">项目主页或官方文档</a></li>
+</ul>
+<h3>IMBlocker（输入法冲突修复）</h3>
+<blockquote>
+<p>降低中文输入法在游戏按键、聊天和快捷键中的冲突。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>imblocker</code></li>
+<li><strong>当前版本</strong>：<code>5.5.4</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>解除/切换输入法锁定</td>
+<td>右 Shift</td>
+</tr>
+</tbody>
+</table>
+<p><strong>使用方式</strong>
+游戏过程中如果中文输入法导致移动键失效、快捷键被候选框截获或聊天状态异常，按右 Shift 使用本实例配置的解除键。</p>
+<p><strong>推荐习惯</strong>
+游戏操作时切到英文输入；需要聊天、命名潜影盒或告示牌时再切中文。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>右 Shift 可能与潜行或其他功能冲突。</li>
+<li>不同输入法行为不同，必要时在系统输入法中关闭游戏模式快捷键。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>无额外模组依赖，或依赖已打包在模组内部。</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/imblocker.json</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/zly2006/IMBlocker">项目主页或官方文档</a></li>
+</ul>
+<h3>Mod Menu（模组菜单）</h3>
+<blockquote>
+<p>在主菜单和暂停菜单查看模组、版本、依赖和配置入口。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>modmenu</code></li>
+<li><strong>当前版本</strong>：<code>11.0.4</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>直接打开模组菜单</td>
+<td>当前未绑定</td>
+</tr>
+</tbody>
+</table>
+<p><strong>使用方式</strong>
+在主菜单点击“模组”进入列表。选择模组后可以查看描述、版本、依赖、主页和配置按钮。</p>
+<p><strong>排错用途</strong>
+新增或更新模组后先确认它出现在列表中；如果缺失，检查版本、加载器和依赖。配置按钮为灰色表示该模组没有通过 Mod Menu 提供配置页面。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>前置库也会显示在列表中，但通常不需要操作。</li>
+<li>发布博客时可用 Mod Menu 截图展示整合包清单。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-screen-api-v1</code>：<code>&gt;=1.0.4</code></li>
+<li><code>fabric-lifecycle-events-v1</code>：<code>*</code></li>
+<li><code>fabric-key-binding-api-v1</code>：<code>*</code></li>
+<li><code>fabric-resource-loader-v0</code>：<code>*</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/modmenu.json</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://modrinth.com/mod/modmenu">项目主页或官方文档</a></li>
+</ul>
+<h3>CustomSkinLoader（万用皮肤补丁）</h3>
+<blockquote>
+<p>从多个皮肤源加载玩家皮肤和披风。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>customskinloader-bootstrap</code></li>
+<li><strong>当前版本</strong>：<code>15.0.1</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>使用方式</strong>
+模组启动后自动处理皮肤加载。普通玩家无需快捷键。首次启动会生成配置，可调整皮肤站点列表、缓存和日志。</p>
+<p><strong>排错</strong>
+皮肤不显示时，先确认网络、正版登录状态和皮肤源可用性，再清理该模组皮肤缓存。不要同时配置大量不可信第三方皮肤源。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>正版皮肤正常时不一定需要额外配置。</li>
+<li>皮肤源配置可能包含站点地址，发布整合包前检查隐私信息。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>无额外模组依赖，或依赖已打包在模组内部。</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>CustomSkinLoader 配置与缓存目录（首次运行后生成）</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/xfl03/MCCustomSkinLoader">项目主页或官方文档</a></li>
+</ul>
+<h3>Lan Server Properties（局域网联机设置）</h3>
+<blockquote>
+<p>开放局域网世界时自定义端口、在线模式和服务器属性。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>lanserverproperties</code></li>
+<li><strong>当前版本</strong>：<code>1.13.2</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>使用方式</strong>
+进入单人世界后打开“对局域网开放”。模组会提供额外服务器参数，例如端口等。设置完成后启动局域网世界，其他玩家使用主机 IP 与端口连接。</p>
+<p><strong>网络说明</strong>
+同一路由器内通常使用局域网地址；跨网络仍需要端口映射、虚拟局域网或隧道服务。本模组本身不会自动完成公网穿透。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>开放前备份世界。</li>
+<li>不要随意关闭身份验证或把端口暴露到公网。</li>
+<li>防火墙必须允许 Java/Minecraft 对应端口。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>无额外模组依赖，或依赖已打包在模组内部。</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/lsp.json</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://modrinth.com/mod/lan-server-properties">项目主页或官方文档</a></li>
+</ul>
+<h2>性能与渲染</h2>
+<p>帧率、内存、逻辑优化、遮挡剔除、动态光源与光影加载。</p>
+<h3>Sodium（钠）</h3>
+<blockquote>
+<p>重写客户端渲染管线，提高帧率并减少卡顿。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>sodium</code></li>
+<li><strong>当前版本</strong>：<code>0.8.12+mc1.21.1</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>设置入口</strong>
+进入“选项 → 视频设置”。Sodium 会重新组织页面，提供常规、质量、性能和高级选项。</p>
+<p><strong>建筑/生电推荐</strong></p>
+<ul>
+<li>渲染距离：日常 16–24；大型建筑展示可临时提高。</li>
+<li>模拟距离：建议 12–16；32 会显著增加单人服务器负担。</li>
+<li>区块更新线程：保持默认，出现区块闪烁再排查资源包与 Iris。</li>
+<li>实体距离：大型农场调试时适当提高，日常不必拉满。</li>
+<li>垂直同步：追求低延迟可关闭；画面撕裂明显时开启。</li>
+</ul>
+<p><strong>排错</strong>
+材质缺失、透明层错误或闪烁时，依次测试资源包、Iris、EntityCulling 和 Sodium 设置，不要一次改动多项。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>不要安装与当前 Sodium 版本不匹配的扩展。</li>
+<li>更新 Sodium 时同时核对 Iris 兼容版本。</li>
+<li>性能瓶颈可能来自模拟距离而非显卡。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-renderer-api-v1</code>：<code>*</code></li>
+<li><code>fabric-rendering-fluids-v1</code>：<code>&gt;=2.0.0</code></li>
+<li><code>fabric-rendering-data-attachment-v1</code>：<code>*</code></li>
+<li><code>fabric-resource-loader-v0</code>：<code>*</code></li>
+<li><code>fabric-block-view-api-v2</code>：<code>*</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/sodium-options.json</code></li>
+<li><code>config/sodium-mixins.properties</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/CaffeineMC/sodium">项目主页或官方文档</a></li>
+</ul>
+<h3>Lithium（锂）</h3>
+<blockquote>
+<p>优化游戏逻辑、实体、方块刻和数据结构，尽量不改变原版行为。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>lithium</code></li>
+<li><strong>当前版本</strong>：<code>0.15.4+mc1.21.1</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>使用方式</strong>
+安装后自动生效，没有游戏内快捷键。主要优化单人世界内置服务器和多人服务器逻辑性能。</p>
+<p><strong>生电注意</strong>
+机器行为异常时，可通过 <code>config/lithium.properties</code> 针对单个优化模块排查，而不是直接删除整个模组。修改前记录原值并逐项测试。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>保持默认配置通常最安全。</li>
+<li>精密红石问题应先在无模组测试世界复现。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>无额外模组依赖，或依赖已打包在模组内部。</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/lithium.properties</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/CaffeineMC/lithium">项目主页或官方文档</a></li>
+</ul>
+<h3>FerriteCore（铁氧体磁芯）</h3>
+<blockquote>
+<p>降低方块状态、模型等数据占用的内存。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>ferritecore</code></li>
+<li><strong>当前版本</strong>：<code>7.0.3</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>使用方式</strong>
+安装后自动工作，不提供常用快捷键。它更偏向降低内存占用，而不是直接提高 GPU 帧率。</p>
+<p><strong>推荐</strong>
+保持默认配置。只有启动阶段崩溃或模型相关兼容问题明确指向 FerriteCore 时，才调整 mixin 配置。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>不要为了“看起来更轻量”随意关闭优化项。</li>
+<li>内存占用仍高时检查资源包、JourneyMap、原理图和光影缓存。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>无额外模组依赖，或依赖已打包在模组内部。</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/ferritecore.mixin.properties</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://modrinth.com/mod/ferrite-core">项目主页或官方文档</a></li>
+</ul>
+<h3>ModernFix（现代化修复）</h3>
+<blockquote>
+<p>提供启动、内存、资源加载和兼容性修复。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>modernfix</code></li>
+<li><strong>当前版本</strong>：<code>5.25.1+mc1.21.1</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>使用方式</strong>
+默认自动启用一组修复，没有日常快捷键。日志中通常会显示启用的 mixin 和缓存行为。</p>
+<p><strong>故障排查</strong>
+如果某个模组启动异常并明确指出 ModernFix mixin，打开 <code>modernfix-mixins.properties</code>，只禁用相关条目进行验证。不要复制其他版本的配置。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>它与已删除的 Modern UI 没有关系。</li>
+<li>修改 mixin 后必须完全退出并重新启动游戏。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>无额外模组依赖，或依赖已打包在模组内部。</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/modernfix-mixins.properties</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/embeddedt/ModernFix">项目主页或官方文档</a></li>
+</ul>
+<h3>EntityCulling（实体遮挡剔除）</h3>
+<blockquote>
+<p>不渲染被墙体等遮挡的实体和方块实体。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>entityculling</code></li>
+<li><strong>当前版本</strong>：<code>1.10.5</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>剔除开关</td>
+<td>当前未绑定</td>
+</tr>
+</tbody>
+</table>
+<p><strong>使用方式</strong>
+默认自动生效。它会检测实体是否真正可见，被墙体遮挡时跳过绘制，从而改善大型仓库、村民大厅和机器区的帧率。</p>
+<p><strong>排错</strong>
+实体、箱子或方块实体异常消失时，先在控制设置中给 EntityCulling Toggle 绑定临时按键，对比开关前后。确认是剔除问题后再调整配置中的白名单。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>它只影响渲染，不会停止实体运算。</li>
+<li>建议绑定一个排错用快捷键，但日常不必频繁切换。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code>：<code>*</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/entityculling.json</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://modrinth.com/mod/entityculling">项目主页或官方文档</a></li>
+</ul>
+<h3>Dynamic FPS（动态帧率）</h3>
+<blockquote>
+<p>游戏失焦、最小化或闲置时降低帧率和资源占用。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>dynamic_fps</code></li>
+<li><strong>当前版本</strong>：<code>3.11.4</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>强制省电模式</td>
+<td>当前未绑定</td>
+</tr>
+<tr>
+<td>禁用 Dynamic FPS</td>
+<td>当前未绑定</td>
+</tr>
+</tbody>
+</table>
+<p><strong>使用方式</strong>
+切出游戏窗口后，模组会按配置降低 FPS、音量或暂停部分渲染。适合挂机时切到其他程序，减少显卡功耗和风扇噪音。</p>
+<p><strong>生电挂机</strong>
+单人世界失焦暂停行为需要谨慎设置：如果希望机器继续运行，应确认“失焦暂停”没有导致内置服务器停止。可以在 Mod Menu 中调整失焦 FPS、音量和是否显示状态。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>客户端降帧不等于服务器停止。</li>
+<li>长时间挂机仍应监控温度和存档备份。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>mixinextras</code>：<code>&gt;=0.3.2</code></li>
+<li><code>fabric-resource-loader-v0</code>：<code>*</code></li>
+<li><code>fabric-lifecycle-events-v1</code>：<code>*</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>Dynamic FPS 配置（通过 Mod Menu）</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://dynamicfps.org/">项目主页或官方文档</a></li>
+</ul>
+<h3>Iris（光影加载器）</h3>
+<blockquote>
+<p>在 Sodium 环境中加载兼容光影包。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>iris</code></li>
+<li><strong>当前版本</strong>：<code>1.8.14-beta.1+mc1.21.1</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>重新加载光影</td>
+<td>R</td>
+</tr>
+<tr>
+<td>开关光影</td>
+<td>K</td>
+</tr>
+<tr>
+<td>光影包选择</td>
+<td>O</td>
+</tr>
+<tr>
+<td>线框模式</td>
+<td>当前未绑定</td>
+</tr>
+</tbody>
+</table>
+<p><strong>使用方式</strong>
+按 <code>K</code> 快速开关光影，按 <code>O</code> 打开光影包选择。当前配置已选择 <code>photon_v1.2a.zip</code>，但 <code>enableShaders=false</code>，即默认关闭。</p>
+<p><strong>建筑展示</strong>
+施工时关闭光影获得稳定帧率；完成后再开启光影截图。调整阴影距离、体积云、反射和抗锯齿时，每次只改一组设置。</p>
+<p><strong>快捷键冲突</strong>
+<code>O</code> 与 JEI 的显示开关冲突，<code>R</code> 与 JEI 查看配方冲突。建议把 Iris 光影包界面改为 <code>Ctrl + O</code>，重载改为 <code>Ctrl + R</code>。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>光影警告通常来自光影包本身的选项或版本兼容。</li>
+<li>更新 Iris 时同步核对 Sodium 与光影包版本。</li>
+<li>生电测试真实光照时关闭光影与动态光源。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>sodium</code>：<code>0.8.x</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/iris.properties</code></li>
+<li><code>shaderpacks/</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://www.irisshaders.dev/">项目主页或官方文档</a></li>
+</ul>
+<h3>LambDynamicLights（动态光源）</h3>
+<blockquote>
+<p>手持或掉落发光物品时产生客户端动态照明。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>lambdynlights</code></li>
+<li><strong>当前版本</strong>：<code>4.8.10+1.21.1</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>动态光源开关</td>
+<td>当前未绑定</td>
+</tr>
+</tbody>
+</table>
+<p><strong>使用方式</strong>
+手持火把、灯笼等光源移动时，周围会出现动态照明。当前模式为 Fancy，并启用了实体、自身、光效实体等光源。</p>
+<p><strong>生电注意</strong>
+动态光源不会改变世界真实方块光，也不会阻止刷怪。检查刷怪平台时必须使用 MiniHUD 或 F3 读取真实光照。</p>
+<p><strong>性能</strong>
+大型掉落物、实体农场或大量光源实体可能增加区块重建。卡顿时先切换到较简单模式或关闭实体动态光源。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>建议为开关绑定快捷键，施工展示时开，刷怪测试时关。</li>
+<li>不要把动态光源当成实际照明。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>lambdynlights_runtime</code>：<code>&gt;=4.8.10+1.21.1</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/lambdynlights.toml</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/LambdAurora/LambDynamicLights">项目主页或官方文档</a></li>
+</ul>
+<h3>Clumps（经验球合并）</h3>
+<blockquote>
+<p>把附近经验球合并，降低经验农场产生的实体数量。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>clumps</code></li>
+<li><strong>当前版本</strong>：<code>19.0.0.1</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>使用方式</strong>
+安装后自动生效，没有快捷键。经验球会按模组逻辑合并，减少大量经验实体造成的卡顿。</p>
+<p><strong>生电测试注意</strong>
+如果要测量原版经验球生成、合并、拾取速度或实体数量，应暂时移除 Clumps 后再测试。日常使用经验农场时保留可显著降低实体压力。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>它会改变经验球实体表现。</li>
+<li>不要把装有 Clumps 的测试结果直接当作纯原版性能数据。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>无额外模组依赖，或依赖已打包在模组内部。</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li>通常不生成需要玩家维护的独立配置文件。</li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://www.curseforge.com/minecraft/mc-mods/clumps">项目主页或官方文档</a></li>
+</ul>
+<h2>前置与依赖库</h2>
+<p>为其他模组提供 API、配置界面、语言运行时和公共功能。</p>
+<h3>Fabric API</h3>
+<blockquote>
+<p>Fabric 生态最常用的基础 API 集合，为大量模组提供事件、资源、网络和渲染接口。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>fabric-api</code></li>
+<li><strong>当前版本</strong>：<code>0.116.14+1.21.1</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>玩家需要做什么</strong>
+无需快捷键和日常操作。只要版本与 Minecraft 1.21.1、Fabric Loader 匹配并放在 mods 目录即可。</p>
+<p><strong>排错</strong>
+如果启动提示缺少某个 <code>fabric-*</code> 模块，优先确认 Fabric API 是否存在、版本是否正确、文件是否损坏。不要从 Fabric API 大包中手工删除子模块。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>本整合包的核心依赖，不建议移除。</li>
+<li>更新时确认仍支持 Minecraft 1.21.1。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>无额外模组依赖，或依赖已打包在模组内部。</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/fabric/（部分模块可能生成）</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/FabricMC/fabric">项目主页或官方文档</a></li>
+</ul>
+<h3>MaLiLib</h3>
+<blockquote>
+<p>Litematica、MiniHUD 和 Tweakeroo 的配置、渲染、热键与 GUI 前置库。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>malilib</code></li>
+<li><strong>当前版本</strong>：<code>0.21.10</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>打开 MaLiLib 配置列表</td>
+<td>A + C</td>
+</tr>
+</tbody>
+</table>
+<p><strong>使用方式</strong>
+普通玩家主要通过 <code>A + C</code> 打开 MaLiLib 配置列表，然后进入 Litematica、MiniHUD、Tweakeroo 等模组设置。多数功能由上层模组提供。</p>
+<p><strong>热键编辑</strong>
+MaLiLib 热键支持组合键、按下/按住/切换等触发方式。编辑快捷键时点击对应按钮，再按下完整组合；右键通常可清除或打开高级热键设置。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>三个 Masa 工具任意一个存在就必须保留 MaLiLib。</li>
+<li>配置损坏时先备份 config，再重置单个模组文件。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-networking-api-v1</code>：<code>&gt;=4.2.0</code></li>
+<li><code>fabric-resource-loader-v0</code>：<code>*</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/malilib.json</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/maruohon/malilib">项目主页或官方文档</a></li>
+</ul>
+<h3>Placeholder API</h3>
+<blockquote>
+<p>向模组提供可替换的文本占位符，例如玩家、世界和服务器信息。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>placeholder-api</code></li>
+<li><strong>当前版本</strong>：<code>2.4.2+1.21</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>玩家需要做什么</strong>
+没有独立快捷键，通常由其他模组在 HUD、消息、地图标记或文本格式中调用。普通玩家无需配置。</p>
+<p><strong>内容作者</strong>
+支持它的配置中可能出现类似占位符表达式；具体格式由调用它的模组决定。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>当前没有明显的直接操作入口。</li>
+<li>移除前先确认所有 HUD、地图和服务器工具不再依赖。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>无额外模组依赖，或依赖已打包在模组内部。</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li>通常不生成需要玩家维护的独立配置文件。</li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/Patbox/TextPlaceholderAPI">项目主页或官方文档</a></li>
+</ul>
+<h3>Architectury API</h3>
+<blockquote>
+<p>让跨 Fabric/Forge 平台模组共享代码的运行库。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>architectury</code></li>
+<li><strong>当前版本</strong>：<code>13.0.11</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>玩家需要做什么</strong>
+无需操作。本整合包中主要服务于 FTB Library 与 FTB Ultimine。启动器会根据模组声明检查依赖。</p>
+<p><strong>是否能删除</strong>
+只有在移除所有依赖 Architectury 的模组后才能删除。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>前置库本身通常不会添加可见功能。</li>
+<li>版本不匹配会在启动阶段直接报错。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code>：<code>&gt;=0.100.0</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li>通常不生成需要玩家维护的独立配置文件。</li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://architectury.dev/">项目主页或官方文档</a></li>
+</ul>
+<h3>Cardinal Components API</h3>
+<blockquote>
+<p>为实体、世界、物品等对象附加持久化组件数据。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>cardinal-components</code></li>
+<li><strong>当前版本</strong>：<code>6.1.3</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>玩家需要做什么</strong>
+没有快捷键。本整合包中主要被 Trinkets 使用，用于保存额外装备槽及相关数据。</p>
+<p><strong>卸载风险</strong>
+删除依赖它的内容模组前，先清空额外装备槽。直接移除可能让保存于组件中的数据暂时不可访问。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>只要 Trinkets 仍在就应保留。</li>
+<li>不要手工编辑存档中的组件数据。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>无额外模组依赖，或依赖已打包在模组内部。</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/cardinal-components-api.properties</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/OnyxStudios/Cardinal-Components-API">项目主页或官方文档</a></li>
+</ul>
+<h3>Cloth Config</h3>
+<blockquote>
+<p>为模组提供统一的配置界面组件。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>cloth-config</code></li>
+<li><strong>当前版本</strong>：<code>15.0.140</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>玩家需要做什么</strong>
+Cloth Config 不提供独立玩法，通常在 Mod Menu 点击其他模组的“配置”按钮时被调用。本整合包中的 Neat 等模组依赖它。</p>
+<p><strong>排错</strong>
+配置界面打不开时检查 Cloth Config 版本和对应模组的依赖要求。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>只要 Neat 或其他依赖者仍在就应保留。</li>
+<li>它与配置文件内容不是同一概念。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>无额外模组依赖，或依赖已打包在模组内部。</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li>通常不生成需要玩家维护的独立配置文件。</li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/shedaniel/cloth-config">项目主页或官方文档</a></li>
+</ul>
+<h3>Fabric Language Kotlin</h3>
+<blockquote>
+<p>为使用 Kotlin 编写的 Fabric 模组提供运行时与语言适配。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>fabric-language-kotlin</code></li>
+<li><strong>当前版本</strong>：<code>1.13.13+kotlin.2.4.10</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>玩家需要做什么</strong>
+没有快捷键和配置。本整合包中的 Zoomify、Inventory Profiles Next/libIPN 等需要 Kotlin 运行环境。</p>
+<p><strong>排错</strong>
+提示缺少 Kotlin 或版本过低时，应更新 Fabric Language Kotlin，而不是单独下载 Kotlin 标准库文件。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>文件较大是因为包含 Kotlin 运行库，属于正常情况。</li>
+<li>保留 Zoomify 或 Inventory Profiles Next 时不能移除。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>无额外模组依赖，或依赖已打包在模组内部。</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li>通常不生成需要玩家维护的独立配置文件。</li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/FabricMC/fabric-language-kotlin">项目主页或官方文档</a></li>
+</ul>
+<h3>FTB Library</h3>
+<blockquote>
+<p>FTB 系列模组共用的配置、网络、界面和数据功能库。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>ftblibrary</code></li>
+<li><strong>当前版本</strong>：<code>2101.1.33</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>玩家需要做什么</strong>
+普通玩家无需单独操作。本整合包中由 FTB Ultimine 使用，相关配置以 SNBT 文件呈现。</p>
+<p><strong>是否能删除</strong>
+只有移除 FTB Ultimine 等全部 FTB 依赖模组后才能删除，并通常可同时检查 Architectury 是否仍被需要。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>FTB Library 本身不是连锁挖掘功能。</li>
+<li>不要把服务端配置与客户端配置混用。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric</code>：<code>&gt;=0.102.1+1.21.1</code></li>
+<li><code>architectury</code>：<code>&gt;=13.0.6</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/ftblibrary-client.snbt</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://docs.feed-the-beast.com/">项目主页或官方文档</a></li>
+</ul>
+<h3>libIPN</h3>
+<blockquote>
+<p>Inventory Profiles Next 的核心逻辑、配置和排序前置库。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>libipn</code></li>
+<li><strong>当前版本</strong>：<code>6.6.3</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>玩家需要做什么</strong>
+无需单独打开。Inventory Profiles Next 的排序、补货、锁定和配置档功能依赖它。</p>
+<p><strong>配置关系</strong>
+部分 IPN 设置和规则保存在 <code>config/libIPN</code>，备份 Inventory Profiles Next 配置时应连同该目录一起备份。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>保留 Inventory Profiles Next 时必须保留。</li>
+<li>升级时确保 libIPN 与 IPN 要求的版本范围匹配。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-language-kotlin</code>：<code>&gt;=1.13.7+kotlin.2.2.21</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/libIPN/</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/blackd/Inventory-Profiles">项目主页或官方文档</a></li>
+</ul>
+<h3>Searchables</h3>
+<blockquote>
+<p>为 Controlling 等模组提供通用搜索框和筛选组件。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>searchables</code></li>
+<li><strong>当前版本</strong>：<code>1.0.2</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>玩家需要做什么</strong>
+没有独立快捷键。进入控制设置使用 Controlling 的搜索功能时，Searchables 在后台提供搜索组件。</p>
+<p><strong>是否能删除</strong>
+只要 Controlling 存在就应保留。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>启动报缺少 Searchables 时不要忽略，否则 Controlling 无法加载。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>无额外模组依赖，或依赖已打包在模组内部。</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li>通常不生成需要玩家维护的独立配置文件。</li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://www.curseforge.com/minecraft/mc-mods/searchables">项目主页或官方文档</a></li>
+</ul>
+<h3>YetAnotherConfigLib（YACL）</h3>
+<blockquote>
+<p>为 Zoomify 等模组提供现代化配置界面。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>yet_another_config_lib_v3</code></li>
+<li><strong>当前版本</strong>：<code>3.8.2+1.21.1-fabric</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>该模组没有需要玩家操作的快捷键，或当前没有绑定快捷键。</p>
+</blockquote>
+<p><strong>玩家需要做什么</strong>
+YACL 通常没有独立入口。通过 Mod Menu 打开 Zoomify 等模组配置时会使用它提供的界面。</p>
+<p><strong>配置</strong>
+<code>config/yacl.json5</code> 保存 YACL 自身的界面行为，例如颜色选择器提示和复杂图片预加载。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>保留 Zoomify 时必须保留符合版本要求的 YACL。</li>
+<li>不要把 YACL 与已删除的 Modern UI 混淆。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code>：<code>&gt;=0.104.0+1.21.1</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/yacl.json5</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/isXander/YetAnotherConfigLib">项目主页或官方文档</a></li>
+</ul>
+<h2>更新整合包</h2>
+<ol>
+<li>备份 <code>mods/</code>、<code>config/</code>、<code>saves/</code>、<code>schematics/</code> 和 JourneyMap 数据。</li>
+<li>一次只更新一组关联模组，例如 Sodium 与 Iris，或 Litematica、MiniHUD、Tweakeroo 与 MaLiLib。</li>
+<li>删除旧版本，不要同时保留两个相同 Mod ID 的 JAR。</li>
+<li>首次启动后查看 <code>logs/latest.log</code>，确认没有依赖和版本错误。</li>
+<li>在测试世界验证后，再打开重要存档。</li>
+</ol>
+<blockquote>
+<p>[!WARNING]
+不要在没有备份的情况下，用新模组版本直接打开唯一存档。移除添加物品、装备槽或持久化数据的模组可能造成内容丢失。</p>
+</blockquote>
+<h2>通用排错流程</h2>
+<h3>启动提示缺少依赖</h3>
+<p>启动错误通常会写出缺少的 Mod ID 和版本范围。按照日志提示补齐依赖，不要只根据 JAR 文件名猜测。</p>
+<h3>快捷键没有反应</h3>
+<ol>
+<li>使用 Controlling 搜索功能名称。</li>
+<li>检查功能是否未绑定或存在冲突。</li>
+<li>检查 Masa 系模组总开关是否关闭。</li>
+<li>确认组合键的前缀键和触发顺序。</li>
+<li>确认服务器是否安装对应模组或允许该功能。</li>
+</ol>
+<h3>画面、HUD 或实体显示异常</h3>
+<p>依次测试：资源包 → Iris 和光影 → Sodium → EntityCulling → MiniHUD、Jade、Neat → 动态光源。每次只改变一个变量，才能定位真正原因。</p>
+<h3>存档无法进入</h3>
+<ul>
+<li>先复制存档，再开始排错。</li>
+<li>查看日志中最早出现的异常，而不只是最后一行。</li>
+<li>检查最近是否移除了添加方块、物品、装备槽或数据组件的模组。</li>
+<li>恢复最近一次可用的模组和配置组合后再测试。</li>
+</ul>
+<h3>语言列表为空</h3>
+<p>如果 <code>options.txt</code> 已设置 <code>lang:zh_cn</code>，但语言列表仍完全为空，通常是共享资源没有下载完整。</p>
+<ol>
+<li>完全关闭游戏。</li>
+<li>使用启动器的“检查文件”“补全文件”或“重新下载资源”。</li>
+<li>确认启动器检查了共享的 <code>.minecraft/assets/</code>，而不是只下载版本 JAR。</li>
+<li>重点检查 <code>assets/indexes/</code> 和 <code>assets/objects/</code>。</li>
+<li>补全资源后重新启动。</li>
+</ol>
+<h3>语言或按键无法保存</h3>
+<p>查看 <code>logs/latest.log</code> 是否出现 <code>Error saving option</code>。常见原因包括配置文件只读、目录没有写入权限、模组持续覆盖选项，或 Gamma、亮度值超出原版允许范围。</p>
+<p>必要时先备份 <code>options.txt</code>，再让游戏重新生成。</p>
+<h2>性能调节建议</h2>
+<ol>
+<li>降低渲染距离和模拟距离。</li>
+<li>关闭不需要的 MiniHUD 覆盖层、实体血条和动态光源。</li>
+<li>施工和生电测试时关闭光影。</li>
+<li>减少 JourneyMap 的高频地图更新。</li>
+<li>降低光影的阴影距离、体积效果、反射和抗锯齿。</li>
+<li>检查是否同时加载多个大型资源包。</li>
+<li>分别观察客户端 FPS、服务端 MSPT、实体数量和内存占用。</li>
+</ol>
+<h2>最后</h2>
+<p>这套整合包的重点不是单纯增加模组数量，而是把投影施工、生电调试、材料管理、地图记录和性能优化连接成完整工作流。</p>
+<p>第一次使用时不要同时打开所有功能。先处理快捷键冲突，再逐步学习 Litematica、MiniHUD 和 Tweakeroo，最后根据电脑性能决定是否启用光影与动态效果。</p>
+]]></content>
+    <author>
+      <name>某炜</name>
+    </author>
+    <category term="Minecraft"></category>
+  </entry>
+  <entry>
+    <title>一个零框架的个人开发者网站</title>
+    <link href="https://mouy.site/posts/mou/" rel="alternate" type="text/html"/>
+    <id>https://mouy.site/posts/mou/</id>
+    <published>2026-07-02T11:42:00.000Z</published>
+    <updated>2026-07-02T11:42:00.000Z</updated>
+    <summary>用纯 HTML/CSS/JS 构建的个人网站，单文件架构，零依赖，记录从想法到上线的全过程。</summary>
+    <content type="html"><![CDATA[<h1>Mou：一个零框架的个人开发者网站</h1>
+<blockquote>
+<p>以好奇心构建，以清晰度交付。</p>
+<p>—— 某炜</p>
+</blockquote>
+<h2>为什么做这个项目</h2>
+<p>用了很多框架之后，想回归最原始的方式——纯 HTML + CSS + JavaScript，不借助任何框架，看看能做到什么程度。</p>
+<p>目标很简单：</p>
+<ul>
+<li>一个能展示技能和项目的作品集网站</li>
+<li>全部代码写在一个 <code>index.html</code> 里</li>
+<li>部署到 GitHub Pages，推代码就上线</li>
+</ul>
+<h2>技术选型</h2>
+<table>
+<thead>
+<tr>
+<th>技术</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HTML5</td>
+<td>语义化结构</td>
+</tr>
+<tr>
+<td>CSS3</td>
+<td>Grid / Flexbox 响应式布局</td>
+</tr>
+<tr>
+<td>Vanilla JS</td>
+<td>交互逻辑</td>
+</tr>
+<tr>
+<td>Canvas API</td>
+<td>墨迹擦除动效</td>
+</tr>
+<tr>
+<td>IntersectionObserver</td>
+<td>滚动渐入动画</td>
+</tr>
+<tr>
+<td>Google Fonts</td>
+<td>Instrument Serif + DM Sans + Noto Serif SC</td>
+</tr>
+</tbody>
+</table>
+<p>没有构建工具，没有打包流程，浏览器直接打开 <code>index.html</code> 就能跑。</p>
+<h2>设计系统</h2>
+<p>整个网站用 CSS 变量统一管理：</p>
+<pre><code>:root {
+  --bg: #f6f4f0;
+  --accent: #4a7c59;
+  --text-primary: #1a1a17;
+  --text-body: #4a4a45;
+  --radius: 14px;
+}
+</code></pre>
+<p>改一个变量值，全局跟着变。配色走的是偏暖的米白底 + 森林绿点缀，视觉上比较舒服。</p>
+<p><img src="https://mouy.site/images/posts/mou-two-screenshot.png" alt="Mou 网站效果图" /></p>
+<h2>设计灵感</h2>
+<p>整体设计借鉴了 <a href="https://mimo.xiaomi.com/mimocode">MiMo Code</a>——导航栏的下划线 hover 动效，以及 Hero 区的墨迹擦除背景效果，都从那里获得启发。在此基础上做了自己的调整，比如配色换成米白 + 森林绿，字体换成 Instrument Serif + DM Sans 的组合。</p>
+<h2>核心特性</h2>
+<h3>导航栏</h3>
+<p>固定在顶部，滚动时显示分隔线。导航链接的 hover 效果从左到右展开，用 <code>scaleX</code> + <code>cubic-bezier</code> 实现。</p>
+<h3>滚动渐入</h3>
+<p>用 <code>IntersectionObserver</code> 监听元素进入视口，触发 CSS 渐入动画。比传统的 <code>scroll</code> 事件监听性能好很多，不掉帧。</p>
+<pre><code>const observer = new IntersectionObserver((entries) =&gt; {
+  entries.forEach(entry =&gt; {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+</code></pre>
+<h3>弹窗交互</h3>
+<p>点击赞助按钮弹出二维码，动画用 <code>visibility + opacity</code> 而不是 <code>display: none</code>，因为后者没法做 CSS 过渡。</p>
+<h3>无障碍</h3>
+<p>支持 <code>prefers-reduced-motion</code>，系统开了减少动效的用户会自动跳过所有动画。</p>
+<h2>项目结构</h2>
+<pre><code>Mou-Two/
+├── index.html          # 主页面（~800 行，CSS+JS 全内联）
+├── assets/
+│   ├── 背景.png        # Hero 区背景图
+│   ├── 头像.jpg        # 导航栏头像
+│   ├── 赞助.jpg        # 赞赏二维码
+│   └── screenshot.png  # README 效果图
+├── robots.txt
+├── sitemap.xml
+└── README.md
+</code></pre>
+<h2>部署</h2>
+<p>GitHub Pages 自动部署，推送到 <code>main</code> 分支就生效：</p>
+<pre><code>git add .
+git commit -m "feat: 更新内容"
+git push origin main
+</code></pre>
+<p>访问地址：<a href="https://www.mouy.site">www.mouy.site</a></p>
+<h2>写在最后</h2>
+<p>单文件架构在小项目里其实挺好用的。代码全在一个文件里，改起来很快，也不用操心模块拆分的问题。当然，超过 1000 行之后就开始不舒服了——这个项目的 <code>index.html</code> 大概 800 行，刚好在舒适区边界。</p>
+<p>如果想看源码或者提建议，欢迎来 GitHub：<a href="https://github.com/Mou-1205/Mou-Two">Mou-1205/Mou-Two</a></p>
+]]></content>
+    <author>
+      <name>某炜</name>
+    </author>
+    <category term="项目分享"></category>
+  </entry>
+  <entry>
+    <title>Hi</title>
+    <link href="https://mouy.site/posts/hi/" rel="alternate" type="text/html"/>
+    <id>https://mouy.site/posts/hi/</id>
+    <published>2026-06-30T04:00:00.000Z</published>
+    <updated>2026-06-30T04:00:00.000Z</updated>
+    <summary>Hi！这是我的第一篇博客，打个招呼，顺便介绍一下自己。</summary>
+    <content type="html"><![CDATA[<h1>Hi</h1>
+<p>&lt;small&gt;<em>*本文由我与 Claude Code 联合创作，如有谬误，敬请指正</em>&lt;/small&gt;</p>
+<blockquote>
+<p>🎉 <strong>恭喜你找到了本站第一篇文章！</strong></p>
+<p>你现在正在见证 Mouy 的历史开端。这是博客的起点，也是我记录生活的开始。感谢你点击进来，希望这篇文章能让你对我有个初步的了解。</p>
+</blockquote>
+<p>你好呀 👋</p>
+<p>点进来的大概率是搜索引擎或者哪个犄角旮旯的链接，不管怎样，欢迎。</p>
+<p>我是某炜，07年生人，今年刚满18。</p>
+<p>说到搭建这个博客，其实过程还挺曲折的，特别是备案这件事，让我折腾了不少时间。</p>
+<h2>备案这件事</h2>
+<p>说起来，想在国内搭个自己的网站这件事，其实已经琢磨好几年了。但前几年，一是没钱续费服务器，二是未成年没法备案，就这么一直搁置着。</p>
+<blockquote>
+<p>我现在这个站没有放在云服务器上，而是放在了EdgeOne。</p>
+<p>只有我的<a href="https://www.mouy.site">个人站</a>挂在我的服务器上。</p>
+<p>不得不说腾讯云有一点蛮良心的，CDN居然是免费的。</p>
+</blockquote>
+<p>今年终于把这些都搞定了。服务器买了一整年的，域名备案了，站也搭起来了。虽然过程折腾了挺久，但好歹是跑起来了。</p>
+<p>&lt;small&gt;<em>*我会把这个站好好运营下去的。嗯对。</em>&lt;/small&gt;</p>
+<p>有种「终于」的感觉。</p>
+<p>说完了建站的过程，接下来聊聊我自己吧。</p>
+<h2>关于我</h2>
+<p>这两个月才真正开始学编程。之前用 C++ 写过一些小项目，但基本忘得差不多了，相当于从头开始。</p>
+<p>目前什么都碰了一点点，前端后端工具链，东一榔头西一棒子，还没找到特别深入的方向。不过也不急，慢慢来。</p>
+<p>除了写代码，平时打打 Battlefield 6 和 PUBG，属于又菜又爱玩的那种。</p>
+<p>性格上，我是个比较内向敏感的人。不太擅长主动社交，但心里想的东西还挺多的。可能这也是想写博客的原因之一——有些话打字比开口容易。</p>
+<p>说到这里，其实我开始接触编程和技术圈子，还挺有戏剧性的。</p>
+<h2>怎么入的坑</h2>
+<p>说来也挺有意思。</p>
+<p>分手之后有段时间挺低落的，没事就刷抖音。有天刷到 <a href="https://github.com/OpenDemon/ex-skills">ex-skills</a>，一个基于 AI 的情感记忆操作系统，点进去看了看，发现这玩意还挺有意思的。</p>
+<p>大致就是克隆你前任的聊天记录，然后模拟你前任和你聊天说话，其实没什么意义。</p>
+<p>然后就一发不可收拾了。</p>
+<p>从「这什么东西」到「我也想做一个」，中间大概就隔了一个晚上。</p>
+<p>&lt;small&gt;<em>*重复造车轮罢了。哈哈哈哈。</em>&lt;/small&gt;</p>
+<p>这就是我入坑的经过。那么，对于未来，我有什么打算呢？</p>
+<h2>以后</h2>
+<p>技术这条路会一直走下去，不过会很慢很慢。不给自己定什么宏大目标，只要能学到东西就好。</p>
+<p>这个博客就当是记录吧。学到什么写什么，想说什么说什么。</p>
+<p>好了，关于我的介绍差不多就到这里了。</p>
+<h2>最后</h2>
+<p>Hi，我是某炜。</p>
+<p>这是第一篇，希望不是最后一篇。</p>
+<p>更多关于我的信息，可以看看 <a href="/about/">关于我</a> 页面。</p>
+]]></content>
+    <author>
+      <name>某炜</name>
+    </author>
+    <category term="随笔"></category>
+  </entry>
+</feed>
