@@ -290,10 +290,21 @@ Vite 优化配置（开发环境）：
 
 ### 导航栏滚动行为
 顶栏（navbar）的滚动收起逻辑分布在两个文件：
-- `src/components/organisms/navigation/Navbar.astro`：`initSemifullScrollDetection()` 管理 `scrolled` class（毛玻璃效果，50px 阈值）
+- `src/components/organisms/navigation/Navbar.astro`：`initSemifullScrollDetection()` 管理 `scrolled` class（滚动后增强玻璃材质，50px 阈值）
 - `src/scripts/handlers/back-to-top-handler.ts`：`updateNavbarVisibility()` 管理 `navbar-hidden` class（完全隐藏，20% 视口高度阈值）
 
-CSS 变量驱动：`wallpaper-navbar-transparent.css` 中 `#navbar > div` 的 `background` 等属性由 `--nav-bg` 等 CSS 变量控制，修改变量即可切换透明/毛玻璃状态。
+### 顶栏 Liquid Glass
+
+- 视觉样式统一位于 `src/styles/navbar-liquid-glass.css`，由 `src/layouts/Layout.astro` 全局引入。
+- 旧的 `src/styles/mobile-navbar.css` 与 `src/styles/wallpaper-navbar-transparent.css` 已移除，不要重新引入或继续向这两个文件追加规则。
+- `Navbar.astro` 使用 `.navbar-shell` 作为响应式外层，并给实际材质容器添加 `.navbar-glass-surface`。
+- 桌面端为左侧 `.navbar-title-link` 品牌胶囊与右侧 `#navbar-action-bar` 操作胶囊；全宽布局层保持 `pointer-events: none`，只让真实交互区域接收事件。
+- 移动端为统一的 `.navbar-shell` 玻璃容器，内部品牌区和操作区不重复叠加模糊、边框与阴影。
+- `--nav-glass-*` 与 `--nav-panel-*` 变量统一管理浅色、深色、滚动态、面板、边缘高光和阴影。透明模式继续由 `data-transparent-mode` 控制，而不是旧的 `--nav-bg` / `--nav-blur` 变量。
+- 指针移动、按下和键盘聚焦会更新 `--nav-glass-x` / `--nav-glass-y`，形成跟随交互位置的局部高光；监听器通过 `AbortController` 管理，兼容 Astro HMR 与 Swup 页面切换，禁止重复绑定。
+- 按压反馈统一为 `scale(0.96)`，只过渡必要属性；不要对顶栏控件使用宽泛的 `transition-all`。
+- 必须保留 `prefers-reduced-motion`、`prefers-reduced-transparency`、`prefers-contrast`、`forced-colors` 与不支持 `backdrop-filter` 时的回退样式。
+- 设计依据参考已安装的 `apple-design` Skill：即时反馈、克制动效、清晰层级、半透明材质与完整无障碍回退。
 
 ### Banner 配置
 - 桌面端和移动端分别配置图片：`siteConfig.banner.src.desktop/mobile`

@@ -49,6 +49,14 @@
 - **[AUTO_BUILD_TRIGGER.md](./AUTO_BUILD_TRIGGER.md)** - 自动构建触发快速参考 🆕
   - 5 步快速配置，解决内容更新不触发部署的问题
 
+### 界面开发记录
+
+- **[NAVBAR_GLASS_AND_CLICK_FIX.md](./NAVBAR_GLASS_AND_CLICK_FIX.md)** - 顶栏 Liquid Glass 与点击区域说明
+  - Apple 风格 Liquid Glass 结构与材质变量
+  - 桌面端、移动端响应式布局
+  - 指针高光、按下反馈和页面切换生命周期
+  - 点击穿透与无障碍回退
+
 ## 🚀 快速查找
 
 ### 我是新手，想快速开始
@@ -85,6 +93,7 @@ docs/
 ├── MIGRATION_GUIDE.md           # 迁移指南
 ├── DEPLOYMENT.md                # 部署完整指南
 ├── AUTO_BUILD_TRIGGER.md        # 自动构建触发快速参考
+├── NAVBAR_GLASS_AND_CLICK_FIX.md # 顶栏 Liquid Glass 与点击区域记录
 └── image/                       # 文档图片资源
 ```
 

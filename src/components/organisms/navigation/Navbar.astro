@@ -99,8 +99,8 @@ const iconWebpSrc = hasIconPngFallback
 ---
 <div id="navbar" class="z-50 onload-animation group" data-transparent-mode={navbarTransparentMode} data-is-home={isHomePage}>
     <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--card-bg)] transition"></div> <!-- used for onload animation -->
-    <div class:list={[className, "!overflow-visible max-w-[var(--page-width)] h-[4.5rem] mx-auto flex items-center md:justify-start justify-between px-4"]}>
-        <a href={url('/')} class="navbar-title-link btn-plain scale-animation rounded-lg h-[2.5rem] md:h-[3.25rem] md:[.enable-banner_&]:h-[2.5rem] md:[.enable-banner_&]:group-[.scrolled]:h-[3.25rem] px-5 font-bold active:scale-95 shrink-0 transition-all duration-300">
+    <div class:list={[className, "navbar-shell navbar-glass-surface !overflow-visible max-w-[var(--page-width)] h-[4.5rem] mx-auto flex items-center md:justify-start justify-between px-4"]}>
+        <a href={url('/')} class="navbar-title-link navbar-glass-surface btn-plain rounded-lg h-[2.5rem] md:h-[3.25rem] md:[.enable-banner_&]:h-[2.5rem] md:[.enable-banner_&]:group-[.scrolled]:h-[3.25rem] px-5 font-bold shrink-0">
             <div class="flex flex-row items-center text-md">
 				{/* 使用navbarTitle配置或默认配置 */}
                 {siteConfig.navbarTitle ? (
@@ -108,10 +108,10 @@ const iconWebpSrc = hasIconPngFallback
                         hasLogoPngFallback ? (
                             <picture>
                                 <source srcset={logoWebpSrc} type="image/webp" />
-                                <img src={logoSrc} alt={siteConfig.navbarTitle.text} class="h-[2.5rem] md:h-[3.25rem] md:[.enable-banner_&]:h-[2.5rem] md:[.enable-banner_&]:group-[.scrolled]:h-[3.25rem] max-w-full object-contain transition-all duration-300" loading="lazy" />
+                                <img src={logoSrc} alt={siteConfig.navbarTitle.text} class="h-[2.5rem] md:h-[3.25rem] md:[.enable-banner_&]:h-[2.5rem] md:[.enable-banner_&]:group-[.scrolled]:h-[3.25rem] max-w-full object-contain transition-[height,width] duration-300" loading="lazy" />
                             </picture>
                         ) : (
-                            <img src={logoSrc} alt={siteConfig.navbarTitle.text} class="h-[2.5rem] md:h-[3.25rem] md:[.enable-banner_&]:h-[2.5rem] md:[.enable-banner_&]:group-[.scrolled]:h-[3.25rem] max-w-full object-contain transition-all duration-300" loading="lazy" />
+                            <img src={logoSrc} alt={siteConfig.navbarTitle.text} class="h-[2.5rem] md:h-[3.25rem] md:[.enable-banner_&]:h-[2.5rem] md:[.enable-banner_&]:group-[.scrolled]:h-[3.25rem] max-w-full object-contain transition-[height,width] duration-300" loading="lazy" />
                         )
                     ) : (
                         <>
@@ -134,7 +134,7 @@ const iconWebpSrc = hasIconPngFallback
                 )}
             </div>
         </a>
-        <div id="navbar-action-bar" class="flex items-center gap-1">
+        <div id="navbar-action-bar" class="navbar-glass-surface flex items-center gap-1">
         <div id="navbar-links-container" class="hidden md:flex items-center space-x-1 transition-opacity duration-300">
             {links.map((l) => {
                 return <DropdownMenu link={l} />;
@@ -147,7 +147,7 @@ const iconWebpSrc = hasIconPngFallback
             {/* 只在 sidebar 模式下显示移动端 TOC 按钮 */}
 			{siteConfig.toc.enable && siteConfig.toc.mobileTop && <MobileTOC client:only="svelte"></MobileTOC>}
             <ThemeSwitch client:only="svelte"></ThemeSwitch>
-            <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-lg w-11 h-11 active:scale-90 md:!hidden" id="nav-menu-switch">
+            <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-lg w-11 h-11 active:scale-[0.96] md:!hidden" id="nav-menu-switch">
                 <Icon name="material-symbols:unfold-more" class="text-[1.25rem]"></Icon>
             </button>
         </div>
@@ -165,8 +165,8 @@ const iconWebpSrc = hasIconPngFallback
 		// 只隐藏"友链"和"其他"，保留其他链接
 		const hideLinks = () => {
 			if (window.matchMedia("(min-width: 1280px)").matches && window.matchMedia("(hover: hover)").matches) {
-				const friendsLink = navbarLinksContainer.querySelector('[data-name="友链"]');
-				const othersLink = navbarLinksContainer.querySelector('[data-name="Others"]');
+				const friendsLink = navbarLinksContainer.querySelector<HTMLElement>('[data-name="友链"]');
+				const othersLink = navbarLinksContainer.querySelector<HTMLElement>('[data-name="Others"]');
 				if (friendsLink) friendsLink.style.opacity = "0";
 				if (othersLink) othersLink.style.opacity = "0";
 			}
@@ -175,8 +175,8 @@ const iconWebpSrc = hasIconPngFallback
 		const showLinks = () => {
 			const navbar = document.getElementById("navbar");
 			if (navbar && !navbar.classList.contains("is-searching")) {
-				const friendsLink = navbarLinksContainer.querySelector('[data-name="友链"]');
-				const othersLink = navbarLinksContainer.querySelector('[data-name="Others"]');
+				const friendsLink = navbarLinksContainer.querySelector<HTMLElement>('[data-name="友链"]');
+				const othersLink = navbarLinksContainer.querySelector<HTMLElement>('[data-name="Others"]');
 				if (friendsLink) friendsLink.style.opacity = "1";
 				if (othersLink) othersLink.style.opacity = "1";
 			}
@@ -290,9 +290,119 @@ function initSemifullScrollDetection() {
     updateNavbarState();
 }
 
+function initNavbarLiquidGlass() {
+    const navbarWindow = window as Window & {
+        navbarLiquidGlassController?: AbortController;
+    };
+    navbarWindow.navbarLiquidGlassController?.abort();
+
+    const navbar = document.getElementById('navbar');
+    if (!navbar) {return;}
+
+    const controller = new AbortController();
+    navbarWindow.navbarLiquidGlassController = controller;
+    const surfaces = navbar.querySelectorAll<HTMLElement>('.navbar-glass-surface');
+    let frameId = 0;
+    let pendingUpdate: { surface: HTMLElement; x: number; y: number } | null = null;
+
+    const paintHighlight = () => {
+        if (!pendingUpdate) {
+            frameId = 0;
+            return;
+        }
+
+        const { surface, x, y } = pendingUpdate;
+        const bounds = surface.getBoundingClientRect();
+        surface.style.setProperty('--nav-glass-x', `${x - bounds.left}px`);
+        surface.style.setProperty('--nav-glass-y', `${y - bounds.top}px`);
+        pendingUpdate = null;
+        frameId = 0;
+    };
+
+    const queueHighlight = (surface: HTMLElement, x: number, y: number) => {
+        pendingUpdate = { surface, x, y };
+        if (!frameId) {
+            frameId = window.requestAnimationFrame(paintHighlight);
+        }
+    };
+
+    surfaces.forEach((surface) => {
+        const updateFromPointer = (event: PointerEvent) => {
+            const eventTarget = event.target;
+            if (
+                eventTarget instanceof Element &&
+                eventTarget.closest('.navbar-glass-surface') !== surface
+            ) {
+                return;
+            }
+            queueHighlight(surface, event.clientX, event.clientY);
+        };
+
+        surface.addEventListener('pointermove', updateFromPointer, {
+            passive: true,
+            signal: controller.signal,
+        });
+        surface.addEventListener('pointerdown', updateFromPointer, {
+            passive: true,
+            signal: controller.signal,
+        });
+        surface.addEventListener('pointerleave', () => {
+            surface.style.setProperty('--nav-glass-x', '50%');
+            surface.style.setProperty('--nav-glass-y', '0%');
+        }, { signal: controller.signal });
+        surface.addEventListener('focusin', (event) => {
+            const eventTarget = event.target;
+            if (
+                eventTarget instanceof Element &&
+                eventTarget.closest('.navbar-glass-surface') !== surface
+            ) {
+                return;
+            }
+            const bounds = surface.getBoundingClientRect();
+            queueHighlight(
+                surface,
+                bounds.left + bounds.width / 2,
+                bounds.top + bounds.height / 2,
+            );
+        }, { signal: controller.signal });
+    });
+
+    controller.signal.addEventListener('abort', () => {
+        if (frameId) {
+            window.cancelAnimationFrame(frameId);
+        }
+    }, { once: true });
+}
+
+function bindNavbarLiquidGlassLifecycle() {
+    const navbarWindow = window as Window & {
+        navbarLiquidGlassLifecycleController?: AbortController;
+    };
+    navbarWindow.navbarLiquidGlassLifecycleController?.abort();
+
+    const controller = new AbortController();
+    navbarWindow.navbarLiquidGlassLifecycleController = controller;
+    document.addEventListener('astro:page-load', initNavbarLiquidGlass, {
+        signal: controller.signal,
+    });
+    document.addEventListener('swup:page:view', initNavbarLiquidGlass, {
+        signal: controller.signal,
+    });
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initNavbarLiquidGlass, {
+            once: true,
+            signal: controller.signal,
+        });
+    } else {
+        initNavbarLiquidGlass();
+    }
+}
+
 // 将函数暴露到全局对象，供页面切换时调用
 // @ts-ignore
 window.initSemifullScrollDetection = initSemifullScrollDetection;
+bindNavbarLiquidGlassLifecycle();
 
 // 页面加载完成后初始化滚动检测
 if (document.readyState === 'loading') {

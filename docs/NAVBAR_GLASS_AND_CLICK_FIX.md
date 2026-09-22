@@ -1,4 +1,4 @@
-# 顶栏毛玻璃与侧栏点击失效修复记录
+# 顶栏 Liquid Glass 与侧栏点击失效修复记录
 
 ## 背景
 
@@ -44,171 +44,127 @@ export const pioConfig: PioConfig = {
 - 当前构建产物不会再渲染 `#l2d-iframe`。
 - 这能避免 iframe 在模型加载完成后重新抢占点击事件。
 
-## 顶栏结构调整
+## 当前 Liquid Glass 结构
 
-为了实现“右上角毛玻璃顶栏 + 左侧 Mouy 单独靠左放大”，导航结构做了拆分。
-
-相关文件：
-
-- `src/components/organisms/navigation/Navbar.astro`
-- `src/layouts/MainGridLayout.astro`
-- `src/styles/wallpaper-navbar-transparent.css`
-
-### 结构变化
-
-`Navbar.astro` 中新增右侧容器：
+本轮在已有品牌区与操作区拆分的基础上，加入统一的响应式玻璃结构：
 
 ```html
-<div id="navbar-action-bar" class="flex items-center gap-1">
-  ...
+<div class="navbar-shell navbar-glass-surface">
+  <a class="navbar-title-link navbar-glass-surface">...</a>
+  <div id="navbar-action-bar" class="navbar-glass-surface">...</div>
 </div>
 ```
 
-现在导航被分成两块：
+- `.navbar-shell`：控制顶栏宽度、留白、响应式布局和移动端统一材质。
+- `.navbar-title-link`：桌面端独立的 `Mouy` 品牌胶囊。
+- `#navbar-action-bar`：桌面端独立的导航与工具胶囊。
+- `.navbar-glass-surface`：共享 Liquid Glass 材质、边缘高光和指针高光能力。
 
-- 左侧：`.navbar-title-link`，只负责 `Mouy` 品牌入口。
-- 右侧：`#navbar-action-bar`，负责导航链接、搜索、移动端菜单按钮、主题切换等操作按钮。
+桌面端外层 `.navbar-shell` 只负责布局，不绘制材质；品牌区和操作区分别形成两个小面积玻璃胶囊。移动端则只让 `.navbar-shell` 绘制统一玻璃，内部两个区域移除重复模糊、边框与阴影，避免层层叠加导致浑浊和空间拥挤。
 
-这样毛玻璃效果只作用在右侧按钮组，不会把整条顶栏变成一个大面积可点击覆盖层。
+## Liquid Glass 视觉实现
 
-## 毛玻璃样式实现
+当前样式统一位于：
 
-毛玻璃样式集中放在：
+- `src/styles/navbar-liquid-glass.css`
 
+旧样式文件已经移除：
+
+- `src/styles/mobile-navbar.css`
 - `src/styles/wallpaper-navbar-transparent.css`
 
-桌面端核心策略：
+`src/layouts/Layout.astro` 只全局引入 `navbar-liquid-glass.css`。后续不要恢复旧文件，否则移动端和桌面端容易出现重复边框、透明度冲突与选择器覆盖。
+
+### 材质层级
+
+- `--nav-glass-fill-*`：控制玻璃底色渐变，浅色和深色主题分别定义。
+- `backdrop-filter`：使用模糊、饱和度和轻微对比度让底层内容自然透出。
+- `--nav-glass-border`、`--nav-glass-edge`：表现玻璃边缘和顶部受光面。
+- `--nav-glass-shadow`：外部投影与内部高光共同建立厚度，避免只靠高模糊制造“白雾”。
+- `--nav-panel-*`：让搜索、菜单、目录和设置面板保持同一材质体系，但使用更强的分层阴影。
+- `.scrolled`：页面滚过 50px 后提高玻璃不透明度和阴影，使顶栏在正文上方仍保持可读性。
+
+透明模式通过 `#navbar[data-transparent-mode]` 参与变量覆盖，不再依赖旧的 `--nav-bg`、`--nav-blur` 变量。
+
+### 指针与聚焦高光
+
+`Navbar.astro` 会监听 `.navbar-glass-surface` 的 `pointermove`、`pointerdown`、`pointerleave` 与 `focusin`：
+
+- 将交互坐标换算为 `--nav-glass-x` / `--nav-glass-y`。
+- 使用 `requestAnimationFrame` 合并连续移动事件，避免每个事件都直接触发布局与绘制。
+- 鼠标离开后把高光恢复到顶部中央。
+- 键盘聚焦时把高光放到材质中央，让非指针用户也能得到明确反馈。
+- 使用 `AbortController` 清理旧监听器，并在 `astro:page-load` 与 `swup:page:view` 后重新初始化，兼容 HMR 与页面切换而不重复绑定。
+
+### Apple 风格交互原则
+
+实现依据 `apple-design` Skill 的核心原则：
+
+1. **即时反馈**：按钮在按下阶段直接缩放到 `0.96`，不等待点击结束。
+2. **克制动效**：只过渡颜色、透明度、阴影和变换，避免 `transition-all` 带来不可控动画。
+3. **空间一致**：桌面端保留清晰的品牌/操作分组，移动端合并为单一容器，避免同一视觉层级使用两套结构。
+4. **材质服务内容**：透明度和模糊用于建立上下层关系，不牺牲文字与图标可读性。
+5. **完整回退**：减少动效、减少透明度、高对比度、强制颜色以及浏览器不支持 `backdrop-filter` 时，都有明确的非透明或低动效方案。
+
+## 点击区域与事件穿透
+
+桌面端继续使用小范围事件承接：
 
 ```css
-@media (min-width: 768px) {
-  #top-row,
-  #navbar-wrapper,
-  #navbar-wrapper #navbar {
-    pointer-events: none;
-  }
-
-  #navbar-wrapper #navbar .navbar-title-link,
-  #navbar-wrapper #navbar-action-bar {
-    pointer-events: auto;
-  }
+#top-row,
+#navbar-wrapper,
+#navbar,
+.navbar-shell {
+  pointer-events: none;
 }
-```
 
-这样做的目的：
-
-- 顶层导航布局容器不拦截页面点击。
-- 只有 `Mouy` 品牌按钮和右上角玻璃按钮组可以接收点击。
-- 左侧栏、正文、右侧栏不会被透明的顶栏区域挡住。
-
-右侧毛玻璃容器使用了更明显的效果：
-
-```css
-#navbar-wrapper #navbar-action-bar {
-  border: 1px solid rgba(255, 255, 255, 0.62);
-  border-radius: 1rem;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.34)),
-    rgba(255, 255, 255, 0.32);
-  -webkit-backdrop-filter: blur(28px) saturate(1.75) contrast(1.05);
-  backdrop-filter: blur(28px) saturate(1.75) contrast(1.05);
-  box-shadow:
-    0 12px 30px rgba(0, 0, 0, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.72),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.18);
-}
-```
-
-同时提供了深色模式适配：
-
-```css
-:root.dark #navbar-wrapper #navbar-action-bar {
-  border-color: rgba(255, 255, 255, 0.16);
-  background:
-    linear-gradient(135deg, rgba(42, 44, 52, 0.78), rgba(16, 18, 24, 0.48)),
-    rgba(20, 22, 28, 0.42);
-}
-```
-
-## Mouy 品牌区调整
-
-`Mouy` 品牌入口不再放进右侧玻璃条里，而是单独靠左显示。
-
-桌面端样式：
-
-```css
-#navbar-wrapper #navbar .navbar-title-link {
-  height: 3.75rem;
-  padding-left: 0.75rem;
-  padding-right: 1rem;
-  border-radius: 1rem;
+.navbar-title-link,
+#navbar-action-bar,
+#navbar :is(.dropdown-content, .float-panel) {
   pointer-events: auto;
 }
-
-#navbar-wrapper #navbar .navbar-title-link img {
-  width: 2.6rem;
-  height: 2.6rem;
-}
-
-#navbar-wrapper #navbar .navbar-title-link span {
-  font-size: 1.35rem;
-  line-height: 1;
-}
 ```
 
-效果：
-
-- `Mouy` 靠左。
-- 图标单独放大。
-- 文本同步放大。
-- 点击区域仍然只限品牌按钮自身，不会覆盖左侧栏。
+移动端 `.navbar-shell` 本身恢复 `pointer-events: auto`，因为它就是完整的可见导航容器。该策略保证透明定位层不会挡住侧栏和正文，同时菜单与浮层仍能正常操作。
 
 ## 相关文件清单
 
-本次相关改动主要涉及：
-
 - `src/config/pioConfig.ts`
-  - 禁用 Pio，避免 Live2D iframe 抢占点击事件。
+  - 保持 Pio 禁用，避免 Live2D iframe 抢占点击事件。
 - `src/components/organisms/navigation/Navbar.astro`
-  - 新增 `#navbar-action-bar`，拆分品牌区和右侧操作区。
-- `src/layouts/MainGridLayout.astro`
-  - 使用 `compactSearch={true}`。
-  - 调整主内容点击事件承接位置。
+  - 增加 `.navbar-shell` / `.navbar-glass-surface` 结构、指针高光和 HMR/Swup 生命周期管理。
+  - 保留 `#navbar-action-bar`，桌面端拆分品牌区与操作区。
+- `src/components/control/ThemeSwitch.svelte`
+  - 按压缩放统一为 `0.96`，并将 `transition-all` 收敛到 `opacity` 与 `transform`。
+- `src/layouts/Layout.astro`
+  - 引入 `src/styles/navbar-liquid-glass.css`，移除旧导航样式入口。
+- `src/styles/navbar-liquid-glass.css`
+  - 统一桌面端、移动端、深浅主题、滚动态、菜单面板和无障碍回退的 Liquid Glass 样式。
+- `src/styles/mobile-navbar.css`
+  - 已删除，被统一样式替代。
 - `src/styles/wallpaper-navbar-transparent.css`
-  - 右侧毛玻璃样式。
-  - 左侧品牌放大样式。
-  - 顶栏容器点击穿透策略。
+  - 已删除，被统一样式替代。
 
 ## 验证记录
 
-已执行：
+当前开发服务：
 
-```bash
-pnpm build
-```
+- 热更新地址：`http://127.0.0.1:4321/`
+- HTTP 状态：`200`
 
-结果：
+已完成浏览器检查：
 
-- Astro 构建通过。
-- Pagefind 构建完成。
-- 字体压缩流程完成。
+- 桌面端 `1280 × 720` 与移动端 `390 × 844`。
+- 浅色和深色主题。
+- 导航下拉、搜索/设置浮层定位与移动菜单。
+- 滚动后的 `.scrolled` 材质增强和 `navbar-hidden` 显隐。
+- 指针跟随高光、按下反馈和键盘焦点。
+- `prefers-reduced-motion` 与 `prefers-reduced-transparency`。
 
-已检查构建产物：
+已完成代码检查：
 
-```bash
-rg -n "navbar-action-bar|l2d-iframe|live2d-host" dist -S
-```
-
-结果：
-
-- `navbar-action-bar` 已出现在构建后的页面中。
-- 构建产物中未找到 `l2d-iframe`。
-- 构建产物中未找到 `live2d-host`。
-
-补充说明：
-
-- 曾启动静态预览服务 `http://127.0.0.1:8088/` 用于页面检查。
-- 浏览器命中测试在中途被打断，未形成完整自动化报告。
-- 已完成的构建与产物搜索能确认 Pio iframe 不再进入页面，右侧玻璃顶栏结构已进入产物。
+- 本次修改涉及的 Astro/Svelte 文件通过 Biome 检查。
+- `pnpm astro check` 当前仍报告 17 个项目原有错误，主要位于 `SidebarNav.astro`、`sidebarConfig.ts`、`liquid-glass-interactions.ts` 与 `anime-data.ts`；本次 Navbar 相关类型问题已处理，不在本轮修复无关错误。
 
 ## 后续注意事项
 
@@ -218,13 +174,13 @@ rg -n "navbar-action-bar|l2d-iframe|live2d-host" dist -S
 2. `pointer-events` 是否会在模型加载后从 `none` 改回 `auto`。
 3. 是否只允许模型可见区域接收点击，而不是整个 iframe 接收点击。
 
-如果以后继续改顶栏，需要保持这个原则：
+如果以后继续修改顶栏，需要保持以下原则：
 
-1. 大范围定位容器使用 `pointer-events: none`。
-2. 只有真实按钮、链接、菜单面板使用 `pointer-events: auto`。
-3. 毛玻璃背景尽量挂在小范围视觉容器上，例如 `#navbar-action-bar`，不要挂在全宽顶栏容器上。
-
-这样能保留毛玻璃效果，同时避免透明层挡住侧栏和正文内容。
+1. 样式只维护在 `navbar-liquid-glass.css`，不要恢复两个已删除的旧导航样式文件。
+2. 桌面端全宽定位与布局容器不接收点击，只让真实按钮、链接和菜单面板接收事件。
+3. 移动端只使用一层主要玻璃材质，避免子容器重复模糊和阴影。
+4. 交互反馈从按下阶段开始，保持短促、可打断，并避免宽泛的 `transition-all`。
+5. 修改玻璃变量或动画时，同步验证深色模式、滚动态、键盘焦点与辅助功能媒体查询。
 
 ---
 

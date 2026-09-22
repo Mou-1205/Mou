@@ -77,6 +77,10 @@ const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
 
 const { remarkPluginFrontmatter } = await render(entry);
+const canonicalUrl = new URL(
+	Astro.url.pathname,
+	Astro.site ?? Astro.url.origin,
+).toString();
 
 // 处理加密逻辑
 const isEncrypted = !!(entry.data.encrypted && entry.data.password);
@@ -115,6 +119,7 @@ const jsonLd = {
 	category={entry.data.category || undefined}
 	wordCount={remarkPluginFrontmatter.words}
 >
+	<link slot="head" rel="canonical" href={canonicalUrl} />
 	<script
 		is:inline
 		slot="head"

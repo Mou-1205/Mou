@@ -11,11 +11,11 @@ export function buildPostPaths(blogEntries: CollectionEntry<"posts">[]) {
 		const defaultSlug = removeFileExtension(entry.id);
 
 		if (hasCustomPermalink(entry)) {
-			return [{ params: { slug: defaultSlug }, props: { entry } }];
+			return [];
 		}
 
 		if (permalinkConfig.enable) {
-			return [{ params: { slug: defaultSlug }, props: { entry } }];
+			return [];
 		}
 
 		const paths: {
