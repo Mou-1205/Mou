@@ -5,32 +5,1153 @@
   <link href="https://mouy.site/" rel="alternate" type="text/html"/>
   <link href="https://mouy.site/atom.xml" rel="self" type="application/atom+xml"/>
   <id>https://mouy.site/</id>
-  <updated>2026-07-29T14:21:51.879Z</updated>
+  <updated>2026-09-22T10:17:09.673Z</updated>
   <language>zh_CN</language>
+  <entry>
+    <title>MiMo-V2.6 发布分析：把 RL 推向自我改进</title>
+    <link href="https://mouy.site/posts/mimo-v2.6-release-analysis/" rel="alternate" type="text/html"/>
+    <id>https://mouy.site/posts/mimo-v2.6-release-analysis/</id>
+    <published>2026-09-22T11:00:00.000Z</published>
+    <updated>2026-09-22T13:10:00.000Z</updated>
+    <summary>复盘 MiMo-V2.6：Pro / Flash / Pro-UltraSpeed / Distill-Qwen-9B，AAII 46.32，直播 RL 训练账单，You Only RL Once、GRS+GAR、MOPD2 蒸馏，附官方跑分解读与参数核对。</summary>
+    <content type="html"><![CDATA[<p>2026 年 9 月 22 日，MiMo-V2.6 系列公开。主线很明确：</p>
+<p><strong>Scaling Reinforcement Learning Toward Self-Improvement.</strong></p>
+<p>官方将其描述为走向 RSI（Recursive Self-Improvement）的关键一步：<strong>在可验证的复杂任务上放大 RL 算力，让模型通过探索和反馈持续扩展能力边界。</strong></p>
+<p>这次的重心是 RL 管线，而非 SFT 堆叠或扩大 dense 规模。本文基于公开材料，梳理架构参数、RL 训练管线、官方跑分，并给出独立解读。</p>
+<p>资料来源：<a href="https://mimo.xiaomi.com/mimo-v2-6/article.html">官方发布正文</a>、<a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL">HuggingFace 模型卡</a>、<a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL/blob/main/MiMo_V2_6_technical_report.pdf">技术报告 PDF</a>、<a href="https://arxiv.org/abs/2606.30406">MOPD 论文</a>、<a href="https://mimo.xiaomi.com/rl">RL 训练直播</a>。标注「官方」的数字均来自上述公开材料。</p>
+<h2>家族成员与硬指标</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>MiMo-V2.6-Pro</th>
+<th>MiMo-V2.6-Flash</th>
+<th>MiMo-V2.6-Pro-UltraSpeed</th>
+<th>MiMo-V2.6-Distill-Qwen-9B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>定位</td>
+<td>旗舰</td>
+<td>效率均衡</td>
+<td>极速输出</td>
+<td>开源研究起点</td>
+</tr>
+<tr>
+<td>架构</td>
+<td>Sparse MoE</td>
+<td>Sparse MoE</td>
+<td>Pro 的加速模式</td>
+<td>Dense（Qwen3.5-9B 蒸馏）</td>
+</tr>
+<tr>
+<td>总参数 / 激活</td>
+<td><strong>1.02T / 42B</strong></td>
+<td><strong>309B / 15B</strong></td>
+<td>同 Pro</td>
+<td><strong>9B</strong></td>
+</tr>
+<tr>
+<td>HF 权重名</td>
+<td>Pro-RL</td>
+<td>Flash-RL</td>
+<td>—</td>
+<td>Distill-Qwen-9B</td>
+</tr>
+<tr>
+<td>上下文</td>
+<td><strong>1M tokens</strong></td>
+<td><strong>1M tokens</strong></td>
+<td>同 Pro</td>
+<td>—</td>
+</tr>
+<tr>
+<td>模态</td>
+<td>文/图/视频/音频</td>
+<td>文/图/视频/音频</td>
+<td>同 Pro</td>
+<td>图 + 文</td>
+</tr>
+<tr>
+<td>输出速度</td>
+<td>基准</td>
+<td>基准</td>
+<td><strong>最高 20× Pro</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>License</td>
+<td>MIT</td>
+<td>MIT</td>
+<td>—</td>
+<td>MIT</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Artificial Analysis Intelligence Index：Pro 拿下 46.32</strong>（v4.3，2026-09），官方称超过 Kimi K3 与 Qwen3.8 Max，<strong>是目前最强开源模型</strong>。同一价格带里智能更高，帕累托前沿又往外推了一格。</p>
+<p><img src="https://mouy.site/images/mimo-v26/params-moe.svg" alt="MoE 参数量：总参数 vs 激活参数" /></p>
+<blockquote>
+<p>[!NOTE]
+「1.02T / 42B」是模型卡架构段的写法（总参数 / 每次激活）。HuggingFace 元数据标的 524B / 159B 是另一套统计口径（大约是一半），两处都是官方数据，别对不上就以为假。日常说「多少 B」时建议报激活参数，部署估显存时再对文件。</p>
+<p>发布稿称 <strong>Pro / Flash</strong>，HF 权重文件名为 <strong>Pro-RL / Flash-RL</strong>，后者强调 RL 后训练形态。同一系列的不同命名。</p>
+</blockquote>
+<p>一句话分工：<strong>Pro 拿能力上限，Flash 拿性价比，UltraSpeed 给要实时反馈的场景，Distill-Qwen-9B 给想自己跑 agentic RL 的人一个便宜的学生。</strong></p>
+<h2>架构参数：和 V2.5 比，变了什么</h2>
+<h3>LLM Backbone</h3>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>Pro-RL</th>
+<th>Flash-RL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>层数（总 / SWA / GA）</td>
+<td>70 / 60 / 10</td>
+<td>48 / 39 / 9</td>
+</tr>
+<tr>
+<td>Hidden Size</td>
+<td>6144</td>
+<td>4096</td>
+</tr>
+<tr>
+<td>SWA Heads（Q/KV）</td>
+<td>128 / 8</td>
+<td>64 / 8</td>
+</tr>
+<tr>
+<td>GA Heads（Q/KV）</td>
+<td>128 / 8</td>
+<td>64 / 4</td>
+</tr>
+<tr>
+<td>Head Dim（QK / V）</td>
+<td>192 / 128</td>
+<td>192 / 128</td>
+</tr>
+<tr>
+<td>滑动窗口</td>
+<td>128</td>
+<td>128</td>
+</tr>
+<tr>
+<td>Routed Experts（总 / 激活）</td>
+<td>384 / 8</td>
+<td>256 / 8</td>
+</tr>
+<tr>
+<td>最大上下文</td>
+<td>1M</td>
+<td>1M</td>
+</tr>
+<tr>
+<td>MTP 草稿层</td>
+<td>5 层 SWA，window 1024</td>
+<td>同左</td>
+</tr>
+</tbody>
+</table>
+<p>结构上有几个点需要留意。</p>
+<ol>
+<li><strong>Hybrid SWA + GA</strong>。第一层是 global attention + dense FFN，后面 local SWA 和 global attention 交错，两边都是 sparse MoE FFN，<strong>没有 shared expert</strong>。1M 上下文不是靠「全注意力硬扛」，是靠 SWA 把大部分层的注意力锁在 128 窗口里，再用少量 GA 层保住长程。</li>
+<li><strong>MoE 不带 shared expert</strong>。384/256 个 routed expert 里每次只动 8 个。没有 shared expert 意味着路由更「纯粹」，但对路由稳定性要求更高，这和后面要讲的 MoE RL 路由对齐论文是对上的。</li>
+<li><strong>MTP 投机解码</strong>。5 层 SWA 草稿器，DFlash 风格，一次前向猜 7 个后续 token，并行验证。推理侧是实打实的吞吐红利。</li>
+</ol>
+<h3>多模态编码器（Pro / Flash 共用）</h3>
+<table>
+<thead>
+<tr>
+<th>编码器</th>
+<th>配置</th>
+<th>参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MiMo ViT</td>
+<td>28 层（24 SWA + 4 Full），hidden 1280，patch 2×16×16，spatial merge 2×2</td>
+<td><strong>681M</strong></td>
+</tr>
+<tr>
+<td>AudioTokenizer</td>
+<td>24 层（12 SWA / 12 GA），hidden 1024，20 个 RVQ codebook</td>
+<td><strong>308M</strong></td>
+</tr>
+<tr>
+<td>Audio patch encoder</td>
+<td>6 层，4 帧一 patch（25 Hz → 6.25 Hz）</td>
+<td><strong>127M</strong></td>
+</tr>
+</tbody>
+</table>
+<p>原生全模态进同一套 backbone，并非文本模型外挂视觉适配器。视频靠 ViT 的时间维 patch（T=2），音频走 tokenizer + patch encoder 双路。</p>
+<h2>RL 训练管线</h2>
+<p>这是 V2.6 的核心更新。官方给出五条主线与若干工程细节，本节逐项拆解。</p>
+<h3>0. 先看规模：直播训练账单</h3>
+<p>这回 RL 是<strong>全程直播</strong>跑的（<a href="https://mimo.xiaomi.com/rl">mimo.xiaomi.com/rl</a>），数字如下。</p>
+<p><img src="https://mouy.site/images/mimo-v26/rl-ledger.svg" alt="RL 训练账单与单步规模" /></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Flash</th>
+<th>Pro</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>训练时长</td>
+<td><strong>不到 6 天</strong></td>
+<td>同期</td>
+</tr>
+<tr>
+<td>RL 步数</td>
+<td>30</td>
+<td>30</td>
+</tr>
+<tr>
+<td>轨迹数</td>
+<td>约 <strong>750k</strong></td>
+<td>约 <strong>750k</strong></td>
+</tr>
+<tr>
+<td>成本</td>
+<td>约 <strong>$0.85M</strong></td>
+<td>约 <strong>$2.62M</strong></td>
+</tr>
+<tr>
+<td>训练任务平均通过率</td>
+<td>相对 <strong>+25%</strong></td>
+<td>相对 <strong>+12%</strong></td>
+</tr>
+<tr>
+<td>DeepSWE v1.1（未见集）</td>
+<td>48.8 → <strong>65.68</strong>（+16.9）</td>
+<td>58.4 → <strong>72.57</strong>（+14.2）</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://mouy.site/images/mimo-v26/rl-deepswe-lift.svg" alt="DeepSWE v1.1 在 RL 前后的分数" /></p>
+<p>官方结论：RL 样本效率高、全程持续提升、<strong>能泛化到训练分布之外</strong>。</p>
+<blockquote>
+<p>[!TIP]
+<strong>口径说明（审计用）</strong>：发布稿写「1,568 samples per update」，模型卡写「1,568 prompts × 16 rollouts per step」。用总轨迹数反推：750k ÷ 30 步 ≈ <strong>25,000 条轨迹/步</strong>，正好等于 1568×16 ≈ 25,088。所以 samples ≈ prompts，rollout 另算。两套说法都出自官方，对得上。</p>
+</blockquote>
+<h3>1. You Only RL Once</h3>
+<blockquote>
+<p>官方表述：One mixed RL run across coding, general agents, visual, and cybersecurity — not separate per-domain runs.</p>
+</blockquote>
+<p>此前各领域分别训练再合并的做法（Mix-RL / Cascade RL / Off-Policy SFT / 参数合并）都存在跷跷板效应或稳定性问题，A 领域涨、B 领域塌。</p>
+<p>V2.6 的做法是：<strong>一次混合 RL，跨 coding / general agent / visual / cybersecurity</strong>。任务和多种 harness 混在同一个 batch 里，让能力互相喂，策略还能迁移到训练里从没见过的 harness 上。</p>
+<p>这直接对上 MOPD 论文里批评的四条老路：</p>
+<table>
+<thead>
+<tr>
+<th>路线</th>
+<th>问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mix-RL</td>
+<td>跨域信号打架，见跷跷板</td>
+</tr>
+<tr>
+<td>Cascade RL</td>
+<td>先训的能力被后训的冲掉</td>
+</tr>
+<tr>
+<td>Off-Policy Finetune</td>
+<td>暴露偏置，学生漂离教师轨迹</td>
+</tr>
+<tr>
+<td>Param-Merge</td>
+<td>权重空间融合不稳，能力对不齐</td>
+</tr>
+</tbody>
+</table>
+<p>而 V2.6 在混合 RL 之后还接了 <strong>MOPD2</strong>（见下文），等于「先一起练，再精确合」。</p>
+<p>官方还补了一句工程要求：<strong>稳定混合 batch 里各任务的采样比例</strong>（stabilized per-task sampling ratios within mixed batches）。混采不是把数据倒一锅搅，比例不稳就会偏科。</p>
+<h3>2. Scaling RL Compute：三根轴</h3>
+<p>官方给出了三根扩展轴，构成理解 V2.6 RL 设计的骨架。</p>
+<pre><code>flowchart TB
+  A[Scaling RL Compute] --&gt; B[轴 1：更大 batch / 更高吞吐]
+  A --&gt; C[轴 2：更多任务 / 更丰富环境]
+  A --&gt; D[轴 3：更多打分器算力]
+  B --&gt; B1[全异步架构 · 1568 samples/update]
+  B --&gt; B2[上下文 1M · 3.5–3.7B tokens/step]
+  C --&gt; C1[coding / agent / visual / cyber]
+  C --&gt; C2[多 harness 混采 · 互相迁移]
+  D --&gt; D1[组内相对比较 GRS+GAR]
+  D --&gt; D2[自我改进环 · 压向短路径]
+</code></pre>
+<h4>轴 1：异步 GRPO + 超大 batch</h4>
+<blockquote>
+<p>模型卡：Fully asynchronous Group Relative Policy Optimization (GRPO) on very large batches — <strong>1,568 prompts × 16 rollouts per step</strong>。</p>
+<p>发布稿：1,568 samples per update，training at up to <strong>1M</strong> context，<strong>3.5–3.7B tokens per step</strong>。</p>
+</blockquote>
+<p>异步 GRPO 的含义可以拆成三点。</p>
+<ol>
+<li><strong>Rollout 生成和梯度更新流水线化</strong>。采样器不停地跑轨迹，训练器不停地吃完成的轨迹，不必等一整批 roll 完再算一次梯度。</li>
+<li><strong>GRPO 的组相对优势</strong>照旧：同一 prompt 下多条 rollout 互相比，advantage 是组内标准化的，不需要单独训 value 网络。</li>
+<li><strong>单步 25,088 条轨迹</strong>（1568×16），更新一次吃掉 3.5–3.7B token。这是把预训练级的算力账单搬到 RL 阶段。</li>
+</ol>
+<p>核心判断：<strong>RL 算力本身就是能力来源。</strong> 「探索算力」与「打分算力」同步放大，数据多样性只是其中一面。</p>
+<h4>轴 2：多任务、多环境、多 harness</h4>
+<p>做法是把 coding / general agent / visual / cyber <strong>混在同一个 batch</strong>，而且跨多种 agent harness。策略因此能迁移到「训练里从没见过的 harness」（模型卡原话）。</p>
+<p>配套工程（发布稿原文拆解）：</p>
+<table>
+<thead>
+<tr>
+<th>设计</th>
+<th>解决什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>统一轨迹表示 + 惩罚机制</strong></td>
+<td>异构任务的轨迹格式不一，统一后才能给更细粒度的学习信号</td>
+</tr>
+<tr>
+<td><strong>多 Agent 框架高并发交互</strong></td>
+<td>环境跑得动，rollout 吞吐才上得去</td>
+</tr>
+<tr>
+<td><strong>控制面 / 数据面解耦</strong></td>
+<td>大规模轨迹迁移不拖垮训练循环</td>
+</tr>
+<tr>
+<td><strong>稳定各任务采样比例</strong></td>
+<td>防止混采偏科</td>
+</tr>
+<tr>
+<td><strong>训练引擎与推理引擎一致性优化</strong></td>
+<td>train/infer 不一致会白训</td>
+</tr>
+</tbody>
+</table>
+<h4>轴 3：打分器也算力</h4>
+<p>这是整套设计里最关键的一环，下一节单独展开。</p>
+<h3>3. Groupwise Agentic Grading：自我改进环</h3>
+<p>问题：二值 pass/fail <strong>排不出两个都过了的答案谁更好</strong>。奖励信号太粗，RL 就只能推「从错到对」，推不动「从对到更好」。长程 agent 任务尤其惨，一条几万 token 的轨迹，最后只拿一个 0/1。</p>
+<p>官方解法：<strong>打分器自己也上 Agent，在组内比 rollout。</strong></p>
+<p><img src="https://mouy.site/images/mimo-v26/rl-grs-gar.svg" alt="Groupwise Agentic Grading 自我改进环" /></p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>全称</th>
+<th>何时</th>
+<th>干什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GRS</strong></td>
+<td>Groupwise Reward Synthesis</td>
+<td><strong>离线</strong></td>
+<td>从对比 rollout 里合成<strong>任务专属 rubric</strong>，再把 rubric 质量和测试结果融合</td>
+</tr>
+<tr>
+<td><strong>GAR</strong></td>
+<td>Groupwise Advantage Redistribution</td>
+<td><strong>在线</strong></td>
+<td>给<strong>已经通过</strong>的轨迹排序，把 advantage 往更高质量的解上搬</td>
+</tr>
+</tbody>
+</table>
+<p>具体差异如下。</p>
+<ol>
+<li><strong>GRS 解决「没有评分表」</strong>：同一道题的多条 rollout 互相对比（哪里更好、哪里更简、哪里更稳），离线合成一份 rubric。相当于给这道题现场出评分细则，而不只看单元测试过没过。</li>
+<li><strong>GAR 解决「都过了分不出高下」</strong>：在线把通过的轨迹按质量排序，advantage 不再人人平分，而偏向更短路径、更少 token、更干净的解。</li>
+<li><strong>闭环</strong>：裁判看的是<strong>策略自己的样本</strong>。策略变强 → 样本变好 → rubric/排序更严 → 策略被推向更优解。这就是官方说的 <em>closes a self-improvement loop</em>。</li>
+</ol>
+<p>副作用（好的那种）：会自动压向<strong>更短路径、更少 token</strong> 完成同一任务。</p>
+<blockquote>
+<p>[!TIP]
+读这块时别把 GRS/GAR 理解成单纯的 reward model 变大。核心是 <strong>组内相对比较</strong> + <strong>把粗奖励变稠密</strong>，这是在 scaling <strong>grader compute</strong>，不是在 scaling 模型体积。</p>
+</blockquote>
+<h3>4. Aligned RL：自我纠错与反奖励劫持</h3>
+<p>RL 圈的老毛病：一旦奖励可被钻空子，策略会变成「骗过打分器」，偏离「把事做好」。</p>
+<p>V2.6 的态度是双管齐下：</p>
+<p><strong>冷启动用 self-correction</strong>，模型反思并重写自己的不当轮次，改成有依据的下一步。第一轮就建立「认错→修正」的肌肉记忆。</p>
+<p>官方配了四道锁（发布稿原话拆解）。</p>
+<table>
+<thead>
+<tr>
+<th>防线</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>奖励设计</strong></td>
+<td>从源头减少可钻的空子</td>
+</tr>
+<tr>
+<td><strong>对抗评测</strong></td>
+<td>主动构造想骗奖励的案例去打</td>
+</tr>
+<tr>
+<td><strong>异常检测</strong></td>
+<td>训练中盯分布突变、reward 爆炸</td>
+</tr>
+<tr>
+<td><strong>verifier 交叉验证</strong></td>
+<td>不同裁判互相核对，单点被攻破不算数</td>
+</tr>
+</tbody>
+</table>
+<p>另外，<strong>训练规模上来后冻结了 MoE router</strong>，抑制训练漂移（<em>we froze the router to suppress training drift</em>）。MoE 路由在 RL 里漂移是老大难，激活分布一变，下游全乱。冻住是务实解，代价是牺牲一点路由自适应。</p>
+<h3>5. MOPD2：Multi-Prefix Multi-Teacher On-Policy Distillation</h3>
+<p>MOPD 一代（<a href="https://arxiv.org/abs/2606.30406">arXiv:2606.30406</a>）已经在 MiMo-V2-Flash 上落地过。核心思想：</p>
+<ol>
+<li>各领域先独立 RL 出 <strong>domain teacher</strong>（可完全并行）；</li>
+<li>学生自己 rollout，教师只负责在学生轨迹上给 <strong>per-token 概率分布</strong>（dense 信号）；</li>
+<li>按 prompt 路由到对应教师，policy space 融合，不碰权重平均。</li>
+</ol>
+<p>一代在 Qwen3-30B-A3B 上归一化得分 <strong>0.937</strong>，比 Mix-RL（0.882）高 5.5 个点；在 309B 的 MiMo-V2-Flash 上多数基准打平甚至超过对应教师。</p>
+<p>V2.6 的 <strong>MOPD2</strong> 多了 <strong>Multi-Prefix</strong>：</p>
+<blockquote>
+<p>官方表述：combines autonomous student rollouts with prefix-conditioned single-turn rollouts (<strong>Teacher-Prefix</strong> and <strong>SFT-Prefix</strong>), reusing histories from teacher trajectories and SFT demonstrations so decision points train without regenerating preceding turns.</p>
+</blockquote>
+<p>三种前缀的来源并不相同。</p>
+<table>
+<thead>
+<tr>
+<th>前缀来源</th>
+<th>轨迹从哪来</th>
+<th>训练什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>自主 rollout</strong></td>
+<td>学生从头采</td>
+<td>完整决策链</td>
+</tr>
+<tr>
+<td><strong>Teacher-Prefix</strong></td>
+<td>教师轨迹的历史当输入</td>
+<td>只训决策点之后</td>
+</tr>
+<tr>
+<td><strong>SFT-Prefix</strong></td>
+<td>SFT 示范的历史当输入</td>
+<td>只训决策点之后</td>
+</tr>
+</tbody>
+</table>
+<p>好处：学生不必从头生成完整轨迹即可学习决策点。<strong>借前缀跳过已掌握的部分</strong>，难以自动验证的长任务也能被蒸馏覆盖。</p>
+<p>MOPD 论文中另有一个值得注意的对照实验：<strong>替换为更强但分布不同的教师（Qwen3-235B-A22B）后，学生数学能力反而下降</strong>，top-k 形式甚至在第 18 步发散。同源教师（same-origin）是稳定性上的必要条件。</p>
+<h3>6. 全开源</h3>
+<p>官方承诺把这条管线上的一切放出来：<strong>完整技术报告、训练环境、RL 代码</strong>，供复现验证。配合直播回放，这在「开源权重但闭源 RL 配方」成风的当下，算相当大方。</p>
+<p>综合来看：<strong>RL 算力本身就是能力来源。</strong> 预训练 scaling law 已被广泛验证，V2.6 将同样的逻辑迁移到 RL 阶段，训练成本公开也提升了工程透明度。</p>
+<h2>官方跑分</h2>
+<p>基准表直接来自模型卡。对手列同为官方对照，此处不作二次加工。</p>
+<p><img src="https://mouy.site/images/mimo-v26/benchmark-overview.svg" alt="关键基准对比：V2.6 Pro / Flash / V2.5 Pro / Claude Opus 5 / GPT-5.6 Sol" /></p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>Benchmark</th>
+<th>V2.6 Pro</th>
+<th>V2.6 Flash</th>
+<th>V2.5 Pro</th>
+<th>Claude Opus 5</th>
+<th>GPT-5.6 Sol</th>
+<th>Claude Fable 5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Code Agent</strong></td>
+<td>DeepSWE v1.1</td>
+<td><strong>71.9</strong></td>
+<td>67.9</td>
+<td>19.0</td>
+<td>74.0</td>
+<td>73.0</td>
+<td>70.0</td>
+</tr>
+<tr>
+<td></td>
+<td>ProgramBench</td>
+<td>26.5</td>
+<td>26.0</td>
+<td>12.5</td>
+<td><strong>37.0</strong></td>
+<td>25.0</td>
+<td>33.0</td>
+</tr>
+<tr>
+<td></td>
+<td>MiMo Code Bench</td>
+<td>63.2</td>
+<td>61.2</td>
+<td>40.4</td>
+<td><strong>68.6</strong></td>
+<td>59.3</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>General Agent</strong></td>
+<td>AutomationBench v1.0.6</td>
+<td><strong>53.1</strong></td>
+<td>52.3</td>
+<td>16.0</td>
+<td>50.3</td>
+<td>45.8</td>
+<td>46.2</td>
+</tr>
+<tr>
+<td></td>
+<td>Toolathlon-Verified</td>
+<td>76.9</td>
+<td>73.6</td>
+<td>49.1</td>
+<td><strong>80.6</strong></td>
+<td>74.9</td>
+<td>77.9</td>
+</tr>
+<tr>
+<td></td>
+<td>GDPval-AA 2.1</td>
+<td>1673</td>
+<td>—</td>
+<td>1107</td>
+<td><strong>1708</strong></td>
+<td>1588</td>
+<td>1595</td>
+</tr>
+<tr>
+<td></td>
+<td>Agents' Last Exam</td>
+<td><strong>31.6</strong></td>
+<td>27.6</td>
+<td>13.2</td>
+<td><strong>31.6</strong></td>
+<td>30.8</td>
+<td>25.7</td>
+</tr>
+<tr>
+<td></td>
+<td>Terminal Bench 4.0</td>
+<td>34.9</td>
+<td>28.8</td>
+<td>1.5</td>
+<td><strong>49.0</strong></td>
+<td>39.9</td>
+<td>42.4</td>
+</tr>
+<tr>
+<td></td>
+<td>Terminal Bench 2.1</td>
+<td><strong>89.9</strong></td>
+<td>87.6</td>
+<td>65.2</td>
+<td>89.1</td>
+<td>88.8</td>
+<td>84.3</td>
+</tr>
+<tr>
+<td></td>
+<td>OSWorld-Verified</td>
+<td>82.0</td>
+<td>80.8</td>
+<td>—</td>
+<td>83.4</td>
+<td>83.0</td>
+<td><strong>86.0</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>JobBench</td>
+<td>62.0</td>
+<td>61.2</td>
+<td>25.0</td>
+<td><strong>65.7</strong></td>
+<td>45.4</td>
+<td>57.4</td>
+</tr>
+<tr>
+<td><strong>Cybersecurity</strong></td>
+<td>CyberGym</td>
+<td>94.0</td>
+<td><strong>95.1</strong></td>
+<td>40.0</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td></td>
+<td>MiMo Cyber Bench</td>
+<td><strong>80.2</strong></td>
+<td>77.2</td>
+<td>0.0</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td></td>
+<td>ExploitGym</td>
+<td><strong>17.8</strong></td>
+<td>6.0</td>
+<td>0.2</td>
+<td>22.1</td>
+<td><strong>30.3</strong></td>
+<td>28.4</td>
+</tr>
+<tr>
+<td></td>
+<td>ExploitBench</td>
+<td>47.9</td>
+<td>25.3</td>
+<td>16.6</td>
+<td>70.0</td>
+<td><strong>78.5</strong></td>
+<td>78.0</td>
+</tr>
+<tr>
+<td></td>
+<td>SEC Bench Pro</td>
+<td>66.3</td>
+<td>47.5</td>
+<td>17.7</td>
+<td>—</td>
+<td><strong>79.1</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Visual Agent</strong></td>
+<td>MiMo VisualCoding</td>
+<td><strong>72.3</strong></td>
+<td>71.5</td>
+<td>—</td>
+<td>70.0</td>
+<td>73.4</td>
+<td>69.1</td>
+</tr>
+</tbody>
+</table>
+<h3>怎么读这张表（解读，非官方口径）</h3>
+<p><strong>优势项：</strong></p>
+<ul>
+<li><strong>对 V2.5 Pro 是代差提升</strong>：DeepSWE 19→72，AutomationBench 16→53，Terminal Bench 2.1 65→90。幅度之大，更像 RL 管线换代，而非微调收益。</li>
+<li><strong>AutomationBench 53.1</strong>，压过表中全部对照模型。</li>
+<li><strong>Agents' Last Exam 与 Opus 5 打平</strong>（31.6）。</li>
+<li><strong>Terminal Bench 2.1 89.9</strong>，表内第一。</li>
+<li><strong>MiMo VisualCoding 72.3</strong>，视觉 agent 一项反超。</li>
+<li><strong>Cyber 从零起步</strong>：V2.5 Pro 的 MiMo Cyber Bench 为 <strong>0.0</strong>，V2.6 拉到 80.2。You Only RL Once 中混入 cyber 任务的效果相当直接。</li>
+</ul>
+<p><strong>短板项：</strong></p>
+<ul>
+<li><strong>Exploit 系仍被拉开</strong>。ExploitGym 17.8 vs GPT-5.6 Sol 30.3；ExploitBench 47.9 vs 78.5。实战利用链上，对照方积累更深。</li>
+<li><strong>ProgramBench 26.5</strong>，距 Opus 5 的 37.0 仍有差距。竞赛向形式化编程难度较高。</li>
+<li><strong>Terminal Bench 4.0 34.9</strong>，落后 Opus 5 的 49.0。4.0 明显难于 2.1，长程终端 agent 仍有空间。</li>
+<li><strong>OSWorld 82.0</strong> 略低于 Fable 5 的 86.0，GUI 操作并非碾压项。</li>
+</ul>
+<p><strong>Flash 的性价比值得注意。</strong> 309B 总参 / 15B 激活，多数项只比 Pro 低 2–5 个点，CyberGym 甚至反超（95.1 &gt; 94.0）。预算有限时，Flash 是更合理的选择。</p>
+<blockquote>
+<p>[!WARNING]
+对照列（Claude / GPT）来自官方模型卡，评测条件未必完全一致。跨家跑分仅供参考方向，不宜当作严格结论；具体场景请自行复测。</p>
+</blockquote>
+<h2>从 Vibe Coding 到 Vibe World</h2>
+<p>官方表述：<em>coding ability has generalized well beyond software engineering</em>。在给定目标、harness 与时间的条件下，模型可以承担完整的生产性工作，构建、测试、交付。</p>
+<p>V2.6 把 <strong>3D 空间推理 + 多模态感知 + 计算机使用 Agent（CUA）</strong> 捏在一起，自然语言驱动的编程从「写软件」扩到「造可交互世界」，官方称之为 <strong>Vibe World</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>方向</th>
+<th>它能干嘛（官方案例）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>游戏开发</strong></td>
+<td>看图/视频/文字描述 → 多 Agent 分解任务 → 3D 场景 + 交互逻辑 + 视觉验证 → 看渲染结果迭代 → 产出可运行的交互世界</td>
+</tr>
+<tr>
+<td><strong>3D 建模</strong></td>
+<td>文字或参考图 → Blender 生成 3D 物体/场景，可用于动画、3D 打印、游戏资产</td>
+</tr>
+<tr>
+<td><strong>具身仿真</strong></td>
+<td>多视角摄像头输入 → 持续推理决策 → 闭环控制 Franka Panda 机械臂完成抓取、颜色匹配、精准放置</td>
+</tr>
+<tr>
+<td><strong>视觉与设计</strong></td>
+<td>一句话 → 完整前端界面或 Slide；玩得转 Figma 和图像/视频生成工具</td>
+</tr>
+<tr>
+<td><strong>视频创作</strong></td>
+<td>视觉设计、分镜与运动序列、配乐、卡点剪辑；教学片还能用 MiMo-V2.5-TTS 配旁白</td>
+</tr>
+<tr>
+<td><strong>作曲</strong></td>
+<td>管弦乐总谱 + 自转 MIDI（案例曲 <em>Night Road</em>）；钢琴曲对力度、织体有基本控制</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!WARNING]
+「Vibe World」是产品叙事，对应的能力来自 V2.6-Pro/Flash 加上外部 harness 与工具链。落地时需要自己接环境。</p>
+</blockquote>
+<h2>科研相关案例</h2>
+<p>即使<strong>没有专门针对科研做 RL</strong>，V2.6 已经在真研究任务上露了两手：</p>
+<h3>材料：捕捉 PFAS 的 MOF 设计</h3>
+<p>小米材料专家多轮指挥 MiMo-V2.6-Pro 设计能吸附 PFAS（「永久化学品」）的金属有机框架（MOF）。它完成了：</p>
+<ol>
+<li>网络检索 + 文献专利综述</li>
+<li>提出假设、评估新颖性</li>
+<li><strong>干实验</strong>：调用开源计算工具，自动搭模拟环境，算 MOF 与 PFAS 结合强度</li>
+<li>筛出值得进湿实验的候选</li>
+</ol>
+<p>官方出了完整案例：<a href="https://mimo.xiaomi.com/blog/mimo-v2-6-material-research">mimo-v2-6-material-research</a>。</p>
+<h3>数学：Li-Yorke 定理的 Lean 4 形式化</h3>
+<p>在研究者给的探索策略指导下，V2.6-Pro 用子 Agent 协作，完成了 Li &amp; Yorke 经典论文 <em>Period Three Implies Chaos</em> 主定理的 <strong>Lean 4 形式化</strong>：</p>
+<ul>
+<li>证明陈述 + 证明本体都走完</li>
+<li><strong>6000+ 行 Lean 源码</strong></li>
+<li><strong>Lean kernel 验证通过，无未完成占位符</strong></li>
+<li>模型<strong>从未接受过 Lean 专项后训练</strong></li>
+</ul>
+<p>这说明复杂形式化能力来自通用推理和工具使用，而非专项数据灌出来的。源码可<a href="https://mimocode-cdn.xiaomimimo.com/mimocode/blog/mimo-v2-6/LiYorke-lean.zip">下载</a>。</p>
+<h2>Distill-Qwen-9B：给开源社区的 RL 起点</h2>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基座</td>
+<td>Qwen3.5-9B</td>
+</tr>
+<tr>
+<td>方式</td>
+<td>SFT（MiMo 生成数据）</td>
+</tr>
+<tr>
+<td>SFT 数据量</td>
+<td><strong>77.4B</strong> tokens（其中 loss-bearing <strong>27.2B</strong>）</td>
+</tr>
+<tr>
+<td>覆盖</td>
+<td>Code / Cyber / General / Visual</td>
+</tr>
+<tr>
+<td>用途</td>
+<td>开源 agentic RL 研究的起点 checkpoint</td>
+</tr>
+</tbody>
+</table>
+<p>数据配比（官方）：</p>
+<table>
+<thead>
+<tr>
+<th>领域</th>
+<th>总 tokens (B)</th>
+<th>占比</th>
+<th>Loss-bearing (B)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Code</td>
+<td>23.2</td>
+<td>29.9%</td>
+<td>7.3</td>
+</tr>
+<tr>
+<td>Cyber</td>
+<td>11.0</td>
+<td>14.2%</td>
+<td>4.8</td>
+</tr>
+<tr>
+<td>General</td>
+<td>22.0</td>
+<td>28.5%</td>
+<td>5.7</td>
+</tr>
+<tr>
+<td>Visual</td>
+<td>21.2</td>
+<td>27.4%</td>
+<td>9.4</td>
+</tr>
+<tr>
+<td><strong>合计</strong></td>
+<td><strong>77.4</strong></td>
+<td><strong>100%</strong></td>
+<td><strong>27.2</strong></td>
+</tr>
+</tbody>
+</table>
+<p>相对 Qwen3.5-9B 的提升（官方，avg@3 或 avg@1）：</p>
+<table>
+<thead>
+<tr>
+<th>领域</th>
+<th>Benchmark</th>
+<th>Qwen3.5-9B</th>
+<th>Distill-Qwen-9B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Code</td>
+<td>SWE Verified</td>
+<td>60.0</td>
+<td><strong>61.1</strong></td>
+</tr>
+<tr>
+<td>Code</td>
+<td>SWE Pro</td>
+<td>32.0</td>
+<td><strong>44.6</strong></td>
+</tr>
+<tr>
+<td>Code</td>
+<td>MiMo Code (mini)†</td>
+<td>19.5</td>
+<td><strong>51.6</strong></td>
+</tr>
+<tr>
+<td>Cyber</td>
+<td>MiMo Cyber (mini)†</td>
+<td>5.7</td>
+<td><strong>31.3</strong></td>
+</tr>
+<tr>
+<td>General</td>
+<td>AutomationBench</td>
+<td>5.0</td>
+<td><strong>30.3</strong></td>
+</tr>
+<tr>
+<td>General</td>
+<td>Terminal Bench 2.1</td>
+<td>27.0</td>
+<td><strong>37.1</strong></td>
+</tr>
+<tr>
+<td>General</td>
+<td>Toolathlon-Verified</td>
+<td>25.9</td>
+<td><strong>35.2</strong></td>
+</tr>
+<tr>
+<td>General</td>
+<td>OfficeQA</td>
+<td>9.0</td>
+<td><strong>19.5</strong></td>
+</tr>
+<tr>
+<td>General</td>
+<td>JobBench</td>
+<td>2.6</td>
+<td><strong>18.3</strong></td>
+</tr>
+<tr>
+<td>Visual</td>
+<td>MiMo Visual Coding (mini)†</td>
+<td>61.7</td>
+<td><strong>64.0</strong></td>
+</tr>
+</tbody>
+</table>
+<p>† 内部评测集。</p>
+<p><strong>定位很清楚</strong>：这是<strong>故意放出来的 SFT 起点</strong>，用来在上面跑自己的 agentic RL，验证 GRS/GAR/MOPD2 那类想法。官方原话是 <em>「a starting point for open research in agentic reinforcement learning」</em>。</p>
+<p>SWE Verified 只从 60.0 挪到 61.1，但 SWE Pro 从 32 到 44.6、内部 Code mini 从 19.5 到 51.6。<strong>蒸馏数据在难任务和分布内任务上收益完全不同</strong>，这个现象本身就值得写篇 ablation。</p>
+<h2>部署、价格与生态</h2>
+<table>
+<thead>
+<tr>
+<th>渠道</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://aistudio.xiaomimimo.com/">AI Studio</a></td>
+<td>Pro / Flash 可用</td>
+</tr>
+<tr>
+<td><a href="https://mimo-ai.xiaomimimo.com/desktop/">MiMo Desktop</a></td>
+<td>转正首发，内置 Pro / Flash / <strong>Pro-UltraSpeed</strong></td>
+</tr>
+<tr>
+<td>MiMo Code</td>
+<td>可用</td>
+</tr>
+<tr>
+<td><a href="https://mimo.mi.com/">MiMo API Platform</a></td>
+<td>Pro / Flash / UltraSpeed</td>
+</tr>
+<tr>
+<td><a href="https://openrouter.ai/xiaomi">OpenRouter</a></td>
+<td>可用</td>
+</tr>
+<tr>
+<td><a href="https://huggingface.co/collections/XiaomiMiMo/mimo-v26">HuggingFace</a></td>
+<td>Pro-RL / Flash-RL / Distill-Qwen-9B</td>
+</tr>
+<tr>
+<td>ModelScope</td>
+<td>同步</td>
+</tr>
+<tr>
+<td>SGLang / vLLM</td>
+<td>官方 cookbook / recipe</td>
+</tr>
+</tbody>
+</table>
+<h3>API 定价（官方，与 V2.5 持平）</h3>
+<p>单位：USD / 百万 tokens。</p>
+<p><img src="https://mouy.site/images/mimo-v26/api-pricing.svg" alt="API 定价对比" /></p>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>输入（缓存命中）</th>
+<th>输入（未命中）</th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MiMo-V2.6-Flash</td>
+<td>$0.0028</td>
+<td>$0.14</td>
+<td>$0.28</td>
+</tr>
+<tr>
+<td>MiMo-V2.6-Pro</td>
+<td>$0.0036</td>
+<td>$0.435</td>
+<td>$0.87</td>
+</tr>
+<tr>
+<td>MiMo-V2.6-Pro-UltraSpeed</td>
+<td>$0.036</td>
+<td>$4.35</td>
+<td>$8.7</td>
+</tr>
+</tbody>
+</table>
+<p>限时缓存写入免费。国内人民币价看<a href="https://mimo.mi.com/docs/price/pay-as-you-go">定价页</a>。Volume 场景有 <a href="https://platform.xiaomimimo.com/token-plan">Token Plan</a>。</p>
+<blockquote>
+<p>[!NOTE]
+UltraSpeed 输出单价是 Pro 的 <strong>10 倍</strong>，换来最高 <strong>20 倍</strong>出字速度。适合实时交互场景；批处理任务建议用标准档。</p>
+</blockquote>
+<p>推荐采样：<code>temperature=1.0</code>，<code>top_p=0.95</code>。</p>
+<p>Pro 的 SGLang 参考配置比较凶：<code>--tp 16 --dp 2 --ep 16</code>，双机；Flash 可以 <code>--tp 8 --dp 2</code> 单机多卡。都开了 EAGLE 式投机解码（<code>--enable-multi-layer-eagle</code>）和 <code>mimo</code> 的 reasoning / tool-call parser。</p>
+<blockquote>
+<p>[!IMPORTANT]
+Pro 是 <strong>1.02T 总参 MoE</strong>，本地部署门槛较高。个人开发者建议从 <strong>Distill-Qwen-9B</strong>、Desktop 内置模型或 API 入手。</p>
+</blockquote>
+<h2>优势与不足</h2>
+<h3>优势</h3>
+<ol>
+<li><strong>AAII 46.32，开源第一。</strong> 来自 Artificial Analysis 第三方指数。</li>
+<li><strong>RL 管线完整度高。</strong> You Only RL Once + 异步 GRPO 超大 batch + GRS/GAR + MOPD2，且全程直播、账单公开（Flash 约 85 万美元 / Pro 约 262 万美元 / 30 步 / 750k 轨迹）。</li>
+<li><strong>自我改进闭环成型。</strong> 组内 agentic 打分将奖励从二值 pass/fail 扩展为质量排序，是 RLVR 之后的实质进展。</li>
+<li><strong>Agent 长程能力提升显著。</strong> Terminal Bench 2.1 / AutomationBench / JobBench 相对 V2.5 为代差；DeepSWE 在 RL 过程中上涨 14–17 分。</li>
+<li><strong>1M 上下文 + 全模态原生 + Vibe World。</strong> 覆盖长仓库、工具轨迹、多会话 agent，以及 3D / 具身 / 作曲等方向。</li>
+<li><strong>Flash 性价比突出</strong>，UltraSpeed 覆盖实时场景，Distill-Qwen-9B 降低了研究门槛。</li>
+<li><strong>API 定价与 V2.5 持平</strong>，能力提升未伴随涨价。</li>
+</ol>
+<h3>劣势</h3>
+<ol>
+<li><strong>Exploit 实战链路偏弱</strong>，cyber 方向尚未达到顶尖水平。</li>
+<li><strong>ProgramBench / Terminal Bench 4.0</strong> 等高难长程项，与顶级闭源模型仍有差距。</li>
+<li><strong>跑分对照依赖官方口径</strong>，第三方大规模复现尚未出现（发布当日，属正常情况）。</li>
+<li><strong>1.02T MoE 部署门槛高</strong>，不过 Flash 与 9B 蒸馏版提供了更轻量的替代路径。</li>
+<li><strong>Vibe World / 作曲 / 具身</strong> 目前更接近能力演示，距稳定产品化仍有距离。</li>
+</ol>
+<h2>结语</h2>
+<p>本文数字均取自官方公开材料，解读部分与官方口径分开标注。</p>
+<blockquote>
+<p>[!NOTE]
+<strong>真实性审计记录（2026-09-22）</strong>：文中全部关键数字已与<a href="https://mimo.xiaomi.com/mimo-v2-6/article.html">官方发布稿</a>、<a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL">HF Pro-RL 模型卡</a>逐项核对。</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>核对结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AAII 46.32 / 定价三档 / UltraSpeed 20×</td>
+<td>与发布稿一致</td>
+</tr>
+<tr>
+<td>RL 成本 $0.85M / $2.62M · 30 步 · 750k 轨迹</td>
+<td>与发布稿一致</td>
+</tr>
+<tr>
+<td>DeepSWE 48.8→65.68 / 58.4→72.57</td>
+<td>与发布稿一致</td>
+</tr>
+<tr>
+<td>1.02T/42B · 309B/15B · 架构表</td>
+<td>与 HF 模型卡一致</td>
+</tr>
+<tr>
+<td>16 项基准全表</td>
+<td>与 HF 模型卡一致</td>
+</tr>
+<tr>
+<td>1568 samples vs prompts×16</td>
+<td>两套官方口径，已用 750k÷30 反推对齐，正文有说明</td>
+</tr>
+</tbody>
+</table>
+<p>未找到出处的数字未写入正文。</p>
+</blockquote>
+<p>V2.6 值得关注的是 <strong>「Scale RL toward self-improvement」</strong> 这条路线：把打分器也视为可扩展的计算，让模型在自身采样分布上被更细的信号持续推优，走向更短路径、更少 token、更稳的解。RL 过程全程直播、训练成本公开，这种工程透明度本身也有参考价值。</p>
+<p>预训练提供世界知识，SFT 建立对话格式，而 RL 负责把任务真正做完。V2.6 在这一阶段投入了实打实的算力，并把账单摊开给社区看。</p>
+<p>以上，供参考。</p>
+<hr />
+<p><strong>参考链接</strong></p>
+<ul>
+<li><a href="https://mimo.xiaomi.com/mimo-v2-6/article.html">官方发布正文 Introducing MiMo-V2.6 series</a></li>
+<li><a href="https://mimo.xiaomi.com/rl">RL 训练直播回放</a></li>
+<li><a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL">MiMo-V2.6-Pro-RL（HuggingFace）</a></li>
+<li><a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Flash-RL">MiMo-V2.6-Flash-RL（HuggingFace）</a></li>
+<li><a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Distill-Qwen-9B">MiMo-V2.6-Distill-Qwen-9B（HuggingFace）</a></li>
+<li><a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL/blob/main/MiMo_V2_6_technical_report.pdf">MiMo-V2.6 Technical Report</a></li>
+<li><a href="https://arxiv.org/abs/2606.30406">MOPD: Multi-Teacher On-Policy Distillation（arXiv:2606.30406）</a></li>
+<li><a href="https://mimo.xiaomi.com/blog/mimo-v2-6-material-research">材料研发案例：PFAS / MOF</a></li>
+<li><a href="https://mimocode-cdn.xiaomimimo.com/mimocode/blog/mimo-v2-6/LiYorke-lean.zip">Li-Yorke Lean 4 证明源码</a></li>
+<li><a href="https://mimo.xiaomi.com/">Xiaomi MiMo 官网</a></li>
+</ul>
+]]></content>
+    <author>
+      <name>某炜</name>
+    </author>
+    <category term="AI"></category>
+  </entry>
   <entry>
     <title>1.21.1 Fabric Mou 整合包完整使用指南</title>
     <link href="https://mouy.site/posts/1.21.1-fabric-mou-guide/" rel="alternate" type="text/html"/>
     <id>https://mouy.site/posts/1.21.1-fabric-mou-guide/</id>
     <published>2026-07-29T13:30:00.000Z</published>
-    <updated>2026-07-29T14:10:00.000Z</updated>
-    <summary>覆盖 47 个模组的完整中文教程，包括安装、快捷键、生电建筑工具、物品管理、地图界面、性能优化和依赖说明。</summary>
+    <updated>2026-09-22T10:10:00.000Z</updated>
+    <summary>覆盖当前 69 个顶层 Mod JAR 的完整中文教程，包括安装、快捷键、生电建筑工具、物品管理、地图界面、录像创作、性能优化和依赖说明。</summary>
     <content type="html"><![CDATA[<h1>1.21.1 Fabric Mou 整合包完整使用指南</h1>
 <blockquote>
-<p>一篇文章看懂整合包内 47 个模组的定位、操作方式、快捷键、配置位置、依赖关系与注意事项。</p>
+<p>一篇文章看懂整合包内 69 个顶层 Mod JAR 的定位、操作方式、快捷键、配置位置、依赖关系与注意事项。</p>
 </blockquote>
-<p>本文基于整合包当前实际文件和配置整理。文中的版本号与快捷键均指整合包内配置，不代表模组的最新版本或默认设置。</p>
-<h2>下载整合包</h2>
-<p><a href="https://github.com/Mou-1205/Mou/releases/download/mou-modpack-v0.1.0/Mou.0.1.0.zip">下载 Mou 0.1.0（GitHub Release）</a></p>
+<p>本文基于 2026 年 9 月 22 日的整合包实际 <code>mods/</code>、<code>config/</code>、<code>options.txt</code> 整理。文中的版本号、快捷键和启用状态均指这个实例快照，不代表模组官网的最新版本或全新安装时的默认设置。</p>
+<h2>下载与版本对应关系</h2>
+<h3>当前版：Mou v1.0.0（推荐）</h3>
+<p><a href="https://github.com/Mou-1205/Mou/releases/download/mou-modpack-v1.0.0/Mou.1.0.0.zip">下载 Mou 1.0.0（69-Mod mrpack）</a></p>
+<ul>
+<li>发布页：<a href="https://github.com/Mou-1205/Mou/releases/tag/mou-modpack-v1.0.0">mou-modpack-v1.0.0</a></li>
+<li>Minecraft：1.21.1</li>
+<li>Fabric Loader：0.19.3</li>
+<li>Java：21</li>
+<li>包格式：Modrinth mrpack（<code>modrinth.index.json</code> + <code>overrides/</code>）</li>
+<li>文件大小：<code>62,303,517</code> 字节，约 <code>59.42 MiB</code></li>
+<li>SHA-256：<code>9aebbb285b46e2c19e80538a2dd648762fac7109fab38893eb3a243fa87b2b8f</code></li>
+<li>内容构成：索引下载模组 <strong>67</strong> 个（安装时从 CDN 拉取，约 318 MB）+ 捆绑模组 <strong>2</strong> 个（Quick Shulker、Litematica Printer）+ 预置配置</li>
+<li>顶层 Mod 合计 <strong>69</strong>，与本文正文一致</li>
+</ul>
+<p><strong>导入方式</strong></p>
+<ol>
+<li>推荐：用 PCL / HMCL / Prism / Modrinth App 等支持 mrpack 的启动器直接导入压缩包。</li>
+<li>备选：把 <code>Mou.1.0.0.zip</code> 扩展名改成 <code>.mrpack</code>，再导入支持 Modrinth 整合包的启动器。</li>
+<li>首次启动前确认启动器使用 <strong>Java 21</strong>。</li>
+<li>安装阶段会联网下载索引里的 67 个模组，请保持网络畅通；捆绑的 2 个 jar 已在包内，无需再下。</li>
+</ol>
+<blockquote>
+<p>[!NOTE]
+v1.0.0 就是本文 2026-09-22 的 69-Mod 快照公开版，教程正文可以直接照着用。</p>
+</blockquote>
+<h3>旧版：Mou 0.1.0（已过时）</h3>
+<p><a href="https://github.com/Mou-1205/Mou/releases/download/mou-modpack-v0.1.0/Mou.0.1.0.zip">下载旧版 Mou 0.1.0（50-JAR GitHub Release）</a></p>
 <ul>
 <li>Minecraft：1.21.1</li>
 <li>Fabric Loader：0.19.3</li>
-<li>文件大小：约 120 MiB</li>
-<li>SHA-256：<code>2785A0372B7B203CAF6A887C1FC28B4230B70D116A5EE8D98F4D7F07902D72A1</code></li>
+<li>文件大小：<code>81,477,184</code> 字节，约 <code>77.70 MiB</code></li>
+<li>SHA-256：<code>FB40234D00399464458EE7683A1B184517D714A33F2662226F89E0B068BDC8CD</code></li>
 </ul>
-<p>下载后可以使用 PCL 直接导入压缩包，也可以从压缩包中的 <code>.mrpack</code> 文件导入到支持 Modrinth 整合包格式的启动器。首次启动前请确认启动器使用 Java 21。</p>
+<blockquote>
+<p>[!WARNING]
+0.1.0 是 2026 年 8 月 12 日发布的旧版 50-JAR 包，<strong>不要</strong>再当主包用。新玩家直接下 v1.0.0。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>差异</th>
+<th>旧版 0.1.0</th>
+<th>当前 v1.0.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>顶层 Mod</td>
+<td>50 个</td>
+<td>69 个</td>
+</tr>
+<tr>
+<td>包格式</td>
+<td>全量 JAR 压缩包</td>
+<td>Modrinth mrpack（67 索引 + 2 捆绑）</td>
+</tr>
+<tr>
+<td>潜影盒功能</td>
+<td>Shulker Box Tooltip</td>
+<td>Quick Shulker（快捷潜影盒）</td>
+</tr>
+<tr>
+<td>Continuity / More Culling</td>
+<td>未包含</td>
+<td>已包含</td>
+</tr>
+<tr>
+<td>Carpet 扩展</td>
+<td>仅 GCA</td>
+<td>GCA + TIS + REMS + Org</td>
+</tr>
+<tr>
+<td>投影施工</td>
+<td>仅 Litematica</td>
+<td>Litematica + Printer</td>
+</tr>
+<tr>
+<td>录像创作</td>
+<td>无</td>
+<td>Flashback</td>
+</tr>
+<tr>
+<td>实体资源包</td>
+<td>无</td>
+<td>ETF + EMF</td>
+</tr>
+<tr>
+<td>性能扩展</td>
+<td>基础优化</td>
+<td>+ Ixeris / Super Resolution</td>
+</tr>
+</tbody>
+</table>
+<p>只有在回滚旧存档或排查历史问题时才用 0.1.0；对照本文教程时请注意上述差异，Quick Shulker、Printer、Flashback、Carpet 扩展、ETF/EMF 等章节对 0.1.0 不适用。</p>
 <blockquote>
 <p>[!IMPORTANT]
-投影、自由相机、灵活放置、连锁操作和 Carpet 规则可能受到服务器规则限制。进入多人服务器前，请先确认允许使用的功能范围。</p>
+投影、自由相机、灵活放置、连锁操作、Litematica Printer 和 Carpet 规则可能受到服务器规则限制。进入多人服务器前，请先确认允许使用的功能范围。</p>
 </blockquote>
 <h2>整合包基本信息</h2>
 <table>
@@ -54,23 +1175,41 @@
 <td>21</td>
 </tr>
 <tr>
-<td>模组数量</td>
-<td>47 个</td>
+<td>公开整合包</td>
+<td><a href="https://github.com/Mou-1205/Mou/releases/tag/mou-modpack-v1.0.0">Mou v1.0.0</a>（mrpack）</td>
+</tr>
+<tr>
+<td>顶层 Mod JAR</td>
+<td>69 个</td>
+</tr>
+<tr>
+<td>加载器模组条目</td>
+<td>远多于文件数，包含 Fabric API 子模块和 JAR 内嵌依赖</td>
 </tr>
 <tr>
 <td>主要用途</td>
-<td>生电调试、投影施工、建筑辅助、地图记录、物品管理、性能优化</td>
+<td>生电调试、投影施工、建筑辅助、地图记录、物品管理、录像创作、性能优化</td>
 </tr>
 </tbody>
 </table>
-<p>整合包的核心逻辑可以分成五组：</p>
+<p>整合包的核心逻辑可以分成六组：</p>
 <ol>
-<li><strong>生电与建造</strong>：Carpet、Litematica、MiniHUD、Tweakeroo 等。</li>
-<li><strong>物品与交互</strong>：连锁操作、背包整理、潜影盒预览、附魔处理等。</li>
-<li><strong>地图、信息与界面</strong>：JourneyMap、Jade、JEI、按键管理与皮肤加载。</li>
-<li><strong>性能与渲染</strong>：Sodium、Lithium、Iris、ModernFix 等。</li>
+<li><strong>生电与建造</strong>：Carpet 及其 TIS / REMS / Org 扩展、Litematica + Printer、MiniHUD、Tweakeroo、TweakerMore 等。</li>
+<li><strong>物品与交互</strong>：连锁操作、背包整理、Quick Shulker、附魔处理等。</li>
+<li><strong>地图、信息与界面</strong>：JourneyMap、Jade、JEI、进度界面、聊天增强、皮肤与局域网设置。</li>
+<li><strong>录像与创作</strong>：Flashback 游戏录像、回放与电影镜头导出。</li>
+<li><strong>性能与渲染</strong>：Sodium、Lithium、Iris、Ixeris、Super Resolution、ETF/EMF 等。</li>
 <li><strong>前置与依赖库</strong>：为其他模组提供接口和运行环境，本身通常不需要操作。</li>
 </ol>
+<h3>本次文件盘点结论</h3>
+<ul>
+<li><code>mods/</code> 中共有 69 个 <code>.jar</code>，每个都能读取到独立的 <code>fabric.mod.json</code>；另有 1 个加载器 JSON 文件不是模组。</li>
+<li>没有发现重复的顶层 Mod ID。</li>
+<li>潜影盒相关已从旧文的 Better Shulkers 换成 <strong>Quick Shulker</strong>；<code>config/bettershulkers.toml</code> 是历史残留，当前不生效。</li>
+<li>Carpet 生态从单一 GCA 扩展到 <strong>GCA + Carpet TIS Addition + REMS Carpet Addition + Carpet Org Addition</strong> 四件套。</li>
+<li>新增录像模组 Flashback（约 200 MB），以及实体资源包兼容层 ETF + EMF。</li>
+<li>当前实例可以进入游戏和世界，但 <code>Trade Cycling 1.0.20</code> 与 <code>Visible Traders 1.3.2</code> 的联动初始化失败，文章后面会给出影响范围和处理方式。</li>
+</ul>
 <h2>安装与首次启动</h2>
 <h3>环境要求</h3>
 <ul>
@@ -146,12 +1285,13 @@
 </table>
 <h2>推荐学习顺序</h2>
 <ol>
-<li>先用 Controlling 处理按键冲突。</li>
-<li>学习 Litematica 的投影、材料列表和验证器。</li>
+<li>先用 Controlling 处理按键冲突（尤其 F6、反引号、K、O、R）。</li>
+<li>学习 Litematica 的投影、材料列表和验证器，再按需上 Litematica Printer。</li>
 <li>学习 MiniHUD 的结构边界、刷怪范围和光照显示。</li>
-<li>学习 Tweakeroo 的自由相机与灵活放置。</li>
-<li>在测试世界学习 Carpet 与 GCA。</li>
-<li>配置 JourneyMap、JEI、Jade 和物品整理功能。</li>
+<li>学习 Tweakeroo 的自由相机与灵活放置，TweakerMore 作补充。</li>
+<li>在测试世界学习 Carpet 与 GCA / TIS / REMS / Org（规则默认关，逐个开）。</li>
+<li>配置 JourneyMap、JEI、Jade、Quick Shulker 和物品整理功能。</li>
+<li>要做演示片再学 Flashback；要开超分/实体资源包再动 Super Resolution 和 ETF/EMF。</li>
 <li>最后根据电脑性能决定是否开启 Iris 光影和动态光源。</li>
 </ol>
 <h2>快捷键总览</h2>
@@ -214,14 +1354,9 @@
 <td>FTB Ultimine</td>
 </tr>
 <tr>
-<td>潜影盒紧凑预览</td>
-<td>Shift</td>
-<td>Shulker Box Tooltip</td>
-</tr>
-<tr>
-<td>潜影盒完整预览</td>
-<td>Alt + Shift</td>
-<td>Shulker Box Tooltip</td>
+<td>Modern UI 配置中心</td>
+<td>K</td>
+<td>Modern UI</td>
 </tr>
 <tr>
 <td>Zoomify</td>
@@ -232,6 +1367,31 @@
 <td>村民交易刷新</td>
 <td>C</td>
 <td>Trade Cycling</td>
+</tr>
+<tr>
+<td>Quick Shulker 打开潜影盒</td>
+<td>F9</td>
+<td>Quick Shulker</td>
+</tr>
+<tr>
+<td>Quick Shulker 设置界面</td>
+<td>小键盘 +</td>
+<td>Quick Shulker</td>
+</tr>
+<tr>
+<td>Super Resolution 配置</td>
+<td>F6</td>
+<td>Super Resolution</td>
+</tr>
+<tr>
+<td>Litematica Printer 开关</td>
+<td>Caps Lock + `</td>
+<td>Litematica Printer</td>
+</tr>
+<tr>
+<td>Litematica Printer 面板</td>
+<td>Z + Y</td>
+<td>Litematica Printer</td>
 </tr>
 </tbody>
 </table>
@@ -427,6 +1587,30 @@
 <td>C</td>
 </tr>
 <tr>
+<td>生电与建造</td>
+<td>Litematica Printer（打印机）</td>
+<td>启用/禁用自动打印</td>
+<td>Caps Lock + `</td>
+</tr>
+<tr>
+<td>生电与建造</td>
+<td>Litematica Printer（打印机）</td>
+<td>打开打印机面板</td>
+<td>Z + Y</td>
+</tr>
+<tr>
+<td>物品与交互</td>
+<td>Quick Shulker（快捷潜影盒）</td>
+<td>打开手中/悬停容器</td>
+<td>F9</td>
+</tr>
+<tr>
+<td>物品与交互</td>
+<td>Quick Shulker（快捷潜影盒）</td>
+<td>打开设置界面</td>
+<td>小键盘 +</td>
+</tr>
+<tr>
 <td>物品与交互</td>
 <td>FTB Ultimine（连锁破坏）</td>
 <td>启用连锁操作</td>
@@ -449,24 +1633,6 @@
 <td>FTB Ultimine（连锁破坏）</td>
 <td>显示形状菜单</td>
 <td>按住 ` + 潜行</td>
-</tr>
-<tr>
-<td>物品与交互</td>
-<td>Shulker Box Tooltip（潜影盒预览）</td>
-<td>紧凑预览</td>
-<td>Shift</td>
-</tr>
-<tr>
-<td>物品与交互</td>
-<td>Shulker Box Tooltip（潜影盒预览）</td>
-<td>完整槽位预览</td>
-<td>Alt + Shift</td>
-</tr>
-<tr>
-<td>物品与交互</td>
-<td>Shulker Box Tooltip（潜影盒预览）</td>
-<td>锁定提示框并查看内部物品</td>
-<td>左 Ctrl</td>
 </tr>
 <tr>
 <td>物品与交互</td>
@@ -526,11 +1692,11 @@
 <td>地图、信息与界面</td>
 <td>JourneyMap（旅行地图）</td>
 <td>小地图类型</td>
-<td></td>
+<td>[</td>
 </tr>
 <tr>
 <td>地图、信息与界面</td>
-<td>[JourneyMap（旅行地图）</td>
+<td>JourneyMap（旅行地图）</td>
 <td>新建路径点</td>
 <td>.</td>
 </tr>
@@ -661,6 +1827,36 @@
 <td>当前未绑定</td>
 </tr>
 <tr>
+<td>地图、信息与界面</td>
+<td>Modern UI</td>
+<td>打开配置中心</td>
+<td>K</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>Better Advancements（更好的进度）</td>
+<td>无独立按键</td>
+<td>在进度界面生效</td>
+</tr>
+<tr>
+<td>地图、信息与界面</td>
+<td>Cherished Worlds（存档置顶）</td>
+<td>无独立按键</td>
+<td>在世界列表标记收藏</td>
+</tr>
+<tr>
+<td>录像与创作</td>
+<td>Flashback（闪回）</td>
+<td>创建标记 1–4</td>
+<td>当前未绑定</td>
+</tr>
+<tr>
+<td>性能与渲染</td>
+<td>Super Resolution（超分辨率）</td>
+<td>打开配置</td>
+<td>F6</td>
+</tr>
+<tr>
 <td>性能与渲染</td>
 <td>EntityCulling（实体遮挡剔除）</td>
 <td>剔除开关</td>
@@ -721,8 +1917,11 @@
 <li><strong>M</strong>：Litematica 前缀键，同时 JourneyMap 用于切换小地图；Litematica 组合键需要连续/组合输入，通常仍可使用。</li>
 <li><strong>O</strong>：JEI 物品列表开关与 Iris 光影包选择冲突，建议修改 Iris 为 <code>Ctrl + O</code>。</li>
 <li><strong>R</strong>：JEI 查看配方与 Iris 重载光影冲突，建议修改 Iris 为 <code>Ctrl + R</code>。</li>
+<li><strong>K</strong>：Iris 光影开关与 Modern UI 配置中心冲突，建议把 Modern UI 改为 <code>Shift + K</code>，保留 Iris 的快速开关。</li>
 <li>****：JourneyMap 小地图预设与 Tweakeroo 工具切换存在冲突。</li>
 <li><strong>C</strong>：Trade Cycling 与部分模组默认配置入口可能冲突。</li>
+<li><strong>F6</strong>：Zoomify 备用缩放键与 Super Resolution 配置键冲突，建议给 Super Resolution 换键。</li>
+<li><strong>`（反引号）</strong>：FTB Ultimine 与 Litematica Printer 开关组合键共用反引号，注意 Caps Lock 状态。</li>
 <li><strong>左 Alt</strong>：Litematica、MiniHUD、Tweakeroo 多处作为修饰键，操作前确认当前工具模式。</li>
 </ul>
 <h3>建议的未绑定功能</h3>
@@ -731,11 +1930,13 @@
 <li>LambDynamicLights 开关：建议绑定，刷怪测试前快速关闭。</li>
 <li>Neat 血条开关：建议绑定，截图和大型实体农场时关闭。</li>
 <li>Dynamic FPS 强制/禁用：一般保持未绑定即可。</li>
+<li>Flashback 标记 1–4：录像剪辑需要章节点时再绑定。</li>
+<li>Super Resolution 配置：与 Zoomify 冲突，建议改绑。</li>
 </ul>
 <h2>全部模组使用教程</h2>
-<p>下面按整合包分类逐个介绍全部 47 个模组。前置库也会说明是否能删除、由哪些模组使用以及排错时应该检查什么。</p>
+<p>下面按整合包分类逐个介绍全部 69 个顶层 Mod JAR。前置库也会说明是否能删除、由哪些模组使用以及排错时应该检查什么。</p>
 <h2>生电与建造</h2>
-<p>投影施工、生电调试、自由相机、灵活放置和村民交易工具。</p>
+<p>投影施工、自动打印、生电调试、自由相机、灵活放置和村民交易工具。</p>
 <h3>Carpet Mod（地毯）</h3>
 <blockquote>
 <p>生电整合包的规则控制、假人测试和调试核心。</p>
@@ -828,6 +2029,180 @@ GCA 的规则会随构建版本调整，教程以游戏内 <code>/carpet</code> 
 <p><strong>官方资料</strong></p>
 <ul>
 <li><a href="https://github.com/Gu-ZT/gugle-carpet-addition">项目主页或官方文档</a></li>
+</ul>
+<h3>Carpet TIS Addition（Carpet-TIS）</h3>
+<blockquote>
+<p>TIS 社区维护的 Carpet 扩展，补上大量实用工具和趣味规则，是生电服务器最常见的附加包之一。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>carpet-tis-addition</code></li>
+<li><strong>当前版本</strong>：<code>1.82.4</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用；依赖 Carpet ≥ 1.4.147</li>
+</ul>
+<p><strong>快速入门</strong></p>
+<p>安装后 <code>/carpet</code> 规则列表会多出 TIS 前缀的条目。先用 <code>/carpet &lt;规则名&gt;</code> 读说明，再决定是否开启。常用方向包括掉落物计数、区块加载调试、刷怪塔测试辅助和一些仅方便调试的“非原版”工具。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>规则默认大多关闭，不会偷偷改玩法；但开启后会影响世界机制，主世界慎用。</li>
+<li>与 GCA、REMS、Org 同时安装时规则列表会很长，建议配合搜索或文档定位。</li>
+<li>服务器联机需服务端同步安装，否则客户端规则无效。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>carpet</code>：<code>&gt;=1.4.147</code></li>
+<li><code>mixinextras</code>：<code>&gt;=0.3.0</code>（通常由 Carpet/加载器链带入）</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/carpettisaddition/</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://carpet.tis.world">项目主页或官方文档</a></li>
+</ul>
+<h3>REMS Carpet Addition（Carpet-REMS）</h3>
+<blockquote>
+<p>作者按自己需求整理的 Carpet 扩展，补一些“别人有但我还想要”的生电向功能。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>remscarpetaddition</code></li>
+<li><strong>当前版本</strong>：<code>1.3.30</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用；依赖 Carpet ≥ 1.4.147</li>
+</ul>
+<p><strong>快速入门</strong></p>
+<p>同样挂在 <code>/carpet</code> 规则表下。功能面比 TIS 窄，但有些小工具很顺手。先扫一遍规则名，按需开启。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>规则数量少于 TIS，和 TIS/GCA 可共存，但注意同类规则别重复开启。</li>
+<li>改机制类规则前先在测试世界验证。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>carpet</code>：<code>&gt;=1.4.147</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/</code> 下 REMS 相关目录（随 Carpet 规则系统管理）</li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/Hure-herd/REMS-Carpet-Addition">项目主页或官方文档</a></li>
+</ul>
+<h3>Carpet Org Addition（Carpet-ORG）</h3>
+<blockquote>
+<p>一个“非常 Not Vanilla”的 Carpet 扩展：实用和无用的功能都有，默认全部关闭，必须手动开。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>carpet-org-addition</code></li>
+<li><strong>当前版本</strong>：<code>1.41.6</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用；依赖 Carpet + Fabric API</li>
+</ul>
+<p><strong>快速入门</strong></p>
+<p>安装后规则表会多出 Org 相关条目。<strong>默认不改变任何游戏机制</strong>，所有功能都要手动开启。适合单人实验、做演示或折腾数据；进服前先问规则。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>名字里带 Org 就是“不原版”的意思，别在纯净服乱开。</li>
+<li>规则默认关闭是优点，但开启后可能改变掉落、红石或实体行为。</li>
+<li>多人环境以服务端配置为准。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code></li>
+<li><code>carpet</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/carpetorgaddition/</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/fcsailboat/Carpet-Org-Addition">项目主页或官方文档</a></li>
+</ul>
+<h3>Litematica Printer（打印机）</h3>
+<blockquote>
+<p>配合 Litematica 原理图自动放置/破坏方块，把“照着投影盖”变成半自动施工。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>litematica-printer-wrapper</code>（包装多版本包，内部实现为 <code>litematica-printer</code>）</li>
+<li><strong>当前版本</strong>：<code>1.3-beta.4</code></li>
+<li><strong>运行环境</strong>：客户端；依赖 Litematica</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>启用/禁用自动打印</td>
+<td>Caps Lock + `（反引号）</td>
+</tr>
+<tr>
+<td>打开打印机面板</td>
+<td>Z + Y</td>
+</tr>
+</tbody>
+</table>
+<p><strong>怎么用</strong></p>
+<ol>
+<li>先用 Litematica 放好原理图并进入 Easy Place / 放置管理状态。</li>
+<li>按 <code>Z + Y</code> 打开打印机面板，确认材料、范围和限速。</li>
+<li>按 <code>Caps Lock + \</code> 开关自动打印（注意与 FTB Ultimine 的反引号键区分 Caps Lock 状态）。</li>
+<li>当前配置 <code>workingSwitch.enabled=false</code>，默认不自动开工；面板里 <code>renderHud</code> 与 <code>missingMaterialHud</code> 开着，方便看缺料。</li>
+<li><code>printerAutoDisable=true</code>：缺料或完成后会自动停，减少翻车。</li>
+</ol>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li><strong>这模组在多数服务器属于违规自动化</strong>，联机前先确认规则。</li>
+<li>当前 <code>placeInterval=1</code>、<code>breakCooldown=3</code>，速度偏保守；调快前先看 TPS。</li>
+<li><code>printerLagCheck=true</code>，卡顿会自动刹车，别关。</li>
+<li>材料不够时打印机不会硬来，先补料再继续。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>litematica</code></li>
+<li><code>malilib</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/litematica-printer.json</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/BiliXWhite/litematica-printer">项目主页或官方文档</a></li>
+</ul>
+<h3>TweakerMore（TK 扩展）</h3>
+<blockquote>
+<p>Fallen_Breath 维护的客户端微调合集，和 Tweakeroo / MaLiLib 同族，补一堆 Tweakeroo 没有的小开关。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>tweakermore</code></li>
+<li><strong>当前版本</strong>：<code>3.33.0</code></li>
+<li><strong>运行环境</strong>：仅客户端；依赖 MaLiLib</li>
+</ul>
+<p><strong>快速入门</strong></p>
+<p>在模组菜单或 MaLiLib 配置入口打开 TweakerMore。功能按模块分组：方块放置辅助、实体渲染微调、快捷键扩展、HUD 小工具等。默认改动很小，按需勾选。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>和 Tweakeroo 功能有重叠，两边都开同类开关时以实测为准。</li>
+<li>依赖 MaLiLib，删 MaLiLib 会连带它一起挂。</li>
+<li>调试期一次只开一两个开关，方便回滚。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>malilib</code>：<code>&gt;=0.21.5</code></li>
+<li><code>conditional-mixin</code> / <code>mixinextras</code>（通常随依赖链带入）</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/malilib.json</code>（共用）与 TweakerMore 自身配置项</li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://modrinth.com/mod/tweakermore">项目主页或官方文档</a></li>
 </ul>
 <h3>Litematica（投影）</h3>
 <blockquote>
@@ -1151,6 +2526,7 @@ GCA 的规则会随构建版本调整，教程以游戏内 <code>/carpet</code> 
 <li>只对尚未锁定交易的村民有效。</li>
 <li>确保工作站可被正常破坏、重新放置且村民能寻路绑定。</li>
 <li>多人服务器必须允许对应行为。</li>
+<li>当前 <code>latest.log</code> 显示它与 Visible Traders 的兼容层发生 <code>NoSuchMethodException</code>。基础刷新功能和“显示后续交易”应分别测试，不要默认两者联动正常。</li>
 </ul>
 <p><strong>依赖关系</strong></p>
 <ul>
@@ -1164,8 +2540,56 @@ GCA 的规则会随构建版本调整，教程以游戏内 <code>/carpet</code> 
 <ul>
 <li><a href="https://www.curseforge.com/minecraft/mc-mods/trade-cycling">项目主页或官方文档</a></li>
 </ul>
+<h3>Visible Traders（可见村民交易）</h3>
+<blockquote>
+<p>提前显示村民尚未解锁的后续交易，减少为了确认高等级交易而反复培养村民的试错成本。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>visibletraders</code></li>
+<li><strong>当前版本</strong>：<code>1.3.2</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>没有独立快捷键，功能直接集成在村民交易界面中。</p>
+</blockquote>
+<p><strong>从零开始</strong></p>
+<ol>
+<li>给未就业村民放置工作站，让它获得职业。</li>
+<li>右键村民打开交易界面。</li>
+<li>正常可交易的项目仍然显示在前面；尚未解锁的职业等级交易会提前展示。</li>
+<li>如果某项显示“正在生成”，等待服务器完成该村民的交易生成后再查看。</li>
+<li>根据后续交易是否符合需求，决定继续升级村民，或在尚未交易时更换工作站。</li>
+</ol>
+<p><strong>与 Trade Cycling 配合</strong></p>
+<p>理论上可以先查看交易，再用 Trade Cycling 刷新未锁定村民。但当前实例中 Trade Cycling 的 Visible Traders 兼容层找不到 1.3.2 提供的方法，因此联动初始化失败。实际使用时按下面顺序排查：</p>
+<ol>
+<li>单独打开交易界面，确认 Visible Traders 能否显示后续交易。</li>
+<li>再按 <code>C</code> 测试 Trade Cycling 的基础刷新。</li>
+<li>如果出现界面不同步、交易不刷新或日志持续报错，改用相互兼容的版本组合，或暂时只保留其中一个。</li>
+<li>不要在唯一的重要村民交易厅中直接测试版本更换。</li>
+</ol>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>它不会替代正常的村民升级流程，只是提前显示后续交易。</li>
+<li>多人服务器需要服务端支持，客户端单独安装不能保证拿到未生成的交易数据。</li>
+<li>当前整合包应把它标记为“已安装，但与 Trade Cycling 联动异常”。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code>：<code>&gt;=0.116.7+1.21.1</code></li>
+<li>Java：<code>&gt;=21</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li>当前版本没有需要普通玩家维护的独立配置文件。</li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://modrinth.com/mod/visibletraders">项目主页或官方文档</a></li>
+</ul>
 <h2>物品与交互</h2>
-<p>连锁操作、附魔处理、装备槽、背包整理、容器预览和缩放。</p>
+<p>连锁操作、附魔处理、装备槽、背包整理、快捷潜影盒和缩放。</p>
 <h3>FTB Ultimine（连锁破坏）</h3>
 <blockquote>
 <p>按住快捷键一次挖掘或处理成片方块，可切换不同形状。</p>
@@ -1390,14 +2814,14 @@ Trinkets 本身主要提供槽位系统，不一定添加可装备物品。打�
 <ul>
 <li><a href="https://inventory-profiles-next.github.io/">项目主页或官方文档</a></li>
 </ul>
-<h3>Shulker Box Tooltip（潜影盒预览）</h3>
+<h3>Quick Shulker（快捷潜影盒）</h3>
 <blockquote>
-<p>在物品提示框中直接预览潜影盒和其他容器物品，适合建筑材料管理。</p>
+<p>手持或背包里直接右键打开潜影盒，还能顺手开工作台、砂轮、铁砧、末影箱；比旧版 Better Shulkers 更轻、更通用。</p>
 </blockquote>
 <ul>
-<li><strong>模组 ID</strong>：<code>shulkerboxtooltip</code></li>
-<li><strong>当前版本</strong>：<code>5.1.3+1.21.1</code></li>
-<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+<li><strong>模组 ID</strong>：<code>quickshulker</code></li>
+<li><strong>当前版本</strong>：<code>3.0.0-1.21.1</code></li>
+<li><strong>运行环境</strong>：客户端为主，多人需双方允许</li>
 </ul>
 <p><strong>快捷键</strong></p>
 <table>
@@ -1409,47 +2833,51 @@ Trinkets 本身主要提供槽位系统，不一定添加可装备物品。打�
 </thead>
 <tbody>
 <tr>
-<td>紧凑预览</td>
-<td>Shift</td>
+<td>打开手中/悬停容器</td>
+<td>F9</td>
 </tr>
 <tr>
-<td>完整槽位预览</td>
-<td>Alt + Shift</td>
-</tr>
-<tr>
-<td>锁定提示框并查看内部物品</td>
-<td>左 Ctrl</td>
+<td>打开设置界面</td>
+<td>小键盘 +</td>
 </tr>
 </tbody>
 </table>
-<p><strong>基础使用</strong>
-把鼠标停在物品栏、箱子或 JEI 界面中的潜影盒上：按住 Shift 显示紧凑预览；按住 Alt + Shift 显示完整 9×3 槽位布局；预览出现后按住左 Ctrl 锁定提示框，即可把鼠标移入预览并查看内部物品的详细提示。</p>
-<p><strong>建筑材料工作流</strong></p>
+<p><strong>直接打开容器</strong></p>
+<p>当前配置全开：</p>
 <ol>
-<li>给潜影盒使用铁砧命名，例如“石材”“红石元件”“深板岩”。</li>
-<li>配合颜色分类潜影盒。</li>
-<li>在仓库中直接按 Shift 检查，无需反复放置和打开。</li>
-<li>与 Litematica 材料列表搭配，快速确认每个盒子携带的材料。</li>
+<li>手持潜影盒右键 → 直接打开，不用先放地上。</li>
+<li>背包里悬停潜影盒右键 → 打开；再右键可关闭（<code>rightClickClose</code> 当前为 <code>false</code>，按配置说明执行）。</li>
+<li>按 <code>F9</code> 也能打开手中或悬停的容器。</li>
+<li>工作台、砂轮、铁砧、末影箱同样支持快捷打开（<code>quickCraftingTables</code> / <code>quickStonecutter</code> / <code>quickAnvil</code> / <code>quickEChest</code> 均为 <code>true</code>）。</li>
 </ol>
-<p><strong>配置</strong>
-通过 Mod Menu 选择 Shulker Box Tooltip 并点击齿轮，可调整预览模式、颜色、容器类型和锁定方式。配置文件会在首次启动后生成到 <code>config/shulkerboxtooltip.json5</code>。</p>
+<p><strong>嵌套收纳（Bundling）</strong></p>
+<p>当前 <code>supportsBundling*</code> 全开：</p>
+<ol>
+<li>对着潜影盒右键拿物品 → 可把物品塞进盒。</li>
+<li>拿着物品对潜影盒右键 → 快捷放入。</li>
+<li>潜影盒对潜影盒右键 → 盒间转移。</li>
+<li>对着空槽右键 → 从盒里取出物品。</li>
+<li>拿着潜影盒拖拽 → 批量存/取。</li>
+</ol>
 <p><strong>推荐与注意事项</strong></p>
 <ul>
-<li>当前安装版本为 5.1.3+1.21.1。</li>
-<li>若 Shift 没反应，检查是否被其他 Tooltip 模组占用。</li>
-<li>该模组主要是显示增强，不会修改潜影盒数据。</li>
+<li>这是 <strong>Quick Shulker</strong>，不是旧文的 Better Shulkers；没有 <code>/shulker set</code> 绑定材料和 Material Collector 附魔那套玩法。</li>
+<li><code>config/bettershulkers.toml</code> 是历史残留文件，<strong>当前不生效</strong>，可删。</li>
+<li>多人服务器若未安装或禁用，右键行为会回退原版或无效。</li>
+<li>和 Inventory Profiles Next、Mouse Tweaks 叠用时，鼠标手势可能触发多次存取，先在测试箱上练。</li>
 </ul>
 <p><strong>依赖关系</strong></p>
 <ul>
-<li><code>fabric-resource-loader-v0</code>：<code>*</code></li>
+<li><code>fabric</code>（Fabric Loader）</li>
+<li>Java ≥ 21</li>
 </ul>
 <p><strong>配置与数据位置</strong></p>
 <ul>
-<li><code>config/shulkerboxtooltip.json5</code></li>
+<li><code>config/quickshulkerconfig.json5</code></li>
 </ul>
 <p><strong>官方资料</strong></p>
 <ul>
-<li><a href="https://modrinth.com/mod/shulkerboxtooltip">项目主页或官方文档</a></li>
+<li><a href="https://github.com/moranpcy/quickshulker">项目主页或官方文档</a></li>
 </ul>
 <h3>Mouse Tweaks（鼠标整理增强）</h3>
 <blockquote>
@@ -1514,7 +2942,7 @@ Trinkets 本身主要提供槽位系统，不一定添加可装备物品。打�
 <ul>
 <li><strong>模组 ID</strong>：<code>appleskin</code></li>
 <li><strong>当前版本</strong>：<code>3.0.6+mc1.21</code></li>
-<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+<li><strong>运行环境</strong>：仅客户端</li>
 </ul>
 <p><strong>快捷键</strong></p>
 <table>
@@ -1613,7 +3041,207 @@ Trinkets 本身主要提供槽位系统，不一定添加可装备物品。打�
 <li><a href="https://modrinth.com/mod/zoomify">项目主页或官方文档</a></li>
 </ul>
 <h2>地图、信息与界面</h2>
-<p>地图、配方、方块信息、按键管理、输入法、皮肤与局域网设置。</p>
+<p>地图、配方、方块信息、进度界面、聊天增强、按键管理、输入法、皮肤与局域网设置。</p>
+<h3>Better Advancements（更好的进度）</h3>
+<blockquote>
+<p>把原版进度界面拉大、排版更清晰，完成度一眼能扫完。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>betteradvancements</code></li>
+<li><strong>当前版本</strong>：<code>0.4.3.21</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>怎么用</strong></p>
+<p>打开进度界面即可生效，无独立快捷键。窗口更大、标签更清楚，翻页更少。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>纯视觉改进，不影响进度数据。</li>
+<li>和 Modern UI 同开时若字体/缩放怪异，先单独测。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/betteradvancements.json</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://www.curseforge.com/minecraft/mc-mods/better-advancements">项目主页或官方文档</a></li>
+</ul>
+<h3>Cherished Worlds（存档置顶）</h3>
+<blockquote>
+<p>收藏/置顶常用存档，让它们永远排在世界列表最上面。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>cherishedworlds</code></li>
+<li><strong>当前版本</strong>：<code>10.1.1+1.21.1</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>怎么用</strong></p>
+<ol>
+<li>打开单人世界列表。</li>
+<li>在目标世界上点星标/收藏（界面按钮）。</li>
+<li>收藏的存档会固定在列表顶部，不再被新存档挤下去。</li>
+</ol>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>只改列表排序，不改存档内容。</li>
+<li>实例目录里有 <code>cherishedworlds-favorites.dat</code>，迁移时一起拷。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>cherishedworlds-favorites.dat</code>（版本根目录）</li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://www.curseforge.com/minecraft/mc-mods/cherished-worlds">项目主页或官方文档</a></li>
+</ul>
+<h3>3D Skin Layers（3D 皮肤层）</h3>
+<blockquote>
+<p>把皮肤外层渲染成立体厚度，披风、袖子、帽子不再是纸片。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>skinlayers3d</code></li>
+<li><strong>当前版本</strong>：<code>1.11.2</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>怎么用</strong></p>
+<p>安装即生效。在皮肤外层启用的区域会以 3D 模型渲染，截图和第三人称明显更好看。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>只影响渲染，不动皮肤数据。</li>
+<li>低配机可关或调低厚度以省性能。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/skinlayers.json</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://www.curseforge.com/minecraft/mc-mods/3d-skin-layers">项目主页或官方文档</a></li>
+</ul>
+<h3>Chat Heads（聊天头像）</h3>
+<blockquote>
+<p>聊天栏每条消息前显示说话玩家的头像，联机认人快很多。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>chat_heads</code></li>
+<li><strong>当前版本</strong>：<code>0.15.7</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>怎么用</strong></p>
+<p>安装后聊天自动显示头像，无按键。单人自言自语也会显示自己的头。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>纯 UI，不改聊天数据。</li>
+<li>和 Chat Animation 同开体验更好。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>Fabric Loader ≥ 0.17.0</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/chat_heads.json5</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://modrinth.com/mod/chat-heads">项目主页或官方文档</a></li>
+</ul>
+<h3>Chat Animation（聊天动画）</h3>
+<blockquote>
+<p>聊天消息出入带动画，不再是生硬的一整块。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>chatanimation</code></li>
+<li><strong>当前版本</strong>：<code>1.3.1</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>怎么用</strong></p>
+<p>安装即生效。新消息淡入/滑入，旧消息淡出。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>纯动画，不影响消息内容。</li>
+<li>截图时若不想拍到动画中间帧，可等稳定后再截。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>无额外模组依赖</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/chatanimation.json</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://modrinth.com/mod/chat-animation">项目主页或官方文档</a></li>
+</ul>
+<h3>Eating Animation（进食动画）</h3>
+<blockquote>
+<p>吃喝时物品有简单帧动画，不再只是手部动作。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>eatinganimationid</code></li>
+<li><strong>当前版本</strong>：<code>1.21+1.9.72</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>怎么用</strong></p>
+<p>安装后进食/饮用自动播放物品动画。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>纯视觉，不改食物数值。</li>
+<li>和自定义物品模型资源包同开时偶尔会遮挡，可单独测。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li>模组菜单内配置（无强制独立文件）</li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://www.curseforge.com/minecraft/mc-mods/eating-animation">项目主页或官方文档</a></li>
+</ul>
+<h3>No Fire Overlay（去火焰遮罩）</h3>
+<blockquote>
+<p>身上着火时不再糊一脸火焰贴图，烧着也能看清路。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>no-fire-overlay</code></li>
+<li><strong>当前版本</strong>：<code>1.1.0</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>怎么用</strong></p>
+<p>安装即生效。着火时画面不再被第一人称火焰遮罩盖住。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>极轻量，可当纯 QoL 常开。</li>
+<li>不代表免疫火焰伤害，只是去掉遮罩。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/no-fire-overlay.json</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://modrinth.com/mod/no-fire-overlay">项目主页或官方文档</a></li>
+</ul>
 <h3>JourneyMap（旅行地图）</h3>
 <blockquote>
 <p>提供小地图、全屏地图、路径点、洞穴地图和地图记录。</p>
@@ -1621,7 +3249,7 @@ Trinkets 本身主要提供槽位系统，不一定添加可装备物品。打�
 <ul>
 <li><strong>模组 ID</strong>：<code>journeymap</code></li>
 <li><strong>当前版本</strong>：<code>1.21.1-6.0.1</code></li>
-<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+<li><strong>运行环境</strong>：仅客户端</li>
 </ul>
 <p><strong>快捷键</strong></p>
 <table>
@@ -2095,7 +3723,7 @@ JMI 本身通常没有独立主界面，功能通过 JourneyMap 路径点和配�
 </ul>
 <p><strong>官方资料</strong></p>
 <ul>
-<li><a href="https://github.com/zly2006/IMBlocker">项目主页或官方文档</a></li>
+<li><a href="https://github.com/reserveword/IMBlocker">项目主页或官方文档</a></li>
 </ul>
 <h3>Mod Menu（模组菜单）</h3>
 <blockquote>
@@ -2145,6 +3773,72 @@ JMI 本身通常没有独立主界面，功能通过 JourneyMap 路径点和配�
 <ul>
 <li><a href="https://modrinth.com/mod/modmenu">项目主页或官方文档</a></li>
 </ul>
+<h3>Modern UI（现代化 UI）</h3>
+<blockquote>
+<p>重做文字渲染、字体回退、提示框、界面模糊和部分设置界面，改善中文与高分辨率显示体验。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>modernui</code></li>
+<li><strong>当前版本</strong>：<code>3.13.0.1</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>打开 Modern UI 配置中心</td>
+<td>K</td>
+</tr>
+</tbody>
+</table>
+<p>当前 <code>K</code> 同时被 Iris 用作光影开关。第一次进入游戏先打开“选项 → 控制 → 按键绑定”，搜索 <code>Modern UI</code>，把配置中心改成 <code>Shift + K</code> 或其他空闲组合键。</p>
+<p><strong>从零开始</strong></p>
+<ol>
+<li>调整按键冲突后，按新的快捷键打开 Modern UI Center。</li>
+<li>在 Screen 中设置界面背景、模糊半径、淡入时间和窗口失焦帧率。</li>
+<li>在 Tooltip 中设置圆角、标题居中、边框、阴影和自适应稀有度颜色。</li>
+<li>在 Text 和 Font 中选择首选字体、中文回退字体、字号、抗锯齿和彩色 Emoji。</li>
+<li>修改后点击“应用”；提示需要重启的项目必须完全退出游戏后再启动。</li>
+</ol>
+<p><strong>当前实例配置</strong></p>
+<ul>
+<li>界面淡入时间：<code>200 ms</code></li>
+<li>高斯模糊：开启，半径 <code>7</code></li>
+<li>现代化圆角提示框：开启</li>
+<li>提示框标题居中、分隔线和自适应颜色：开启</li>
+<li>首选字体：<code>Inter Frozen Medium</code></li>
+<li>中文回退字体包含 <code>Source Han Sans CN Medium</code></li>
+<li>失焦帧率上限：<code>30 FPS</code></li>
+</ul>
+<p><strong>性能与兼容</strong></p>
+<ul>
+<li>低端显卡出现打开背包掉帧时，先关闭 Blur Effect 或降低 Blur Radius。</li>
+<li>Iris 光影启用时，Modern UI 的世界文字着色器会自动受到兼容限制；GUI 文字和配置中心仍可工作。</li>
+<li>字体错位、缺字或模糊时，先恢复默认字体列表，再逐个添加自定义字体。</li>
+<li>Modern UI 与 ModernFix 是两个完全不同的模组：前者负责界面和文字，后者负责修复与性能。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code>：<code>&gt;=0.90.7</code></li>
+<li><code>forgeconfigapiport</code>：<code>&gt;=21.0.5</code></li>
+<li>Java：<code>&gt;=21</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/ModernUI/client.toml</code></li>
+<li><code>config/ModernUI/text.toml</code></li>
+<li><code>config/ModernUI/common.toml</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/BloCamLimb/ModernUI-MC">项目主页或官方文档</a></li>
+</ul>
 <h3>CustomSkinLoader（万用皮肤补丁）</h3>
 <blockquote>
 <p>从多个皮肤源加载玩家皮肤和披风。</p>
@@ -2186,7 +3880,7 @@ JMI 本身通常没有独立主界面，功能通过 JourneyMap 路径点和配�
 <ul>
 <li><strong>模组 ID</strong>：<code>lanserverproperties</code></li>
 <li><strong>当前版本</strong>：<code>1.13.2</code></li>
-<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+<li><strong>运行环境</strong>：仅客户端；安装到专用服务器不会提供额外功能</li>
 </ul>
 <p><strong>快捷键</strong></p>
 <blockquote>
@@ -2214,8 +3908,63 @@ JMI 本身通常没有独立主界面，功能通过 JourneyMap 路径点和配�
 <ul>
 <li><a href="https://modrinth.com/mod/lan-server-properties">项目主页或官方文档</a></li>
 </ul>
+<h2>录像与创作</h2>
+<p>游戏录像、回放时间轴和电影镜头导出。体积大，按需安装。</p>
+<h3>Flashback（闪回）</h3>
+<blockquote>
+<p>录下游戏过程，在时间轴里回放、打标记、导出电影镜头。整合包里最大的单体模组（约 200 MB）。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>flashback</code></li>
+<li><strong>当前版本</strong>：<code>0.39.8</code></li>
+<li><strong>运行环境</strong>：客户端；依赖 Fabric API；适配 MC 1.21–1.21.1</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>创建标记 1–4</td>
+<td>当前未绑定（<code>key_flashback.keybind.create_marker_*</code> 为 unknown）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>怎么用</strong></p>
+<ol>
+<li>游戏内打开 Flashback 界面（默认入口在按键设置里搜 <code>flashback</code>）。</li>
+<li>开始录制 → 玩/建造/生电操作。</li>
+<li>结束后进入回放编辑器，拖时间轴、切相机、打标记。</li>
+<li>导出视频或截图序列，做建筑延时、机器演示、剧情片都行。</li>
+</ol>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li><strong>文件巨大</strong>，磁盘紧张别乱开长录制。</li>
+<li>录制期有性能开销，机器演示时注意 MSPT。</li>
+<li>标记键当前未绑定，剪辑前先绑好。</li>
+<li>不要拿它录服务器机密内容外传。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code></li>
+<li>Java ≥ 21</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/flashback/</code></li>
+<li><code>flashback/</code>（录像数据目录）</li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://flashback.moulberry.com/">项目主页或官方文档</a></li>
+</ul>
 <h2>性能与渲染</h2>
-<p>帧率、内存、逻辑优化、遮挡剔除、动态光源与光影加载。</p>
+<p>Sodium、Iris、Ixeris、Super Resolution、ETF/EMF 与各类剔除、内存、启动优化。</p>
+<p>帧率、内存、逻辑优化、连接纹理、遮挡剔除、动态光源与光影加载。</p>
 <h3>Sodium（钠）</h3>
 <blockquote>
 <p>重写客户端渲染管线，提高帧率并减少卡顿。</p>
@@ -2263,6 +4012,55 @@ JMI 本身通常没有独立主界面，功能通过 JourneyMap 路径点和配�
 <p><strong>官方资料</strong></p>
 <ul>
 <li><a href="https://github.com/CaffeineMC/sodium">项目主页或官方文档</a></li>
+</ul>
+<h3>Continuity（连接纹理）</h3>
+<blockquote>
+<p>在 Fabric 环境中支持 OptiFine 风格的连接纹理、发光纹理和自定义方块渲染层。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>continuity</code></li>
+<li><strong>当前版本</strong>：<code>3.0.0+1.21</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>没有独立快捷键，通过资源包页面和 Mod Menu 配置。</p>
+</blockquote>
+<p><strong>从零开始</strong></p>
+<ol>
+<li>进入“选项 → 资源包”。</li>
+<li>启用 <code>Default Connected Textures</code>，让玻璃、砂岩和书架等内置纹理连接。</li>
+<li>启用 <code>Glass Pane Culling Fix</code>，减少相邻玻璃板之间不必要的内部面。</li>
+<li>点击完成，等待资源重新加载；必要时按 <code>F3 + T</code> 手动重载资源。</li>
+<li>放置一排玻璃或书架检查接缝。如果仍显示原版边框，检查资源包顺序和 Continuity 配置。</li>
+</ol>
+<p>当前实例已经启用：</p>
+<ul>
+<li><code>continuity:default</code></li>
+<li><code>continuity:glass_pane_culling_fix</code></li>
+<li>连接纹理、发光纹理和自定义方块层三个功能开关</li>
+</ul>
+<p><strong>添加其他资源包</strong></p>
+<p>Continuity 能读取使用 OptiFine CTM、发光纹理和自定义方块层格式的资源包。把兼容资源包放入 <code>resourcepacks/</code> 后，在资源包页面启用即可，不需要安装 OptiFine。</p>
+<p><strong>排错</strong></p>
+<ul>
+<li>纹理接缝错误：先只保留 Continuity 内置资源包测试。</li>
+<li>方块透明层异常：临时关闭 Custom Block Layers，再检查资源包声明。</li>
+<li>发光纹理不显示：确认资源包确实包含对应 emissive 配置，并重新加载资源。</li>
+<li>与 More Culling 同时出现方块缺面时，先分别关闭 Continuity 的 Manual Culling 和 More Culling 的 BlockState Culling，判断责任项。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code>：<code>&gt;=0.100.1</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/continuity.json</code></li>
+<li><code>resourcepacks/</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/PepperCode1/Continuity">项目主页或官方文档</a></li>
 </ul>
 <h3>Lithium（锂）</h3>
 <blockquote>
@@ -2351,7 +4149,7 @@ JMI 本身通常没有独立主界面，功能通过 JourneyMap 路径点和配�
 如果某个模组启动异常并明确指出 ModernFix mixin，打开 <code>modernfix-mixins.properties</code>，只禁用相关条目进行验证。不要复制其他版本的配置。</p>
 <p><strong>推荐与注意事项</strong></p>
 <ul>
-<li>它与已删除的 Modern UI 没有关系。</li>
+<li>它与 Modern UI 没有功能关系：ModernFix 负责修复和性能，Modern UI 负责界面与文字。</li>
 <li>修改 mixin 后必须完全退出并重新启动游戏。</li>
 </ul>
 <p><strong>依赖关系</strong></p>
@@ -2373,7 +4171,7 @@ JMI 本身通常没有独立主界面，功能通过 JourneyMap 路径点和配�
 <ul>
 <li><strong>模组 ID</strong>：<code>entityculling</code></li>
 <li><strong>当前版本</strong>：<code>1.10.5</code></li>
-<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+<li><strong>运行环境</strong>：仅客户端</li>
 </ul>
 <p><strong>快捷键</strong></p>
 <table>
@@ -2411,6 +4209,61 @@ JMI 本身通常没有独立主界面，功能通过 JourneyMap 路径点和配�
 <ul>
 <li><a href="https://modrinth.com/mod/entityculling">项目主页或官方文档</a></li>
 </ul>
+<h3>More Culling（更多剔除）</h3>
+<blockquote>
+<p>优化方块面、云、雨雪、告示牌文字、展示框、画和树叶等渲染；与 EntityCulling 的作用范围不同。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>moreculling</code></li>
+<li><strong>当前版本</strong>：<code>1.0.9</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>没有独立快捷键。当前配置会把 More Culling 选项加入 Sodium 视频设置，也可以从 Mod Menu 打开。</p>
+</blockquote>
+<p><strong>从零开始</strong></p>
+<ol>
+<li>打开“选项 → 视频设置”，寻找 More Culling 分类；找不到时从 Mod Menu 进入配置。</li>
+<li>保持默认值进入普通世界，观察树叶、告示牌、展示框、地图墙、信标和雨雪。</li>
+<li>再到大型仓库、地图墙或森林区域比较帧率。</li>
+<li>如果出现物品展示框、树叶或模组方块缺面，只关闭对应项目，不要一次关闭全部剔除。</li>
+</ol>
+<p><strong>当前实例已启用</strong></p>
+<ul>
+<li>云、雨雪、告示牌文字、画和信标光柱剔除</li>
+<li>BlockState Culling</li>
+<li>自定义展示框渲染器</li>
+<li>展示框地图剔除和 LOD，LOD 距离为 <code>16</code></li>
+<li>三面展示框剔除</li>
+<li>默认树叶剔除模式</li>
+<li>默认允许作用于模组方块</li>
+</ul>
+<p><strong>与 EntityCulling 的区别</strong></p>
+<ul>
+<li>EntityCulling：判断整个实体或方块实体是否被墙遮挡。</li>
+<li>More Culling：减少模型内部、背面、远距离展示框、树叶和天气等不需要绘制的部分。</li>
+<li>两者可以同时使用；发生显示异常时需要分别测试，不能只关闭其中一个就认定问题已排除。</li>
+</ul>
+<p><strong>排错</strong></p>
+<ul>
+<li>某个方块出现透明洞：关闭 BlockState Culling，或把方块 ID 加入 <code>dontCull</code>。</li>
+<li>地图墙远处内容过早消失：关闭 Item Frame LOD 或增大 LOD Range。</li>
+<li>树叶视觉不自然：切换 Leaves Culling Mode，或恢复 Default。</li>
+<li>修改后仍异常：使用配置界面的 Reset Cache，或完全重启游戏。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>cloth-config</code>：<code>&gt;=15.0.0</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/moreculling.toml</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/fxmorin/moreculling">项目主页或官方文档</a></li>
+</ul>
 <h3>Dynamic FPS（动态帧率）</h3>
 <blockquote>
 <p>游戏失焦、最小化或闲置时降低帧率和资源占用。</p>
@@ -2440,9 +4293,10 @@ JMI 本身通常没有独立主界面，功能通过 JourneyMap 路径点和配�
 </tbody>
 </table>
 <p><strong>使用方式</strong>
-切出游戏窗口后，模组会按配置降低 FPS、音量或暂停部分渲染。适合挂机时切到其他程序，减少显卡功耗和风扇噪音。</p>
-<p><strong>生电挂机</strong>
-单人世界失焦暂停行为需要谨慎设置：如果希望机器继续运行，应确认“失焦暂停”没有导致内置服务器停止。可以在 Mod Menu 中调整失焦 FPS、音量和是否显示状态。</p>
+切出游戏窗口后，模组会按配置降低 FPS、音量或暂停部分渲染。关闭单人世界的失焦暂停后，它适合挂机时切到其他程序，可减少显卡功耗和风扇噪音。</p>
+<p><strong>生电挂机</strong></p>
+<p>当前实例的 <code>options.txt</code> 为 <code>pauseOnLostFocus:true</code>，直接切出窗口会让单人世界暂停。需要挂机时先按 <code>F3 + P</code> 关闭“失去焦点时暂停”，并在聊天提示或 <code>options.txt</code> 中确认状态已经变为 <code>false</code>。</p>
+<p>Modern UI 当前也设置了失焦 <code>30 FPS</code>、失焦音量 <code>0.5</code> 和最小化音量 <code>0.25</code>。它与 Dynamic FPS 的后台限制功能重叠，建议只让其中一个负责失焦帧率和音量，避免设置互相覆盖。Dynamic FPS 可以在 Mod Menu 中调整失焦 FPS、音量和状态提示。</p>
 <p><strong>推荐与注意事项</strong></p>
 <ul>
 <li>客户端降帧不等于服务器停止。</li>
@@ -2603,6 +4457,141 @@ JMI 本身通常没有独立主界面，功能通过 JourneyMap 路径点和配�
 <p><strong>官方资料</strong></p>
 <ul>
 <li><a href="https://www.curseforge.com/minecraft/mc-mods/clumps">项目主页或官方文档</a></li>
+</ul>
+<h3>Ixeris（多线程优化）</h3>
+<blockquote>
+<p>缓冲原始输入、把事件轮询挪到独立线程，减少主线程输入处理卡顿。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>ixeris</code></li>
+<li><strong>当前版本</strong>：<code>4.6.5+1.21.1-fabric</code></li>
+<li><strong>运行环境</strong>：客户端；适配 MC 1.21–1.21.1</li>
+</ul>
+<p><strong>怎么用</strong></p>
+<p>安装即生效，无按键。对键鼠输入密集的操作（连点、快速切栏）更跟手。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>很底层的输入优化，一般不用配。</li>
+<li>若出现按键“吃输入”或粘键，先禁用它复现。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>Fabric Loader ≥ 0.16.0</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/ixeris.toml</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://modrinth.com/mod/ixeris">项目主页或官方文档</a></li>
+</ul>
+<h3>Super Resolution（超分辨率）</h3>
+<blockquote>
+<p>低分辨率渲染再放大，换帧率。OpenGL 路径的超分实验特性，当前是 alpha。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>super_resolution</code></li>
+<li><strong>当前版本</strong>：<code>0.9.1-alpha.1+opengl</code></li>
+<li><strong>运行环境</strong>：客户端；依赖 Fabric API；Java ≥ 21</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>当前快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>打开配置</td>
+<td>F6（与 Zoomify 备用键冲突，建议改绑）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>怎么用</strong></p>
+<ol>
+<li>按 <code>F6</code>（或改绑后的键）打开配置。</li>
+<li>选择渲染缩放比，帧率上去了、画面会糊一点。</li>
+<li>光影、大型资源包场景下收益更明显，也更容易出兼容问题。</li>
+</ol>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li><strong>alpha 品质</strong>，当实验特性用，别当稳定依赖。</li>
+<li>与 Iris/光影、Modern UI、Sodium 同开时先小范围试。</li>
+<li>画面闪烁、UI 错位时优先关它。</li>
+<li>与 Zoomify 的 F6 冲突，先改键再日常用。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code></li>
+<li>Java ≥ 21</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/super_resolution/</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/187J3X1-114514/superresolution">项目主页或官方文档</a></li>
+</ul>
+<h3>Entity Texture Features（实体纹理特性 / ETF）</h3>
+<blockquote>
+<p>让资源包驱动实体纹理：随机皮肤、自发光、眨眼、玩家皮肤扩展等 OptiFine 向特性。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>entity_texture_features</code></li>
+<li><strong>当前版本</strong>：<code>7.1</code></li>
+<li><strong>运行环境</strong>：仅客户端</li>
+</ul>
+<p><strong>怎么用</strong></p>
+<p>安装后配合支持 ETF 的资源包即可。支持 OptiFine 风格的随机/自定义纹理与自发光纹理。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>和 Continuity、自定义实体模型资源包是一套视觉链路。</li>
+<li>纹理异常时按“资源包 → ETF → EMF”顺序排查。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li>无强制模组依赖（EMF 依赖它）</li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/entity_texture_features.json</code></li>
+<li><code>config/etf_warnings.json</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://www.curseforge.com/minecraft/mc-mods/entity-texture-features-fabric">项目主页或官方文档</a></li>
+</ul>
+<h3>Entity Model Features（实体模型特性 / EMF）</h3>
+<blockquote>
+<p>ETF 的扩展，支持 OptiFine 格式的自定义实体模型（CEM）资源包。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>entity_model_features</code></li>
+<li><strong>当前版本</strong>：<code>3.2.4</code></li>
+<li><strong>运行环境</strong>：仅客户端；依赖 ETF ≥ 7.1</li>
+</ul>
+<p><strong>怎么用</strong></p>
+<p>与 ETF 一起装，再加支持 CEM 的资源包，实体就能换自定义模型。</p>
+<p><strong>推荐与注意事项</strong></p>
+<ul>
+<li>必须先有 ETF，单独丢它进 <code>mods/</code> 会缺依赖。</li>
+<li>和其他模型替换模组互斥时，二选一。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>entity_texture_features</code>：<code>&gt;=7.1</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/entity_model_features.json</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://www.curseforge.com/minecraft/mc-mods/entity-model-features">项目主页或官方文档</a></li>
 </ul>
 <h2>前置与依赖库</h2>
 <p>为其他模组提供 API、配置界面、语言运行时和公共功能。</p>
@@ -2822,6 +4811,49 @@ Cloth Config 不提供独立玩法，通常在 Mod Menu 点击其他模组的“
 <ul>
 <li><a href="https://github.com/shedaniel/cloth-config">项目主页或官方文档</a></li>
 </ul>
+<h3>Forge Config API Port</h3>
+<blockquote>
+<p>把 Forge/NeoForge 风格的配置系统移植到 Fabric，供 Modern UI 等跨加载器模组读取、保存和同步配置。</p>
+</blockquote>
+<ul>
+<li><strong>模组 ID</strong>：<code>forgeconfigapiport</code></li>
+<li><strong>当前版本</strong>：<code>21.1.6</code></li>
+<li><strong>运行环境</strong>：客户端与服务端/通用</li>
+</ul>
+<p><strong>快捷键</strong></p>
+<blockquote>
+<p>没有独立快捷键，它是配置前置库。</p>
+</blockquote>
+<p><strong>玩家需要做什么</strong></p>
+<p>普通玩家不需要直接操作。打开 Modern UI 配置中心、修改配置并保存时，它在后台提供 Forge 风格的配置加载能力。</p>
+<p><strong>是否能删除</strong></p>
+<p>当前 Modern UI 明确依赖 Forge Config API Port，因此不能单独删除。只有移除所有依赖它的模组后，才可以从 <code>mods/</code> 中移除。</p>
+<p><strong>配置和默认配置</strong></p>
+<ul>
+<li><code>config/forgeconfigapiport.toml</code> 控制配置文件监听器等基础行为。</li>
+<li><code>defaultconfigs/</code> 可为新世界提供默认服务端配置。</li>
+<li>当前文件监听器处于开启状态，手工修改配置可能触发自动重载；重要修改前仍应备份。</li>
+</ul>
+<p><strong>排错</strong></p>
+<ul>
+<li>启动提示缺少 <code>forgeconfigapiport</code>：确认 JAR 存在并适配 Minecraft 1.21.1。</li>
+<li>Modern UI 配置无法保存：检查配置目录写入权限和 TOML 语法。</li>
+<li>不要把它当成 Forge 加载器；它只移植配置 API，不会让 Fabric 直接运行任意 Forge Mod。</li>
+</ul>
+<p><strong>依赖关系</strong></p>
+<ul>
+<li><code>fabric-api</code>：<code>&gt;=0.102.0</code></li>
+<li>Java：<code>&gt;=17</code></li>
+</ul>
+<p><strong>配置与数据位置</strong></p>
+<ul>
+<li><code>config/forgeconfigapiport.toml</code></li>
+<li><code>defaultconfigs/</code></li>
+</ul>
+<p><strong>官方资料</strong></p>
+<ul>
+<li><a href="https://github.com/Fuzss/forgeconfigapiport">项目主页或官方文档</a></li>
+</ul>
 <h3>Fabric Language Kotlin</h3>
 <blockquote>
 <p>为使用 Kotlin 编写的 Fabric 模组提供运行时与语言适配。</p>
@@ -2978,7 +5010,7 @@ YACL 通常没有独立入口。通过 Mod Menu 打开 Zoomify 等模组配置�
 <p><strong>推荐与注意事项</strong></p>
 <ul>
 <li>保留 Zoomify 时必须保留符合版本要求的 YACL。</li>
-<li>不要把 YACL 与已删除的 Modern UI 混淆。</li>
+<li>YACL 与 Modern UI 可以同时存在：YACL 为其他 Mod 构建配置页面，Modern UI 负责全局界面和文字渲染。</li>
 </ul>
 <p><strong>依赖关系</strong></p>
 <ul>
@@ -3004,6 +5036,42 @@ YACL 通常没有独立入口。通过 Mod Menu 打开 Zoomify 等模组配置�
 <p>[!WARNING]
 不要在没有备份的情况下，用新模组版本直接打开唯一存档。移除添加物品、装备槽或持久化数据的模组可能造成内容丢失。</p>
 </blockquote>
+<h2>当前实例已知问题</h2>
+<p>以下内容来自 2026 年 8–9 月的实例状态与历史日志，不是泛用结论：</p>
+<ol>
+<li>
+<p><strong>Trade Cycling 与 Visible Traders 联动失败</strong>
+Trade Cycling 1.0.20 反射调用 Visible Traders 1.3.2 的方法时出现 <code>NoSuchMethodException</code>。建议更换为互相兼容的版本组合，或暂时只保留一个；更换前先在测试世界验证村民交易。</p>
+</li>
+<li>
+<p><strong>JER 初始化存在错误</strong>
+日志中出现缺少 <code>config/jeresources.json</code> 和 JEI 插件错误。若 JER 的矿物分布、战利品或生物掉落标签为空，先生成或重置 JER 配置，再测试与当前 JEI 版本的兼容性。</p>
+</li>
+<li>
+<p><strong>部分优化模组存在 Mixin 覆盖提示</strong>
+ModernFix 与 Lithium、Carpet 与 Architectury、Litematica/Tweakeroo、Iris/Tweakeroo 之间出现覆盖或优先级警告。游戏目前能够进入世界，但涉及结构方块范围、Easy Place、视角晃动或温度缓存时应单独测试。</p>
+</li>
+<li>
+<p><strong>资源包包含无效路径或帧索引</strong>
+<code>PBSO1.21.1.zip</code> 和 <code>XKRD 红显</code> 资源包产生路径、方块状态或动画帧警告。遇到纹理缺失和动画异常时，先禁用这两个资源包复现。</p>
+</li>
+<li>
+<p><strong>Quick Shulker 与 Better Shulkers 配置残留</strong>
+已改用 Quick Shulker，但 <code>config/bettershulkers.toml</code> 仍在。它不会生效，可删除；不要按旧文的 <code>/shulker set</code> 流程操作。</p>
+</li>
+<li>
+<p><strong>Super Resolution 处于 alpha</strong>
+<code>0.9.1-alpha.1+opengl</code> 可能与光影、UI 缩放冲突；默认当实验特性，异常先关它。</p>
+</li>
+<li>
+<p><strong>Litematica Printer 默认未启用</strong>
+<code>workingSwitch.enabled=false</code>，需要手动开；联机环境多半违规，进服先问规则。</p>
+</li>
+<li>
+<p><strong>Zoomify 与 Super Resolution 键位冲突</strong>
+两者都占 <code>F6</code>。建议给 Super Resolution 改绑。</p>
+</li>
+</ol>
 <h2>通用排错流程</h2>
 <h3>启动提示缺少依赖</h3>
 <p>启动错误通常会写出缺少的 Mod ID 和版本范围。按照日志提示补齐依赖，不要只根据 JAR 文件名猜测。</p>
@@ -3047,8 +5115,8 @@ YACL 通常没有独立入口。通过 Mod Menu 打开 Zoomify 等模组配置�
 <li>分别观察客户端 FPS、服务端 MSPT、实体数量和内存占用。</li>
 </ol>
 <h2>最后</h2>
-<p>这套整合包的重点不是单纯增加模组数量，而是把投影施工、生电调试、材料管理、地图记录和性能优化连接成完整工作流。</p>
-<p>第一次使用时不要同时打开所有功能。先处理快捷键冲突，再逐步学习 Litematica、MiniHUD 和 Tweakeroo，最后根据电脑性能决定是否启用光影与动态效果。</p>
+<p>这套整合包的重点不是单纯增加模组数量，而是把投影施工、生电调试、材料管理、地图记录、录像创作和性能优化连接成完整工作流。</p>
+<p>第一次使用时不要同时打开所有功能。先处理快捷键冲突，再逐步学习 Litematica、MiniHUD 和 Tweakeroo，Carpet 扩展规则按需开启，Flashback 和超分放到最后，再根据电脑性能决定是否启用光影与动态效果。</p>
 ]]></content>
     <author>
       <name>某炜</name>

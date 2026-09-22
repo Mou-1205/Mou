@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
+  <rect width="760" height="360" fill="#fafafa"/>
+  <text x="380" y="30" text-anchor="middle" font-size="18" font-weight="600" fill="#111">MoE 参数量：总参数 vs 激活参数</text>
+  <text x="380" y="52" text-anchor="middle" font-size="12" fill="#666">模型卡架构段口径 · 每 token 只走 8 个 routed expert</text>
+
+  <!-- scale: total bar width 480px = 1.02T -->
+  <!-- Pro active: 42/1020*480 = 19.8 ≈ 20 -->
+  <!-- Flash total: 309/1020*480 = 145 -->
+  <!-- Flash active: 15/1020*480 = 7 -->
+
+  <!-- Pro row -->
+  <text x="70" y="120" font-size="16" font-weight="600" fill="#2563eb">Pro</text>
+  <text x="70" y="140" font-size="12" fill="#888">1.02T / 42B</text>
+  <!-- total bar -->
+  <rect x="160" y="100" width="480" height="36" rx="6" fill="#bfdbfe" stroke="#2563eb" stroke-width="1"/>
+  <!-- active overlay -->
+  <rect x="160" y="100" width="20" height="36" rx="6" fill="#2563eb"/>
+  <!-- labels OUTSIDE bar -->
+  <text x="170" y="160" font-size="11" fill="#2563eb" font-weight="600">激活 42B</text>
+  <text x="648" y="123" font-size="13" fill="#1e3a5f" font-weight="600">总参 1.02T</text>
+
+  <!-- Flash row -->
+  <text x="70" y="230" font-size="16" font-weight="600" fill="#059669">Flash</text>
+  <text x="70" y="250" font-size="12" fill="#888">309B / 15B</text>
+  <rect x="160" y="210" width="145" height="36" rx="6" fill="#bbf7d0" stroke="#059669" stroke-width="1"/>
+  <rect x="160" y="210" width="8" height="36" rx="4" fill="#059669"/>
+  <text x="172" y="270" font-size="11" fill="#059669" font-weight="600">激活 15B</text>
+  <text x="313" y="233" font-size="13" fill="#14532d" font-weight="600">总参 309B</text>
+
+  <!-- legend -->
+  <rect x="200" y="300" width="16" height="16" rx="2" fill="#2563eb"/>
+  <text x="224" y="312" font-size="12" fill="#333">激活参数（每 token 计算量）</text>
+  <rect x="430" y="300" width="16" height="16" rx="2" fill="#bfdbfe" stroke="#2563eb"/>
+  <text x="454" y="312" font-size="12" fill="#333">总参数（权重占用）</text>
+
+  <text x="380" y="345" text-anchor="middle" font-size="11" fill="#999">Pro：384 routed experts 激活 8 · Flash：256 激活 8 · HF 元数据另标 524B / 159B</text>
+</svg>

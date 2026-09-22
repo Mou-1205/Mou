@@ -107,7 +107,7 @@ const clarityId = "";
 			}
 		}, 10000);
 	})();
-})();</script><!-- SEO Meta Tags, Open Graph, Twitter Card, Favicons, Theme Init --><!-- SEO Meta Tags --> <title>相册 - MouyのHOME</title> <meta name="description" content="记录生活中的美好瞬间">  <meta name="author" content="某炜"> <!-- Open Graph Tags --> <meta property="og:site_name" content="MouyのHOME"> <meta property="og:url" content="https://mouy.site/albums/"> <meta property="og:title" content="相册 - MouyのHOME"> <meta property="og:description" content="记录生活中的美好瞬间"> <meta property="og:image" content="https://mouy.site/assets/desktop-banner/%E8%83%8C%E6%99%AF.png"> <meta property="og:image:width" content="1200"> <meta property="og:image:height" content="630"> <meta property="og:type" content="website"> <!-- Twitter Card Tags --> <meta name="twitter:card" content="summary_large_image"> <meta property="twitter:url" content="https://mouy.site/albums/"> <meta name="twitter:title" content="相册 - MouyのHOME"> <meta name="twitter:description" content="记录生活中的美好瞬间"> <meta name="twitter:image" content="https://mouy.site/assets/desktop-banner/%E8%83%8C%E6%99%AF.png"> <!-- Viewport and Generator --> <meta name="viewport" content="width=device-width"> <meta name="generator" content="Astro v7.0.0"> <!-- Favicons --> <link rel="icon" href="/favicon/favicon.ico" sizes="64x64" media="(prefers-color-scheme: light)"><link rel="icon" href="/favicon/favicon.ico" sizes="64x64" media="(prefers-color-scheme: dark)"> <!-- 字体通过构建脚本压缩到 /assets/font/ 目录，此处不再预加载以避免 404 --> <!-- 字体在构建时通过 scripts/compress-fonts.js 处理并复制到 dist/ --> <!-- 预连接 Iconify API 以减少图标加载延迟 --> <link rel="preconnect" href="https://api.iconify.design" crossorigin> <!-- Set the theme before the page is rendered to avoid a flash --> <script>(function(){const DEFAULT_THEME = "light";
+})();</script><!-- SEO Meta Tags, Open Graph, Twitter Card, Favicons, Theme Init --><!-- SEO Meta Tags --> <title>MiMo-V2.6 发布分析：把 RL 推向自我改进 - MouyのHOME</title> <meta name="description" content="复盘 MiMo-V2.6：Pro / Flash / Pro-UltraSpeed / Distill-Qwen-9B，AAII 46.32，直播 RL 训练账单，You Only RL Once、GRS+GAR、MOPD2 蒸馏，附官方跑分解读与参数核对。">  <meta name="author" content="某炜"> <!-- Open Graph Tags --> <meta property="og:site_name" content="MouyのHOME"> <meta property="og:url" content="https://mouy.site/posts/mimo-v2.6-release-analysis/"> <meta property="og:title" content="MiMo-V2.6 发布分析：把 RL 推向自我改进 - MouyのHOME"> <meta property="og:description" content="复盘 MiMo-V2.6：Pro / Flash / Pro-UltraSpeed / Distill-Qwen-9B，AAII 46.32，直播 RL 训练账单，You Only RL Once、GRS+GAR、MOPD2 蒸馏，附官方跑分解读与参数核对。"> <meta property="og:image" content="https://mouy.site/assets/desktop-banner/%E8%83%8C%E6%99%AF.png"> <meta property="og:image:width" content="1200"> <meta property="og:image:height" content="630"> <meta property="og:type" content="article"> <!-- Twitter Card Tags --> <meta name="twitter:card" content="summary_large_image"> <meta property="twitter:url" content="https://mouy.site/posts/mimo-v2.6-release-analysis/"> <meta name="twitter:title" content="MiMo-V2.6 发布分析：把 RL 推向自我改进 - MouyのHOME"> <meta name="twitter:description" content="复盘 MiMo-V2.6：Pro / Flash / Pro-UltraSpeed / Distill-Qwen-9B，AAII 46.32，直播 RL 训练账单，You Only RL Once、GRS+GAR、MOPD2 蒸馏，附官方跑分解读与参数核对。"> <meta name="twitter:image" content="https://mouy.site/assets/desktop-banner/%E8%83%8C%E6%99%AF.png"> <!-- Viewport and Generator --> <meta name="viewport" content="width=device-width"> <meta name="generator" content="Astro v7.0.0"> <!-- Favicons --> <link rel="icon" href="/favicon/favicon.ico" sizes="64x64" media="(prefers-color-scheme: light)"><link rel="icon" href="/favicon/favicon.ico" sizes="64x64" media="(prefers-color-scheme: dark)"> <!-- 字体通过构建脚本压缩到 /assets/font/ 目录，此处不再预加载以避免 404 --> <!-- 字体在构建时通过 scripts/compress-fonts.js 处理并复制到 dist/ --> <!-- 预连接 Iconify API 以减少图标加载延迟 --> <link rel="preconnect" href="https://api.iconify.design" crossorigin> <!-- Set the theme before the page is rendered to avoid a flash --> <script>(function(){const DEFAULT_THEME = "light";
 const LIGHT_MODE = "light";
 const DARK_MODE = "dark";
 const BANNER_HEIGHT_EXTEND = 30;
@@ -202,13 +202,11 @@ const pageScaling = {"enable":true,"targetWidth":2000};
 			window.swup.options.updateHead = false;
 		}
 	}
-})();</script><!-- defines global css variables. This will be applied to <html> <body> and some other elements idk why --><!-- Global CSS variables for page width and hue --><link rel="alternate" type="application/rss+xml" title="某炜" href="https://mouy.site/rss.xml"><style>.album-card[data-astro-cid-lrtjwfaf]{animation:.5s ease-out forwards fadeInUp;opacity:0}.album-card[data-astro-cid-lrtjwfaf].filtered-out{display:none}@keyframes fadeInUp{0%{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.album-card[data-astro-cid-lrtjwfaf]:first-child{animation-delay:30ms}.album-card[data-astro-cid-lrtjwfaf]:nth-child(2){animation-delay:60ms}.album-card[data-astro-cid-lrtjwfaf]:nth-child(3){animation-delay:90ms}.album-card[data-astro-cid-lrtjwfaf]:nth-child(4){animation-delay:.12s}.album-card[data-astro-cid-lrtjwfaf]:nth-child(5){animation-delay:.15s}.album-card[data-astro-cid-lrtjwfaf]:nth-child(6){animation-delay:.18s}.album-card[data-astro-cid-lrtjwfaf]:nth-child(7){animation-delay:.21s}.album-card[data-astro-cid-lrtjwfaf]:nth-child(8){animation-delay:.24s}.album-card[data-astro-cid-lrtjwfaf]:nth-child(9){animation-delay:.27s}.album-card[data-astro-cid-lrtjwfaf]:nth-child(10){animation-delay:.3s}.album-card[data-astro-cid-lrtjwfaf]:nth-child(11){animation-delay:.33s}.album-card[data-astro-cid-lrtjwfaf]:nth-child(12){animation-delay:.36s}.line-clamp-1[data-astro-cid-lrtjwfaf]{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
-#albums-grid{grid-template-columns:1fr}@media(width>=640px){#albums-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}#main-grid[data-layout-mode=grid] #albums-grid{grid-template-columns:repeat(3,minmax(0,1fr))}@media(width<640px){#main-grid[data-layout-mode=grid] #albums-grid{grid-template-columns:1fr}}
-</style><link rel="stylesheet" href="/_astro/katex.CLz4Jbk5.css"><link rel="stylesheet" href="/_astro/MainGridLayout.DvOh4OOJ.css"><link rel="stylesheet" href="/_astro/fancybox.y3Ble-Pa.css"><style>.giscus-container[data-astro-cid-eyjpokx2]{min-height:200px}
+})();</script><!-- defines global css variables. This will be applied to <html> <body> and some other elements idk why --><link rel="canonical" href="https://mouy.site/posts/mimo-v2.6-release-analysis/"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"MiMo-V2.6 发布分析：把 RL 推向自我改进","description":"复盘 MiMo-V2.6：Pro / Flash / Pro-UltraSpeed / Distill-Qwen-9B，AAII 46.32，直播 RL 训练账单，You Only RL Once、GRS+GAR、MOPD2 蒸馏，附官方跑分解读与参数核对。","keywords":["MiMo","大模型","强化学习","RL","MoE","Agent","技术分析"],"author":{"@type":"Person","name":"某炜","url":"https://mouy.site/"},"datePublished":"2026-09-22","inLanguage":"zh-CN"}</script><!-- Global CSS variables for page width and hue --><link rel="alternate" type="application/rss+xml" title="某炜" href="https://mouy.site/rss.xml"><link rel="stylesheet" href="/_astro/katex.CLz4Jbk5.css"><link rel="stylesheet" href="/_astro/fancybox.y3Ble-Pa.css"><style>.giscus-container[data-astro-cid-eyjpokx2]{min-height:200px}
 .twikoo-container[data-astro-cid-l6ekstsq]{min-height:200px}
 .theme-switch-btn.svelte-4qjxhc:before{transition:transform 75ms ease-out,background-color 0ms!important}.icon-transition.svelte-4qjxhc{transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .3s ease}.switching.svelte-4qjxhc{pointer-events:none}.switching.svelte-4qjxhc .icon-transition:where(.svelte-4qjxhc){animation:svelte-4qjxhc-iconRotate .5s cubic-bezier(.4,0,.2,1)}@keyframes svelte-4qjxhc-iconRotate{0%{transform:rotate(0) scale(1);opacity:1}50%{transform:rotate(180deg) scale(.8);opacity:.5}to{transform:rotate(360deg) scale(1);opacity:1}}.theme-switch-btn.svelte-4qjxhc:not(.switching):hover .icon-transition:where(.svelte-4qjxhc){transform:scale(1.1)}.theme-switch-btn.svelte-4qjxhc:disabled{cursor:not-allowed;opacity:.7}
 .theme-switch-btn.svelte-jphrij:before{transition:transform 75ms ease-out,background-color 0ms!important}
-</style><link rel="stylesheet" href="/_astro/markdown.seBetETZ.css"><link rel="stylesheet" href="/_astro/encrypted-content.B7itSR7I.css"><link rel="stylesheet" href="/_astro/markdown-extend.DO1wsYky.css"><style>.decrypted-content[data-astro-cid-cr7sgi5o]{animation:.3s ease-in-out fadeIn}@keyframes fadeIn{0%{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}#decrypted-content .table-wrapper{overflow-x:auto!important;width:100%!important}#decrypted-content table{display:table!important;width:100%!important}.encrypted-hidden,.encrypted-hidden-wrapper.encrypted-hidden{display:none!important}
+</style><link rel="stylesheet" href="/_astro/markdown.seBetETZ.css"><link rel="stylesheet" href="/_astro/MainGridLayout.DvOh4OOJ.css"><link rel="stylesheet" href="/_astro/encrypted-content.B7itSR7I.css"><link rel="stylesheet" href="/_astro/markdown-extend.DO1wsYky.css"><style>.decrypted-content[data-astro-cid-cr7sgi5o]{animation:.3s ease-in-out fadeIn}@keyframes fadeIn{0%{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}#decrypted-content .table-wrapper{overflow-x:auto!important;width:100%!important}#decrypted-content table{display:table!important;width:100%!important}.encrypted-hidden,.encrypted-hidden-wrapper.encrypted-hidden{display:none!important}
 .password-protection.svelte-1kmpvur{display:flex;justify-content:center;padding:4rem 1rem}.password-container.svelte-1kmpvur{display:flex;flex-direction:column;align-items:center;gap:.75rem;max-width:25rem;width:100%;padding:2rem;text-align:center}.lock-icon.svelte-1kmpvur{color:var(--primary)}.lock-icon.svelte-1kmpvur svg:where(.svelte-1kmpvur){width:5rem;height:5rem}.password-container.svelte-1kmpvur h2:where(.svelte-1kmpvur){margin:0;font-size:1.125rem;font-weight:700;color:#000c}.dark .password-container.svelte-1kmpvur h2:where(.svelte-1kmpvur){color:#fffc}.description.svelte-1kmpvur{margin:0;font-size:.875rem;color:#0006}.dark .description.svelte-1kmpvur{color:#fff6}.hint-text.svelte-1kmpvur{margin:0;font-size:.75rem;color:#00000080}.dark .hint-text.svelte-1kmpvur{color:#ffffff80}.password-form.svelte-1kmpvur{width:100%;margin-top:.5rem;display:flex;flex-direction:column;gap:.5rem}.password-input.svelte-1kmpvur{width:100%;padding:.5rem .75rem;border-radius:.5rem;font-size:.875rem;background:#0000000d;border:none;color:#000c;outline:none}.dark .password-input.svelte-1kmpvur{background:#ffffff1a;color:#fffc}.password-input.svelte-1kmpvur::placeholder{color:#00000040}.dark .password-input.svelte-1kmpvur::placeholder{color:#ffffff40}.password-input.svelte-1kmpvur:focus{background:#00000014}.dark .password-input.svelte-1kmpvur:focus{background:#ffffff26}.unlock-button.svelte-1kmpvur{width:100%;padding:.5rem 1rem;border-radius:.5rem;font-size:.875rem;font-weight:500;background:var(--primary);color:#fff;border:none;cursor:pointer;transition:opacity .2s,transform .1s}.dark .unlock-button.svelte-1kmpvur{color:#000000b3}.unlock-button.svelte-1kmpvur:hover:not(:disabled){opacity:.85}.unlock-button.svelte-1kmpvur:active:not(:disabled){transform:scale(.98)}.unlock-button.svelte-1kmpvur:disabled{opacity:.6;cursor:not-allowed}.error-message.svelte-1kmpvur{margin:0;font-size:.75rem;color:#ef4444}.dark .error-message.svelte-1kmpvur{color:#f87171}@media(width<768px){.password-protection.svelte-1kmpvur{padding:2rem 1rem}.password-container.svelte-1kmpvur{padding:1.5rem}}
 .project-card[data-astro-cid-ra475mxt]{animation:.5s ease-out forwards fadeInUp;opacity:0}.project-card[data-astro-cid-ra475mxt].filtered-out{display:none}@keyframes fadeInUp{0%{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.project-card[data-astro-cid-ra475mxt]:first-child{animation-delay:50ms}.project-card[data-astro-cid-ra475mxt]:nth-child(2){animation-delay:.1s}.project-card[data-astro-cid-ra475mxt]:nth-child(3){animation-delay:.15s}.project-card[data-astro-cid-ra475mxt]:nth-child(4){animation-delay:.2s}.project-card[data-astro-cid-ra475mxt]:nth-child(5){animation-delay:.25s}.project-card[data-astro-cid-ra475mxt]:nth-child(6){animation-delay:.3s}.project-card[data-astro-cid-ra475mxt]:nth-child(7){animation-delay:.35s}.project-card[data-astro-cid-ra475mxt]:nth-child(8){animation-delay:.4s}.line-clamp-2[data-astro-cid-ra475mxt]{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 #display-setting.svelte-1l7vf87 input[type=range]:where(.svelte-1l7vf87){-webkit-appearance:none;appearance:none;height:1.5rem;border-radius:.375rem;background-image:linear-gradient(90deg,var(--primary) 0 var(--range-progress, 50%),hsla(var(--hue),22%,28%,.18) var(--range-progress, 50%) 100%);cursor:pointer;transition:background-image .15s ease-in-out}#display-setting.svelte-1l7vf87 input[type=range]:where(.svelte-1l7vf87)::-webkit-slider-thumb{-webkit-appearance:none;height:0;width:0;border:0;border-radius:0;background:transparent;box-shadow:none}#display-setting.svelte-1l7vf87 input[type=range]:where(.svelte-1l7vf87)::-moz-range-thumb{height:0;width:0;border:0;border-radius:0;background:transparent;box-shadow:none}#display-setting.svelte-1l7vf87 #colorSlider:where(.svelte-1l7vf87){border-radius:0;background-image:var(--color-selection-bar);transition:background-image .15s ease-in-out}#display-setting.svelte-1l7vf87 #colorSlider:where(.svelte-1l7vf87)::-webkit-slider-thumb{-webkit-appearance:none;height:1rem;width:.5rem;border-radius:.125rem;background:#ffffffb3;box-shadow:none}#display-setting.svelte-1l7vf87 #colorSlider:where(.svelte-1l7vf87)::-webkit-slider-thumb:hover{background:#fffc}#display-setting.svelte-1l7vf87 #colorSlider:where(.svelte-1l7vf87)::-webkit-slider-thumb:active{background:#fff9}#display-setting.svelte-1l7vf87 #colorSlider:where(.svelte-1l7vf87)::-moz-range-thumb{height:1rem;width:.5rem;border-radius:.125rem;border-width:0;background:#ffffffb3;box-shadow:none}#display-setting.svelte-1l7vf87 #colorSlider:where(.svelte-1l7vf87)::-moz-range-thumb:hover{background:#fffc}#display-setting.svelte-1l7vf87 #colorSlider:where(.svelte-1l7vf87)::-moz-range-thumb:active{background:#fff9}
@@ -218,6 +216,7 @@ const pageScaling = {"enable":true,"targetWidth":2000};
 .badge.svelte-5lgona{transition:all .2s ease;padding:0 .5rem;height:1.75rem;min-width:2rem;border-radius:.5rem;font-size:.875rem;font-weight:700;color:var(--btn-content);background-color:oklch(.95 .025 var(--hue));display:flex;align-items:center;justify-content:center}.dark .badge.svelte-5lgona{color:var(--deep-text);background-color:var(--primary)}
 .chip-wrapper.svelte-s9q764{display:block;width:100%;text-decoration:none}.chip.svelte-s9q764{width:100%;height:2.5rem;border-radius:.5rem;background:none;transition:all .2s ease;padding-left:.5rem;display:flex;align-items:center;cursor:pointer;border:none;color:inherit}.chip.svelte-s9q764:hover{background-color:var(--btn-plain-bg-hover);padding-left:.75rem}.chip.svelte-s9q764:active{background-color:var(--btn-plain-bg-active)}.chip-content.svelte-s9q764{overflow:hidden;text-align:left;white-space:nowrap;text-overflow:ellipsis;flex:1}.chip-dot.svelte-s9q764{height:.25rem;width:.25rem;background-color:var(--btn-content);transition:all .2s ease;border-radius:.25rem;margin-right:.5rem;flex-shrink:0}.dark .chip-dot.svelte-s9q764{background-color:var(--card-bg)}.chip-badge.svelte-s9q764{transition:all .2s ease;padding:0 .5rem;height:1.75rem;min-width:2rem;border-radius:.5rem;font-size:.875rem;font-weight:700;color:var(--btn-content);background-color:oklch(.95 .025 var(--hue));display:flex;align-items:center;justify-content:center;margin-left:1rem;flex-shrink:0}.dark .chip-badge.svelte-s9q764{color:var(--deep-text);background-color:var(--primary)}.chip-wrapper.svelte-s9q764:hover .chip:where(.svelte-s9q764){color:var(--primary)}.dark .chip-wrapper.svelte-s9q764:hover .chip:where(.svelte-s9q764){color:var(--primary)}
 .custom-scrollbar[data-astro-cid-6kqqbxxy]{overflow:auto;position:relative}.horizontal-scrollbar[data-astro-cid-6kqqbxxy]{overflow-x:auto;overflow-y:hidden}.vertical-scrollbar[data-astro-cid-6kqqbxxy]{overflow-y:auto;overflow-x:hidden}.custom-scrollbar[data-astro-cid-6kqqbxxy]::-webkit-scrollbar{display:none}.custom-scrollbar[data-astro-cid-6kqqbxxy]{-ms-overflow-style:none;scrollbar-width:none}.custom-scrollbar[data-astro-cid-6kqqbxxy]:after{content:"";position:absolute;background:#e5e7eb;border-radius:4px;opacity:0;transition:opacity .3s;pointer-events:none}.horizontal-scrollbar[data-astro-cid-6kqqbxxy]:after{bottom:2px;left:0;right:0;height:6px}.vertical-scrollbar[data-astro-cid-6kqqbxxy]:after{right:2px;top:0;bottom:0;width:6px}.custom-scrollbar[data-astro-cid-6kqqbxxy]:before{content:"";position:absolute;background:#6366f1;border-radius:4px;opacity:0;transition:opacity .3s;pointer-events:none}.horizontal-scrollbar[data-astro-cid-6kqqbxxy]:before{bottom:2px;height:6px;min-width:20px}.vertical-scrollbar[data-astro-cid-6kqqbxxy]:before{right:2px;width:6px;min-height:20px}.custom-scrollbar[data-astro-cid-6kqqbxxy]:hover:after,.custom-scrollbar[data-astro-cid-6kqqbxxy]:hover:before{opacity:1}.dark[data-astro-cid-6kqqbxxy] .custom-scrollbar[data-astro-cid-6kqqbxxy]:after{background:#374151}.dark[data-astro-cid-6kqqbxxy] .custom-scrollbar[data-astro-cid-6kqqbxxy]:before{background:#6366f1}.custom-scrollbar[data-astro-cid-6kqqbxxy]:active:after,.custom-scrollbar[data-astro-cid-6kqqbxxy]:active:before,.custom-scrollbar[data-astro-cid-6kqqbxxy]:focus:after,.custom-scrollbar[data-astro-cid-6kqqbxxy]:focus:before{opacity:1}
+#post-list-container[data-astro-cid-a6kbbo6j]{min-height:200px;transition:opacity .5s cubic-bezier(.4,0,.2,1)}#post-list-container[data-astro-cid-a6kbbo6j].list-mode{gap:calc(var(--spacing,.25rem) * 4);flex-direction:column;display:flex}#post-list-container[data-astro-cid-a6kbbo6j].grid-mode{gap:calc(var(--spacing,.25rem) * 6);grid-template-columns:repeat(1,minmax(0,1fr));display:grid}@media(min-width:48rem){#post-list-container[data-astro-cid-a6kbbo6j].grid-mode{grid-template-columns:repeat(2,minmax(0,1fr))}}#post-list-container[data-astro-cid-a6kbbo6j]>*{content-visibility:auto;contain-intrinsic-size:200px;opacity:0;animation:.4s cubic-bezier(.4,0,.2,1) forwards fadeInSlide;animation-delay:calc(var(--content-delay) + var(--i) * var(--interval));transition:all .4s cubic-bezier(.4,0,.2,1)}#post-list-container[data-astro-cid-a6kbbo6j].grid-mode>*{animation-name:fadeInScale}#post-list-container[data-astro-cid-a6kbbo6j].layout-switching{opacity:.95}#post-list-container[data-astro-cid-a6kbbo6j].layout-switching>*{animation-delay:calc(var(--i) * 50ms);transform:scale(.98)}@keyframes fadeInScale{0%{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}@keyframes fadeInSlide{0%{opacity:0;transform:translate(-10px)}to{opacity:1;transform:translate(0)}}
 .filter-tabs[data-astro-cid-j6zuvnab]{display:flex;flex-wrap:wrap;gap:.5rem}.filter-tabs-item[data-astro-cid-j6zuvnab]{display:inline-flex;align-items:center;gap:.375rem;padding:.5rem 1rem;border:1px solid var(--line-divider);border-radius:var(--radius-large);background:var(--btn-regular-bg);color:var(--btn-content);font-size:.875rem;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap}.filter-tabs-item[data-astro-cid-j6zuvnab] iconify-icon[data-astro-cid-j6zuvnab]{flex-shrink:0;opacity:.7;transition:opacity .2s}.filter-tabs-item[data-astro-cid-j6zuvnab]:hover:not(.active){background:var(--btn-regular-bg-hover);border-color:var(--primary)}.filter-tabs-item[data-astro-cid-j6zuvnab]:hover:not(.active) iconify-icon[data-astro-cid-j6zuvnab]{opacity:1}.filter-tabs-item[data-astro-cid-j6zuvnab].active{background:var(--primary);color:#fff;border-color:var(--primary)}.filter-tabs-item[data-astro-cid-j6zuvnab].active iconify-icon[data-astro-cid-j6zuvnab]{opacity:1}.filter-tabs-count[data-astro-cid-j6zuvnab]{opacity:.6;font-size:.8rem}@media(width<768px){.filter-tabs[data-astro-cid-j6zuvnab]{gap:.375rem}.filter-tabs-item[data-astro-cid-j6zuvnab]{padding:.4rem .8rem;font-size:.8rem}.filter-tabs-count[data-astro-cid-j6zuvnab]{display:none}}
 .icon-loading[data-astro-cid-uaowhfj6]{min-width:1em;min-height:1em;display:inline-flex;align-items:center;justify-content:center}.icon-content[data-astro-cid-uaowhfj6]{display:inline-flex;align-items:center;justify-content:center}[data-astro-cid-uaowhfj6][data-icon-container]{position:relative;display:inline-flex;align-items:center;justify-content:center;min-width:1em;min-height:1em}[data-astro-cid-uaowhfj6][data-icon-container] .icon-loading[data-astro-cid-uaowhfj6],[data-astro-cid-uaowhfj6][data-icon-container] .icon-content[data-astro-cid-uaowhfj6]{position:absolute;top:0;left:0;width:100%;height:100%}
 .slider.svelte-na2tw3{-webkit-appearance:none;height:.85rem;border-radius:999px;cursor:pointer;outline:none}.range-slider.svelte-na2tw3{background-image:linear-gradient(90deg,var(--primary) 0 var(--range-progress, 50%),var(--btn-regular-bg-active) var(--range-progress, 50%) 100%);transition:background-image .1s ease}.slider::-webkit-slider-thumb{-webkit-appearance:none;height:.875rem;width:.875rem;border-radius:50%;background:#fff;box-shadow:0 1px 4px #0003,0 0 0 2px var(--primary);cursor:pointer;transition:transform .15s ease}.slider::-webkit-slider-thumb:hover{transform:scale(1.15)}.slider::-webkit-slider-thumb:active{transform:scale(1.05)}.slider::-moz-range-thumb{height:.875rem;width:.875rem;border-radius:50%;background:#fff;box-shadow:0 1px 4px #0003,0 0 0 2px var(--primary);cursor:pointer;border:none}
@@ -225,7 +224,6 @@ const pageScaling = {"enable":true,"targetWidth":2000};
 .toggle-track.svelte-1tnasbm{min-width:40px}
 .skill-card[data-astro-cid-n3s4c6cj]{animation:.5s ease-out forwards fadeInUp;opacity:0}.skill-card[data-astro-cid-n3s4c6cj].filtered-out{display:none}@keyframes fadeInUp{0%{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.skill-card[data-astro-cid-n3s4c6cj]:first-child{animation-delay:30ms}.skill-card[data-astro-cid-n3s4c6cj]:nth-child(2){animation-delay:60ms}.skill-card[data-astro-cid-n3s4c6cj]:nth-child(3){animation-delay:90ms}.skill-card[data-astro-cid-n3s4c6cj]:nth-child(4){animation-delay:.12s}.skill-card[data-astro-cid-n3s4c6cj]:nth-child(5){animation-delay:.15s}.skill-card[data-astro-cid-n3s4c6cj]:nth-child(6){animation-delay:.18s}.skill-card[data-astro-cid-n3s4c6cj]:nth-child(7){animation-delay:.21s}.skill-card[data-astro-cid-n3s4c6cj]:nth-child(8){animation-delay:.24s}.skill-card[data-astro-cid-n3s4c6cj]:nth-child(9){animation-delay:.27s}.skill-card[data-astro-cid-n3s4c6cj]:nth-child(10){animation-delay:.3s}.skill-card[data-astro-cid-n3s4c6cj]:nth-child(11){animation-delay:.33s}.skill-card[data-astro-cid-n3s4c6cj]:nth-child(12){animation-delay:.36s}.line-clamp-2[data-astro-cid-n3s4c6cj]{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .tag-chip.svelte-hsxci1{display:inline-flex;align-items:center;height:2rem;padding:0 .75rem;border-radius:.5rem;font-size:.875rem;background-color:var(--btn-plain-bg-hover);color:var(--btn-content);transition:all .2s ease;text-decoration:none;cursor:pointer}.tag-chip.svelte-hsxci1:hover{background-color:var(--primary);color:#fff}.dark .tag-chip.svelte-hsxci1{background-color:var(--card-bg);color:var(--text-color)}.dark .tag-chip.svelte-hsxci1:hover{background-color:var(--primary);color:#fff}
-#post-list-container[data-astro-cid-a6kbbo6j]{min-height:200px;transition:opacity .5s cubic-bezier(.4,0,.2,1)}#post-list-container[data-astro-cid-a6kbbo6j].list-mode{gap:calc(var(--spacing,.25rem) * 4);flex-direction:column;display:flex}#post-list-container[data-astro-cid-a6kbbo6j].grid-mode{gap:calc(var(--spacing,.25rem) * 6);grid-template-columns:repeat(1,minmax(0,1fr));display:grid}@media(min-width:48rem){#post-list-container[data-astro-cid-a6kbbo6j].grid-mode{grid-template-columns:repeat(2,minmax(0,1fr))}}#post-list-container[data-astro-cid-a6kbbo6j]>*{content-visibility:auto;contain-intrinsic-size:200px;opacity:0;animation:.4s cubic-bezier(.4,0,.2,1) forwards fadeInSlide;animation-delay:calc(var(--content-delay) + var(--i) * var(--interval));transition:all .4s cubic-bezier(.4,0,.2,1)}#post-list-container[data-astro-cid-a6kbbo6j].grid-mode>*{animation-name:fadeInScale}#post-list-container[data-astro-cid-a6kbbo6j].layout-switching{opacity:.95}#post-list-container[data-astro-cid-a6kbbo6j].layout-switching>*{animation-delay:calc(var(--i) * 50ms);transform:scale(.98)}@keyframes fadeInScale{0%{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}@keyframes fadeInSlide{0%{opacity:0;transform:translate(-10px)}to{opacity:1;transform:translate(0)}}
 .timeline-entry[data-astro-cid-c7fgnlk6]{position:relative;padding-left:2.5rem;padding-bottom:2rem;animation:.5s ease-out forwards fadeInUp;opacity:0}.timeline-entry[data-astro-cid-c7fgnlk6]:last-child{padding-bottom:0}.timeline-entry[data-astro-cid-c7fgnlk6].filtered-out{display:none}.timeline-node[data-astro-cid-c7fgnlk6]{position:absolute;left:0;top:1.5rem;width:1.25rem;height:1.25rem;border-radius:50%;border:2.5px solid #fff;box-shadow:0 0 0 2px var(--line-divider);display:flex;align-items:center;justify-content:center;z-index:2;transition:transform .2s,box-shadow .2s}.timeline-entry[data-astro-cid-c7fgnlk6]:hover .timeline-node[data-astro-cid-c7fgnlk6]{transform:scale(1.15);box-shadow:0 0 0 2px var(--primary),0 0 12px #0000001a}.timeline-entry[data-astro-cid-c7fgnlk6].is-current .timeline-node[data-astro-cid-c7fgnlk6]{animation:2s ease-in-out infinite pulse}@keyframes pulse{0%,to{box-shadow:0 0 0 2px var(--line-divider)}50%{box-shadow:0 0 0 2px #22c55e,0 0 8px #22c55e4d}}@keyframes fadeInUp{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.timeline-entry[data-astro-cid-c7fgnlk6]:first-child{animation-delay:50ms}.timeline-entry[data-astro-cid-c7fgnlk6]:nth-child(2){animation-delay:.1s}.timeline-entry[data-astro-cid-c7fgnlk6]:nth-child(3){animation-delay:.15s}.timeline-entry[data-astro-cid-c7fgnlk6]:nth-child(4){animation-delay:.2s}.timeline-entry[data-astro-cid-c7fgnlk6]:nth-child(5){animation-delay:.25s}.timeline-entry[data-astro-cid-c7fgnlk6]:nth-child(6){animation-delay:.3s}.timeline-entry[data-astro-cid-c7fgnlk6]:nth-child(7){animation-delay:.35s}.timeline-entry[data-astro-cid-c7fgnlk6]:nth-child(8){animation-delay:.4s}.timeline-entry[data-astro-cid-c7fgnlk6]:nth-child(9){animation-delay:.45s}
 .animation-test-container[data-astro-cid-3alkpyj2]{margin:2rem 0;padding:1.5rem;background:var(--color-bg-secondary, #f8f9fa);border-radius:8px;border:1px solid var(--color-border, #e9ecef)}.test-content[data-astro-cid-3alkpyj2]{padding:1rem;background:#fff;border-radius:6px;box-shadow:0 2px 8px #0000001a}.test-buttons[data-astro-cid-3alkpyj2]{margin-top:1rem;display:flex;gap:.5rem;flex-wrap:wrap}.test-btn[data-astro-cid-3alkpyj2]{padding:.5rem 1rem;background:var(--color-primary, #667eea);color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:.875rem;transition:all .2s}.test-btn[data-astro-cid-3alkpyj2]:hover{background:var(--color-primary-hover, #5a6fd8);transform:translateY(-1px)}.test-btn[data-astro-cid-3alkpyj2]:active{transform:translateY(0)}
 button[data-active=true].svelte-10ll9iw,button[data-active=true].svelte-10ll9iw:hover{background-color:var(--primary)!important;color:#fff!important}button[data-active=true]:before{display:none!important}.theme-switch-btn:before{transition:transform 75ms ease-out,background-color 0ms!important}
@@ -235,7 +233,9 @@ input.svelte-1s8smj5:focus{outline:0}.search-panel{max-height:calc(100vh - 100px
 .card-base[data-astro-cid-ibpinaeu]{animation:.6s ease-out fadeInUp}@keyframes fadeInUp{0%{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}a[data-astro-cid-ibpinaeu]:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(var(--primary-rgb),.3)}
 .anime-card-base{container-type:inline-size}.anime-grid-container{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;transition:gap .5s cubic-bezier(.4,0,.2,1)}.anime-grid-container.anime-grid-mode{grid-template-columns:repeat(2,1fr)}@container (min-width: 30rem){.anime-grid-container.anime-grid-mode{grid-template-columns:repeat(3,1fr)}}@container (min-width: 48rem){.anime-grid-container.anime-grid-mode{grid-template-columns:repeat(4,1fr)}}@container (min-width: 64rem){.anime-grid-container.anime-grid-mode{grid-template-columns:repeat(5,1fr)}}.anime-grid-container.anime-list-mode{grid-template-columns:repeat(1,1fr)}@media(width>=1280px){.anime-grid-container.anime-list-mode{grid-template-columns:repeat(2,1fr)}}.anime-grid-container.anime-list-mode .group{display:flex;flex-direction:row;min-height:12rem}.anime-grid-container.anime-list-mode .anime-cover-container{width:8.5rem;height:auto;aspect-ratio:2/3;flex-shrink:0}@media(width>=768px){.anime-grid-container.anime-list-mode .anime-cover-container{width:11rem}}.anime-grid-container.anime-list-mode .p-3{flex-grow:1;display:flex;flex-direction:column;justify-content:space-between;padding:.75rem 1rem;min-width:0}.anime-grid-container.anime-list-mode h3{-webkit-line-clamp:unset;line-clamp:unset;white-space:normal;overflow-wrap:break-word;word-break:break-word;hyphens:auto}.anime-grid-container.anime-list-mode .p-3 .flex.flex-wrap span{white-space:normal;overflow-wrap:break-word;word-break:break-word;hyphens:auto}.anime-grid-container.anime-list-mode .group p.text-xs{-webkit-line-clamp:4;line-clamp:4}.anime-filter-container{display:flex;flex-wrap:wrap;gap:.5rem}.anime-filter-tag{padding:.5rem 1rem;border:1px solid var(--line-divider);border-radius:var(--radius-large);background:var(--btn-regular-bg);color:var(--btn-content);font-size:.875rem;font-weight:500;cursor:pointer;transition:all .2s ease;white-space:nowrap}.anime-filter-tag:hover:not(.anime-active){background:var(--btn-hover-bg);border-color:var(--primary);transform:translateY(-1px)}.anime-filter-tag.anime-active{background:var(--primary);color:#fff;border-color:var(--primary)}.anime-grid-container [data-anime-status].anime-hidden{display:none!important}.anime-grid-container [data-anime-status]{transition:opacity .5s cubic-bezier(.4,0,.2,1),transform .5s cubic-bezier(.4,0,.2,1),box-shadow .15s ease-out;content-visibility:auto;contain-intrinsic-size:1px 350px}.anime-grid-container [data-anime-status].anime-fade-out{opacity:0;transform:scale(.9);pointer-events:none}.anime-grid-container [data-anime-status].anime-fade-in{opacity:0;transform:scale(.9)}.anime-grid-container [data-anime-status].anime-fade-in-active{opacity:1;transform:scale(1)}.anime-loading-spinner{border-right-color:var(--primary);animation:spin 1s linear infinite}@keyframes spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}
 .category-bar[data-astro-cid-rlsuwegp]{margin-bottom:1rem}.category-divider[data-astro-cid-rlsuwegp]{width:1px;align-self:stretch;background:var(--line-divider)}.scroll-area[data-astro-cid-rlsuwegp]{flex:1;min-width:0;position:relative}.scroll-fade[data-astro-cid-rlsuwegp]{position:absolute;top:0;bottom:0;width:2.5rem;pointer-events:none;opacity:0;transition:opacity .3s ease-in-out;z-index:1}.scroll-fade[data-astro-cid-rlsuwegp][data-visible]{opacity:1}.scroll-fade-left[data-astro-cid-rlsuwegp]{left:0;background:linear-gradient(to left,transparent,var(--card-bg))}.scroll-fade-right[data-astro-cid-rlsuwegp]{right:0;background:linear-gradient(to right,transparent,var(--card-bg))}body.wallpaper-transparent .scroll-fade[data-astro-cid-rlsuwegp]{display:none}.category-scroll[data-astro-cid-rlsuwegp]{scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth}.category-scroll[data-astro-cid-rlsuwegp]::-webkit-scrollbar{display:none}.category-pill[data-astro-cid-rlsuwegp]{border:1.5px solid var(--line-divider);color:var(--btn-content);background:none}.category-pill[data-astro-cid-rlsuwegp]:hover{border-color:var(--primary);color:var(--primary);background:none}.category-pill[data-astro-cid-rlsuwegp][data-active]{background:var(--primary);border-color:var(--primary);color:#fff}.category-pill[data-astro-cid-rlsuwegp][data-active]:hover{background:var(--primary);border-color:var(--primary);opacity:.9}
+.album-card[data-astro-cid-lrtjwfaf]{animation:.5s ease-out forwards fadeInUp;opacity:0}.album-card[data-astro-cid-lrtjwfaf].filtered-out{display:none}@keyframes fadeInUp{0%{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.album-card[data-astro-cid-lrtjwfaf]:first-child{animation-delay:30ms}.album-card[data-astro-cid-lrtjwfaf]:nth-child(2){animation-delay:60ms}.album-card[data-astro-cid-lrtjwfaf]:nth-child(3){animation-delay:90ms}.album-card[data-astro-cid-lrtjwfaf]:nth-child(4){animation-delay:.12s}.album-card[data-astro-cid-lrtjwfaf]:nth-child(5){animation-delay:.15s}.album-card[data-astro-cid-lrtjwfaf]:nth-child(6){animation-delay:.18s}.album-card[data-astro-cid-lrtjwfaf]:nth-child(7){animation-delay:.21s}.album-card[data-astro-cid-lrtjwfaf]:nth-child(8){animation-delay:.24s}.album-card[data-astro-cid-lrtjwfaf]:nth-child(9){animation-delay:.27s}.album-card[data-astro-cid-lrtjwfaf]:nth-child(10){animation-delay:.3s}.album-card[data-astro-cid-lrtjwfaf]:nth-child(11){animation-delay:.33s}.album-card[data-astro-cid-lrtjwfaf]:nth-child(12){animation-delay:.36s}.line-clamp-1[data-astro-cid-lrtjwfaf]{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
 .device-card[data-astro-cid-ivu54bum]{animation:.6s forwards fadeInUp;opacity:0}.line-clamp-2[data-astro-cid-ivu54bum]{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#albums-grid{grid-template-columns:1fr}@media(width>=640px){#albums-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}#main-grid[data-layout-mode=grid] #albums-grid{grid-template-columns:repeat(3,minmax(0,1fr))}@media(width<640px){#main-grid[data-layout-mode=grid] #albums-grid{grid-template-columns:1fr}}
 .moment-card{animation:fadeInUp .5s ease-out forwards;opacity:0}.moment-card.filtered-out{display:none}@keyframes fadeInUp{0%{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.moment-card:nth-child(1){animation-delay:.03s}.moment-card:nth-child(2){animation-delay:.06s}.moment-card:nth-child(3){animation-delay:.09s}.moment-card:nth-child(4){animation-delay:.12s}.moment-card:nth-child(5){animation-delay:.15s}.moment-card:nth-child(6){animation-delay:.18s}.moment-card:nth-child(7){animation-delay:.21s}.moment-card:nth-child(8){animation-delay:.24s}.moment-card:nth-child(9){animation-delay:.27s}.moment-card:nth-child(10){animation-delay:.3s}.moment-card:nth-child(11){animation-delay:.33s}.moment-card:nth-child(12){animation-delay:.36s}.diary-images-single{grid-template-columns:1fr;max-width:400px}.diary-images-double,.diary-images-triple{grid-template-columns:repeat(2,1fr);max-width:500px}.diary-images-triple>:first-child{grid-row:span 2}.diary-images-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));max-width:600px}@media(width>=768px){.diary-images-single{max-width:500px}.diary-images-double,.diary-images-triple{max-width:560px}.diary-images-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));max-width:700px}}@media(width<480px){.diary-images-triple{grid-template-columns:repeat(2,1fr)}.diary-images-triple>:first-child{grid-row:span 1}}
 .filter-container[data-astro-cid-ooolufgn]{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1rem}.filter-tag[data-astro-cid-ooolufgn]{padding:.625rem 1.25rem;border:1px solid var(--line-divider);border-radius:var(--radius-large);background:var(--btn-regular-bg);color:var(--btn-content);font-size:.875rem;font-weight:500;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);white-space:nowrap;position:relative;overflow:hidden}.filter-tag[data-astro-cid-ooolufgn]:before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:var(--primary);opacity:0;transition:opacity .3s;z-index:-1}.filter-tag[data-astro-cid-ooolufgn]:hover:not(.active){background:var(--btn-hover-bg);border-color:var(--primary);transform:translateY(-2px);box-shadow:0 4px 8px #0000001a}.filter-tag[data-astro-cid-ooolufgn].active{background:var(--primary);color:#fff;border-color:var(--primary);transform:translateY(-1px);box-shadow:0 4px 12px rgba(var(--color-primary-rgb),.3)}.filter-tag[data-astro-cid-ooolufgn].active:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(var(--color-primary-rgb),.4)}@keyframes fadeInUp{0%{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.onload-animation[data-astro-cid-ooolufgn]{animation:.6s forwards fadeInUp;opacity:0}.line-clamp-2[data-astro-cid-ooolufgn]{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.device-card[data-astro-cid-ooolufgn]:after{content:"";position:absolute;inset:0;border-radius:.75rem;background:linear-gradient(135deg,rgba(var(--color-primary-rgb),.05),transparent);opacity:0;transition:opacity .4s;pointer-events:none}.device-card[data-astro-cid-ooolufgn]:hover:after{opacity:1}.device-card[data-astro-cid-ooolufgn] h3[data-astro-cid-ooolufgn]{text-shadow:0 1px 2px #0000000d}@media(width<768px){.filter-container[data-astro-cid-ooolufgn]{gap:.5rem}.filter-tag[data-astro-cid-ooolufgn]{padding:.5rem 1rem;font-size:.8rem}.device-card[data-astro-cid-ooolufgn] .relative[data-astro-cid-ooolufgn].p-6\.pb-0{padding:1rem 1rem 0}.device-card[data-astro-cid-ooolufgn] .p-6\.pt-4[data-astro-cid-ooolufgn]{padding:1rem}}@media(prefers-color-scheme:dark){.device-card[data-astro-cid-ooolufgn]:hover{box-shadow:0 4px 12px #00000026}}
 .friend-card[data-astro-cid-d3jrgqem]{animation:.5s ease-out forwards fadeInUp;opacity:0}@keyframes fadeInUp{0%{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.friend-card[data-astro-cid-d3jrgqem]:first-child{animation-delay:50ms}.friend-card[data-astro-cid-d3jrgqem]:nth-child(2){animation-delay:.1s}.friend-card[data-astro-cid-d3jrgqem]:nth-child(3){animation-delay:.15s}.friend-card[data-astro-cid-d3jrgqem]:nth-child(4){animation-delay:.2s}.friend-card[data-astro-cid-d3jrgqem]:nth-child(5){animation-delay:.25s}.friend-card[data-astro-cid-d3jrgqem]:nth-child(6){animation-delay:.3s}
@@ -1983,11 +1983,11 @@ const profileStatsUnavailable = "统计不可用";
 	<div> <!-- 公告栏内容 --> <div class="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-3"> 更新频率随缘，但每篇都是认真的 </div> <!-- 可选链接和关闭按钮 --> <div class="flex items-center justify-between gap-3"> <div> <a href="/about/" target="_self" class="btn-regular rounded-lg px-3 py-1.5 text-sm font-medium active:scale-95 transition-transform"> 了解更多 </a> </div>  </div> </div>
  </div>
 	
-</widget-layout>   </div> </div> <div id="sidebar-sticky" class="transition-all duration-700 flex flex-col w-full gap-4 sticky top-[2.5rem] sidebar-sticky-column"> <div class="flex flex-col w-full gap-4 md:hidden"> <widget-layout data-id="music-sidebar-widget-mptio2p" data-is-collapsed="undefined" class="pb-4 card-base onload-animation" style="animation-delay: 100ms" data-astro-cid-kcwuzsc3="true">
+</widget-layout>   </div> </div> <div id="sidebar-sticky" class="transition-all duration-700 flex flex-col w-full gap-4 sticky top-[2.5rem] sidebar-sticky-column"> <div class="flex flex-col w-full gap-4 md:hidden"> <widget-layout data-id="music-sidebar-widget-j3sks3g" data-is-collapsed="undefined" class="pb-4 card-base onload-animation" style="animation-delay: 100ms" data-astro-cid-kcwuzsc3="true">
 	<div class="font-bold transition text-lg text-neutral-900 dark:text-neutral-100 relative ml-8 mt-4 mb-2 flex items-center
         before:w-1 before:h-4 before:rounded-md before:bg-(--primary)
         before:absolute before:-left-4 before:top-[5.5px]" style="" data-astro-cid-kcwuzsc3> 音乐播放器  </div>
-	<div id="music-sidebar-widget-mptio2p" class="collapse-wrapper px-4 overflow-hidden" style="" data-astro-cid-kcwuzsc3> 
+	<div id="music-sidebar-widget-j3sks3g" class="collapse-wrapper px-4 overflow-hidden" style="" data-astro-cid-kcwuzsc3> 
 			<astro-island uid="ZcsMtN" component-url="/_astro/SidebarMusicClient.CDRoRAIP.js" component-export="default" renderer-url="/_astro/client.svelte.BG8BImUm.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;SidebarMusicClient&quot;,&quot;value&quot;:&quot;svelte&quot;}"></astro-island>
 		 </div>
 	
@@ -2360,20 +2360,1770 @@ const lastPostDate = "2026-09-22T11:00:00.000Z";
                     bg-[oklch(0.95_0.025_var(--hue))] dark:bg-(--primary)
                     flex items-center justify-center"> 1 </div> </div> </button> </a> </div>
 	
-</widget-layout> <widget-layout data-id="music-sidebar-widget-ceb43ut" data-is-collapsed="undefined" class="pb-4 card-base onload-animation" style="animation-delay: 100ms" data-astro-cid-kcwuzsc3="true">
+</widget-layout> <widget-layout data-id="music-sidebar-widget-qcxnq59" data-is-collapsed="undefined" class="pb-4 card-base onload-animation" style="animation-delay: 100ms" data-astro-cid-kcwuzsc3="true">
 	<div class="font-bold transition text-lg text-neutral-900 dark:text-neutral-100 relative ml-8 mt-4 mb-2 flex items-center
         before:w-1 before:h-4 before:rounded-md before:bg-(--primary)
         before:absolute before:-left-4 before:top-[5.5px]" style="" data-astro-cid-kcwuzsc3> 音乐播放器  </div>
-	<div id="music-sidebar-widget-ceb43ut" class="collapse-wrapper px-4 overflow-hidden" style="" data-astro-cid-kcwuzsc3> 
+	<div id="music-sidebar-widget-qcxnq59" class="collapse-wrapper px-4 overflow-hidden" style="" data-astro-cid-kcwuzsc3> 
 			<astro-island uid="ZcsMtN" component-url="/_astro/SidebarMusicClient.CDRoRAIP.js" component-export="default" renderer-url="/_astro/client.svelte.BG8BImUm.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;SidebarMusicClient&quot;,&quot;value&quot;:&quot;svelte&quot;}"></astro-island>
 		 </div>
 	
-</widget-layout>  </div> </div> </div> </div> </div> <main id="swup-container" class="transition-swup-fade overflow-hidden w-full col-span-1 row-start-1 row-end-2 md:col-start-2 md:col-end-3 lg:col-start-2 lg:col-end-3 transition-main" data-astro-cid-m6cpsp63> <div id="content-wrapper" class="onload-animation transition-leaving" data-astro-cid-m6cpsp63> <div id="page-overlay-data" data-title="相册" data-date data-category data-words data-is-post="false" data-is-home="false" data-wallpaper-mode="banner" class="hidden" data-astro-cid-m6cpsp63></div> 
-	<script type="module" src="/_astro/albums.astro_astro_type_script_index_0_lang.DkQhpyHJ.js"></script><script src="/js/filter-tabs-handler.js"></script><div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32"> <div class="card-base z-10 px-6 sm:px-9 py-6 relative w-full"> <div class="flex flex-col items-start justify-center mb-8 "> <h1 class="text-4xl font-bold text-black/90 dark:text-white/90 mb-2 relative
-			before:w-1 before:h-8 before:rounded-md before:bg-(--primary)
-			before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4"> 相册 </h1> <p class="text-lg text-black/60 dark:text-white/60">记录生活中的美好瞬间</p> </div>  <div id="albums-grid" class="grid gap-6 items-start">  </div> <div id="no-results" class="hidden text-center py-16"> <svg width="1em" height="1em" class="text-6xl text-black/15 dark:text-white/15 mb-4" data-icon="material-symbols:search-off-rounded">   <symbol id="ai:material-symbols:search-off-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="m7 17.7l1.4 1.425q.15.15.35.15t.35-.15t.15-.363t-.15-.362L7.7 17l1.425-1.425q.15-.15.15-.35t-.15-.35t-.35-.15t-.35.15L7 16.3l-1.425-1.425q-.15-.15-.35-.15t-.35.15t-.15.35t.15.35L6.3 17l-1.425 1.425q-.15.15-.15.35t.15.35t.35.15t.35-.15zm-3.537 2.838Q2 19.075 2 17t1.463-3.537T7 12t3.538 1.463T12 17t-1.463 3.538T7 22t-3.537-1.463M14.2 14.6q-.3-.325-.637-.662T12.9 13.3q.95-.6 1.525-1.6T15 9.5q0-1.875-1.312-3.187T10.5 5T7.313 6.313T6 9.5q0 .15.013.288t.037.287q-.45.05-.987.2t-.963.35q-.05-.275-.075-.55T4 9.5q0-2.725 1.888-4.612T10.5 3t4.613 1.888T17 9.5q0 1.075-.337 2.038t-.938 1.762l5.575 5.6q.275.275.288.688t-.288.712q-.275.275-.7.275t-.7-.275z"/></symbol><use href="#ai:material-symbols:search-off-rounded"></use>
-       </svg> <p class="text-black/40 dark:text-white/40 text-lg"> 没有匹配的相册 </p> </div> <div class="text-center py-16"> <svg width="1em" height="1em" viewBox="0 0 24 24" class="text-6xl text-black/15 dark:text-white/15 mb-4" data-icon="material-symbols:photo-library">   <use href="#ai:material-symbols:photo-library"></use>
-       </svg> <h3 class="text-lg font-medium text-black/90 dark:text-white/90 mb-2"> 暂无内容 </h3> <p class="text-black/60 dark:text-white/60"> 还没有创建任何相册，快去添加一些美好的回忆吧！ </p> </div> </div> </div>
+</widget-layout>  </div> </div> </div> </div> </div> <main id="swup-container" class="transition-swup-fade overflow-hidden w-full col-span-1 row-start-1 row-end-2 md:col-start-2 md:col-end-3 lg:col-start-2 lg:col-end-3 transition-main" data-astro-cid-m6cpsp63> <div id="content-wrapper" class="onload-animation transition-leaving" data-astro-cid-m6cpsp63> <div id="page-overlay-data" data-title="MiMo-V2.6 发布分析：把 RL 推向自我改进" data-date="2026-09-22" data-category="AI" data-words="5944" data-is-post="true" data-is-home="false" data-wallpaper-mode="banner" class="hidden" data-astro-cid-m6cpsp63></div> 
+	
+	<script type="module" src="/_astro/_...permalink_.astro_astro_type_script_index_0_lang.SRPjCkvP.js"></script><div class="flex w-full rounded-(--radius-large) overflow-hidden relative mb-4"> <div id="post-container" class="card-base z-10 px-6 md:px-9 pt-6 pb-4 relative w-full "> <!-- word count and reading time --> <div class="flex flex-row text-black/30 dark:text-white/30 gap-5 mb-3 transition onload-animation"> <div class="flex flex-row items-center"> <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2"> <svg width="1em" height="1em" data-icon="material-symbols:notes-rounded">   <symbol id="ai:material-symbols:notes-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M4 18q-.425 0-.712-.288T3 17t.288-.712T4 16h10q.425 0 .713.288T15 17t-.288.713T14 18zm0-5q-.425 0-.712-.288T3 12t.288-.712T4 11h16q.425 0 .713.288T21 12t-.288.713T20 13zm0-5q-.425 0-.712-.288T3 7t.288-.712T4 6h16q.425 0 .713.288T21 7t-.288.713T20 8z"/></symbol><use href="#ai:material-symbols:notes-rounded"></use>
+       </svg> </div> <div class="text-sm"> 5944  字 </div> </div> <div class="flex flex-row items-center"> <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2"> <svg width="1em" height="1em" data-icon="material-symbols:schedule-outline-rounded">   <symbol id="ai:material-symbols:schedule-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M13 11.6V8q0-.425-.288-.712T12 7t-.712.288T11 8v3.975q0 .2.075.388t.225.337l3.3 3.3q.275.275.7.275T16 16t.275-.7t-.275-.7zM12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.325 0 5.663-2.337T20 12t-2.337-5.663T12 4T6.337 6.338T4 12t2.338 5.663T12 20"/></symbol><use href="#ai:material-symbols:schedule-outline-rounded"></use>
+       </svg> </div> <div class="text-sm"> 18  分钟 </div> </div> </div> <!-- title --> <div class="relative onload-animation"> <div data-pagefind-body data-pagefind-weight="10" data-pagefind-meta="title" class="transition w-full block font-bold mb-3
+                    text-3xl md:text-[2.25rem]/[2.75rem]
+                    text-black/90 dark:text-white/90
+                    md:before:w-1 before:h-5 before:rounded-md before:bg-(--primary)
+                    before:absolute before:top-3 before:-left-4.5"> MiMo-V2.6 发布分析：把 RL 推向自我改进 </div> </div> <!-- metadata --> <div class="onload-animation"> <div class="flex flex-wrap text-neutral-500 dark:text-neutral-400 items-center gap-4 gap-x-4 gap-y-2 mb-5"> <div class="flex items-center"> <div class="meta-icon"> <svg width="1em" height="1em" class="text-xl" data-icon="material-symbols:calendar-today-outline-rounded">   <symbol id="ai:material-symbols:calendar-today-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M5 22q-.825 0-1.412-.587T3 20V6q0-.825.588-1.412T5 4h1V3q0-.425.288-.712T7 2t.713.288T8 3v1h8V3q0-.425.288-.712T17 2t.713.288T18 3v1h1q.825 0 1.413.588T21 6v14q0 .825-.587 1.413T19 22zm0-2h14V10H5zM5 8h14V6H5zm0 0V6z"/></symbol><use href="#ai:material-symbols:calendar-today-outline-rounded"></use>
+       </svg> </div> <span class="text-50 text-sm font-medium">2026-09-22</span> </div> <div class="flex items-center"> <div class="meta-icon"> <svg width="1em" height="1em" class="text-xl" data-icon="material-symbols:edit-calendar-outline-rounded">   <symbol id="ai:material-symbols:edit-calendar-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M5 22q-.825 0-1.412-.587T3 20V6q0-.825.588-1.412T5 4h1V3q0-.425.288-.712T7 2t.713.288T8 3v1h8V3q0-.425.288-.712T17 2t.713.288T18 3v1h1q.825 0 1.413.588T21 6v4.025q0 .425-.288.713t-.712.287t-.712-.288t-.288-.712V10H5v10h6q.425 0 .713.288T12 21t-.288.713T11 22zM5 8h14V6H5zm0 0V6zm9 13v-1.65q0-.2.075-.387t.225-.338l5.225-5.2q.225-.225.5-.325t.55-.1q.3 0 .575.113t.5.337l.925.925q.2.225.313.5t.112.55t-.1.563t-.325.512l-5.2 5.2q-.15.15-.337.225T16.65 22H15q-.425 0-.712-.287T14 21m7.5-5.575l-.925-.925zm-6 5.075h.95l3.025-3.05l-.45-.475l-.475-.45l-3.05 3.025zm3.525-3.525l-.475-.45l.925.925z"/></symbol><use href="#ai:material-symbols:edit-calendar-outline-rounded"></use>
+       </svg> </div> <span class="text-50 text-sm font-medium">2026-09-22</span> </div> <div class="flex items-center"> <div class="meta-icon"> <svg width="1em" height="1em" class="text-xl" data-icon="material-symbols:book-2-outline-rounded">   <symbol id="ai:material-symbols:book-2-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M6 15.325q.35-.175.725-.25T7.5 15H8V4h-.5q-.625 0-1.062.438T6 5.5zM10 15h8V4h-8zm-4 .325V4zM7.5 22q-1.45 0-2.475-1.025T4 18.5v-13q0-1.45 1.025-2.475T7.5 2H18q.825 0 1.413.587T20 4v12.525q0 .2-.162.363t-.588.362q-.35.175-.55.5t-.2.75t.2.763t.55.487t.55.413t.2.562v.25q0 .425-.288.725T19 22zm0-2h9.325q-.15-.35-.237-.712T16.5 18.5q0-.4.075-.775t.25-.725H7.5q-.65 0-1.075.438T6 18.5q0 .65.425 1.075T7.5 20"/></symbol><use href="#ai:material-symbols:book-2-outline-rounded"></use>
+       </svg> </div> <div class="flex flex-row flex-nowrap items-center"> <a href="/archive/?category=AI" aria-label="View all posts in the AI category" class="link-lg transition text-50 text-sm font-medium hover:text-(--primary) dark:hover:text-(--primary) whitespace-nowrap"> AI </a> </div> </div>   <div class="items-center flex"> <div class="meta-icon"> <svg width="1em" height="1em" class="text-xl" data-icon="material-symbols:tag-rounded">   <symbol id="ai:material-symbols:tag-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="m9 16l-.825 3.275q-.075.325-.325.525t-.6.2q-.475 0-.775-.375T6.3 18.8L7 16H4.275q-.5 0-.8-.387T3.3 14.75q.075-.35.35-.55t.625-.2H7.5l1-4H5.775q-.5 0-.8-.387T4.8 8.75q.075-.35.35-.55t.625-.2H9l.825-3.275Q9.9 4.4 10.15 4.2t.6-.2q.475 0 .775.375t.175.825L11 8h4l.825-3.275q.075-.325.325-.525t.6-.2q.475 0 .775.375t.175.825L17 8h2.725q.5 0 .8.387t.175.863q-.075.35-.35.55t-.625.2H16.5l-1 4h2.725q.5 0 .8.388t.175.862q-.075.35-.35.55t-.625.2H15l-.825 3.275q-.075.325-.325.525t-.6.2q-.475 0-.775-.375T12.3 18.8L13 16zm.5-2h4l1-4h-4z"/></symbol><use href="#ai:material-symbols:tag-rounded"></use>
+       </svg> </div> <div class="flex flex-row flex-nowrap items-center">  <div class="hidden mx-1.5 text-(--meta-divider) text-sm">/</div> <a href="/archive/?tag=MiMo" aria-label="View all posts with the MiMo tag" class="link-lg transition text-50 text-sm font-medium
+                                        hover:text-(--primary) dark:hover:text-(--primary) whitespace-nowrap"> MiMo </a>  <div class="mx-1.5 text-(--meta-divider) text-sm">/</div> <a href="/archive/?tag=%E5%A4%A7%E6%A8%A1%E5%9E%8B" aria-label="View all posts with the 大模型 tag" class="link-lg transition text-50 text-sm font-medium
+                                        hover:text-(--primary) dark:hover:text-(--primary) whitespace-nowrap"> 大模型 </a>  <div class="mx-1.5 text-(--meta-divider) text-sm">/</div> <a href="/archive/?tag=%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0" aria-label="View all posts with the 强化学习 tag" class="link-lg transition text-50 text-sm font-medium
+                                        hover:text-(--primary) dark:hover:text-(--primary) whitespace-nowrap"> 强化学习 </a>  <div class="mx-1.5 text-(--meta-divider) text-sm">/</div> <a href="/archive/?tag=RL" aria-label="View all posts with the RL tag" class="link-lg transition text-50 text-sm font-medium
+                                        hover:text-(--primary) dark:hover:text-(--primary) whitespace-nowrap"> RL </a>  <div class="mx-1.5 text-(--meta-divider) text-sm">/</div> <a href="/archive/?tag=MoE" aria-label="View all posts with the MoE tag" class="link-lg transition text-50 text-sm font-medium
+                                        hover:text-(--primary) dark:hover:text-(--primary) whitespace-nowrap"> MoE </a>  <div class="mx-1.5 text-(--meta-divider) text-sm">/</div> <a href="/archive/?tag=Agent" aria-label="View all posts with the Agent tag" class="link-lg transition text-50 text-sm font-medium
+                                        hover:text-(--primary) dark:hover:text-(--primary) whitespace-nowrap"> Agent </a>  <div class="mx-1.5 text-(--meta-divider) text-sm">/</div> <a href="/archive/?tag=%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90" aria-label="View all posts with the 技术分析 tag" class="link-lg transition text-50 text-sm font-medium
+                                        hover:text-(--primary) dark:hover:text-(--primary) whitespace-nowrap"> 技术分析 </a>   </div> </div> <div class="flex items-center umami-page-views hidden" data-id="mimo-v26-release-analysis"> <div class="meta-icon"> <svg width="1em" height="1em" class="text-xl" data-icon="material-symbols:visibility-outline-rounded">   <symbol id="ai:material-symbols:visibility-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M15.188 14.688Q16.5 13.375 16.5 11.5t-1.312-3.187T12 7T8.813 8.313T7.5 11.5t1.313 3.188T12 16t3.188-1.312m-5.1-1.276Q9.3 12.625 9.3 11.5t.788-1.912T12 8.8t1.913.788t.787 1.912t-.787 1.913T12 14.2t-1.912-.787m-4.2 3.787q-2.763-1.8-4.363-4.75q-.125-.225-.187-.462t-.063-.488t.063-.488t.187-.462q1.6-2.95 4.363-4.75T12 4t6.113 1.8t4.362 4.75q.125.225.188.463t.062.487t-.062.488t-.188.462q-1.6 2.95-4.362 4.75T12 19t-6.113-1.8m11.3-1.687Q19.55 14.025 20.8 11.5q-1.25-2.525-3.613-4.012T12 6T6.813 7.488T3.2 11.5q1.25 2.525 3.613 4.013T12 17t5.188-1.487"/></symbol><use href="#ai:material-symbols:visibility-outline-rounded"></use>
+       </svg> </div> <span class="text-50 text-sm font-medium page-views-display">统计加载中...</span> </div>  </div> <script>(function(){const pageViewsText = "浏览量";
+const visitsText = "访问次数";
+
+    function generateStatsText(pageViews, visits) {
+        return `${pageViewsText} ${pageViews} · ${visitsText} ${visits}`;
+    }
+
+    async function fetchPageViews() {
+        const container = document.querySelector('.umami-page-views');
+        if (!container) return;
+
+        if (!window.oddmisc) {
+            container.classList.add('hidden');
+            return;
+        }
+
+        const id = container.dataset.id;
+        if (!id) {return;}
+
+        try {
+            const stats = await window.oddmisc.getStats(`/posts/${id}/`);
+            const pageViews = stats.pageviews || 0;
+            const visits = stats.visits || 0;
+
+            if (pageViews === 0 && visits === 0) {
+                container.classList.add('hidden');
+                return;
+            }
+
+            container.classList.remove('hidden');
+            container.querySelector('.page-views-display').textContent = generateStatsText(pageViews, visits);
+        } catch (error) {
+            console.error('Error fetching page views:', error);
+            container.classList.add('hidden');
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', fetchPageViews);
+    } else {
+        fetchPageViews();
+    }
+})();</script> <div class="mt-4 border-(--line-divider) border-dashed border-b mb-5"></div> </div>   <div data-pagefind-body class="prose dark:prose-invert prose-base !max-w-none custom-md mb-6 markdown-content onload-animation"> <!--<div class="prose dark:prose-invert max-w-none custom-md">--> <!--<div class="max-w-none custom-md">--> 
+							<p>2026 年 9 月 22 日，MiMo-V2.6 系列公开。主线很明确：</p>
+<p><strong>Scaling Reinforcement Learning Toward Self-Improvement.</strong></p>
+<p>官方将其描述为走向 RSI（Recursive Self-Improvement）的关键一步：<strong>在可验证的复杂任务上放大 RL 算力，让模型通过探索和反馈持续扩展能力边界。</strong></p>
+<p>这次的重心是 RL 管线，而非 SFT 堆叠或扩大 dense 规模。本文基于公开材料，梳理架构参数、RL 训练管线、官方跑分，并给出独立解读。</p>
+<p>资料来源：<a href="https://mimo.xiaomi.com/mimo-v2-6/article.html" rel="nofollow noopener noreferrer" target="_blank">官方发布正文</a>、<a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL" rel="nofollow noopener noreferrer" target="_blank">HuggingFace 模型卡</a>、<a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL/blob/main/MiMo_V2_6_technical_report.pdf" rel="nofollow noopener noreferrer" target="_blank">技术报告 PDF</a>、<a href="https://arxiv.org/abs/2606.30406" rel="nofollow noopener noreferrer" target="_blank">MOPD 论文</a>、<a href="https://mimo.xiaomi.com/rl" rel="nofollow noopener noreferrer" target="_blank">RL 训练直播</a>。标注「官方」的数字均来自上述公开材料。</p>
+<section><h2 id="家族成员与硬指标">家族成员与硬指标<a class="anchor" href="#家族成员与硬指标"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><div class="table-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>MiMo-V2.6-Pro</th><th>MiMo-V2.6-Flash</th><th>MiMo-V2.6-Pro-UltraSpeed</th><th>MiMo-V2.6-Distill-Qwen-9B</th></tr></thead><tbody><tr><td>定位</td><td>旗舰</td><td>效率均衡</td><td>极速输出</td><td>开源研究起点</td></tr><tr><td>架构</td><td>Sparse MoE</td><td>Sparse MoE</td><td>Pro 的加速模式</td><td>Dense（Qwen3.5-9B 蒸馏）</td></tr><tr><td>总参数 / 激活</td><td><strong>1.02T / 42B</strong></td><td><strong>309B / 15B</strong></td><td>同 Pro</td><td><strong>9B</strong></td></tr><tr><td>HF 权重名</td><td>Pro-RL</td><td>Flash-RL</td><td>—</td><td>Distill-Qwen-9B</td></tr><tr><td>上下文</td><td><strong>1M tokens</strong></td><td><strong>1M tokens</strong></td><td>同 Pro</td><td>—</td></tr><tr><td>模态</td><td>文/图/视频/音频</td><td>文/图/视频/音频</td><td>同 Pro</td><td>图 + 文</td></tr><tr><td>输出速度</td><td>基准</td><td>基准</td><td><strong>最高 20× Pro</strong></td><td>—</td></tr><tr><td>License</td><td>MIT</td><td>MIT</td><td>—</td><td>MIT</td></tr></tbody></table></div><p><strong>Artificial Analysis Intelligence Index：Pro 拿下 46.32</strong>（v4.3，2026-09），官方称超过 Kimi K3 与 Qwen3.8 Max，<strong>是目前最强开源模型</strong>。同一价格带里智能更高，帕累托前沿又往外推了一格。</p><p><img src="/images/mimo-v26/params-moe.svg" alt="MoE 参数量：总参数 vs 激活参数"></p><blockquote class="admonition bdm-note"><span class="bdm-title">NOTE</span><p>「1.02T / 42B」是模型卡架构段的写法（总参数 / 每次激活）。HuggingFace 元数据标的 524B / 159B 是另一套统计口径（大约是一半），两处都是官方数据，别对不上就以为假。日常说「多少 B」时建议报激活参数，部署估显存时再对文件。</p><p>发布稿称 <strong>Pro / Flash</strong>，HF 权重文件名为 <strong>Pro-RL / Flash-RL</strong>，后者强调 RL 后训练形态。同一系列的不同命名。</p></blockquote><p>一句话分工：<strong>Pro 拿能力上限，Flash 拿性价比，UltraSpeed 给要实时反馈的场景，Distill-Qwen-9B 给想自己跑 agentic RL 的人一个便宜的学生。</strong></p></section>
+<section><h2 id="架构参数和-v25-比变了什么">架构参数：和 V2.5 比，变了什么<a class="anchor" href="#架构参数和-v25-比变了什么"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><section><h3 id="llm-backbone">LLM Backbone<a class="anchor" href="#llm-backbone"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><div class="table-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>组件</th><th>Pro-RL</th><th>Flash-RL</th></tr></thead><tbody><tr><td>层数（总 / SWA / GA）</td><td>70 / 60 / 10</td><td>48 / 39 / 9</td></tr><tr><td>Hidden Size</td><td>6144</td><td>4096</td></tr><tr><td>SWA Heads（Q/KV）</td><td>128 / 8</td><td>64 / 8</td></tr><tr><td>GA Heads（Q/KV）</td><td>128 / 8</td><td>64 / 4</td></tr><tr><td>Head Dim（QK / V）</td><td>192 / 128</td><td>192 / 128</td></tr><tr><td>滑动窗口</td><td>128</td><td>128</td></tr><tr><td>Routed Experts（总 / 激活）</td><td>384 / 8</td><td>256 / 8</td></tr><tr><td>最大上下文</td><td>1M</td><td>1M</td></tr><tr><td>MTP 草稿层</td><td>5 层 SWA，window 1024</td><td>同左</td></tr></tbody></table></div><p>结构上有几个点需要留意。</p><ol>
+<li><strong>Hybrid SWA + GA</strong>。第一层是 global attention + dense FFN，后面 local SWA 和 global attention 交错，两边都是 sparse MoE FFN，<strong>没有 shared expert</strong>。1M 上下文不是靠「全注意力硬扛」，是靠 SWA 把大部分层的注意力锁在 128 窗口里，再用少量 GA 层保住长程。</li>
+<li><strong>MoE 不带 shared expert</strong>。384/256 个 routed expert 里每次只动 8 个。没有 shared expert 意味着路由更「纯粹」，但对路由稳定性要求更高，这和后面要讲的 MoE RL 路由对齐论文是对上的。</li>
+<li><strong>MTP 投机解码</strong>。5 层 SWA 草稿器，DFlash 风格，一次前向猜 7 个后续 token，并行验证。推理侧是实打实的吞吐红利。</li>
+</ol></section><section><h3 id="多模态编码器pro--flash-共用">多模态编码器（Pro / Flash 共用）<a class="anchor" href="#多模态编码器pro--flash-共用"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><div class="table-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>编码器</th><th>配置</th><th>参数</th></tr></thead><tbody><tr><td>MiMo ViT</td><td>28 层（24 SWA + 4 Full），hidden 1280，patch 2×16×16，spatial merge 2×2</td><td><strong>681M</strong></td></tr><tr><td>AudioTokenizer</td><td>24 层（12 SWA / 12 GA），hidden 1024，20 个 RVQ codebook</td><td><strong>308M</strong></td></tr><tr><td>Audio patch encoder</td><td>6 层，4 帧一 patch（25 Hz → 6.25 Hz）</td><td><strong>127M</strong></td></tr></tbody></table></div><p>原生全模态进同一套 backbone，并非文本模型外挂视觉适配器。视频靠 ViT 的时间维 patch（T=2），音频走 tokenizer + patch encoder 双路。</p></section></section>
+<section><h2 id="rl-训练管线">RL 训练管线<a class="anchor" href="#rl-训练管线"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>这是 V2.6 的核心更新。官方给出五条主线与若干工程细节，本节逐项拆解。</p><section><h3 id="0-先看规模直播训练账单">0. 先看规模：直播训练账单<a class="anchor" href="#0-先看规模直播训练账单"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>这回 RL 是<strong>全程直播</strong>跑的（<a href="https://mimo.xiaomi.com/rl" rel="nofollow noopener noreferrer" target="_blank">mimo.xiaomi.com/rl</a>），数字如下。</p><p><img src="/images/mimo-v26/rl-ledger.svg" alt="RL 训练账单与单步规模"></p><div class="table-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>Flash</th><th>Pro</th></tr></thead><tbody><tr><td>训练时长</td><td><strong>不到 6 天</strong></td><td>同期</td></tr><tr><td>RL 步数</td><td>30</td><td>30</td></tr><tr><td>轨迹数</td><td>约 <strong>750k</strong></td><td>约 <strong>750k</strong></td></tr><tr><td>成本</td><td>约 <strong>$0.85M</strong></td><td>约 <strong>$2.62M</strong></td></tr><tr><td>训练任务平均通过率</td><td>相对 <strong>+25%</strong></td><td>相对 <strong>+12%</strong></td></tr><tr><td>DeepSWE v1.1（未见集）</td><td>48.8 → <strong>65.68</strong>（+16.9）</td><td>58.4 → <strong>72.57</strong>（+14.2）</td></tr></tbody></table></div><p><img src="/images/mimo-v26/rl-deepswe-lift.svg" alt="DeepSWE v1.1 在 RL 前后的分数"></p><p>官方结论：RL 样本效率高、全程持续提升、<strong>能泛化到训练分布之外</strong>。</p><blockquote class="admonition bdm-tip"><span class="bdm-title">TIP</span><p><strong>口径说明（审计用）</strong>：发布稿写「1,568 samples per update」，模型卡写「1,568 prompts × 16 rollouts per step」。用总轨迹数反推：750k ÷ 30 步 ≈ <strong>25,000 条轨迹/步</strong>，正好等于 1568×16 ≈ 25,088。所以 samples ≈ prompts，rollout 另算。两套说法都出自官方，对得上。</p></blockquote></section><section><h3 id="1-you-only-rl-once">1. You Only RL Once<a class="anchor" href="#1-you-only-rl-once"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><blockquote>
+<p>官方表述：One mixed RL run across coding, general agents, visual, and cybersecurity — not separate per-domain runs.</p>
+</blockquote><p>此前各领域分别训练再合并的做法（Mix-RL / Cascade RL / Off-Policy SFT / 参数合并）都存在跷跷板效应或稳定性问题，A 领域涨、B 领域塌。</p><p>V2.6 的做法是：<strong>一次混合 RL，跨 coding / general agent / visual / cybersecurity</strong>。任务和多种 harness 混在同一个 batch 里，让能力互相喂，策略还能迁移到训练里从没见过的 harness 上。</p><p>这直接对上 MOPD 论文里批评的四条老路：</p><div class="table-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>路线</th><th>问题</th></tr></thead><tbody><tr><td>Mix-RL</td><td>跨域信号打架，见跷跷板</td></tr><tr><td>Cascade RL</td><td>先训的能力被后训的冲掉</td></tr><tr><td>Off-Policy Finetune</td><td>暴露偏置，学生漂离教师轨迹</td></tr><tr><td>Param-Merge</td><td>权重空间融合不稳，能力对不齐</td></tr></tbody></table></div><p>而 V2.6 在混合 RL 之后还接了 <strong>MOPD2</strong>（见下文），等于「先一起练，再精确合」。</p><p>官方还补了一句工程要求：<strong>稳定混合 batch 里各任务的采样比例</strong>（stabilized per-task sampling ratios within mixed batches）。混采不是把数据倒一锅搅，比例不稳就会偏科。</p></section><section><h3 id="2-scaling-rl-compute三根轴">2. Scaling RL Compute：三根轴<a class="anchor" href="#2-scaling-rl-compute三根轴"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>官方给出了三根扩展轴，构成理解 V2.6 RL 设计的骨架。</p><div class="mermaid-diagram-container"><div class="mermaid-wrapper" id="mermaid-kt3tlo"><div class="mermaid" data-mermaid-code="flowchart TB
+  A[Scaling RL Compute] --> B[轴 1：更大 batch / 更高吞吐]
+  A --> C[轴 2：更多任务 / 更丰富环境]
+  A --> D[轴 3：更多打分器算力]
+  B --> B1[全异步架构 · 1568 samples/update]
+  B --> B2[上下文 1M · 3.5–3.7B tokens/step]
+  C --> C1[coding / agent / visual / cyber]
+  C --> C2[多 harness 混采 · 互相迁移]
+  D --> D1[组内相对比较 GRS+GAR]
+  D --> D2[自我改进环 · 压向短路径]">flowchart TB
+  A[Scaling RL Compute] --> B[轴 1：更大 batch / 更高吞吐]
+  A --> C[轴 2：更多任务 / 更丰富环境]
+  A --> D[轴 3：更多打分器算力]
+  B --> B1[全异步架构 · 1568 samples/update]
+  B --> B2[上下文 1M · 3.5–3.7B tokens/step]
+  C --> C1[coding / agent / visual / cyber]
+  C --> C2[多 harness 混采 · 互相迁移]
+  D --> D1[组内相对比较 GRS+GAR]
+  D --> D2[自我改进环 · 压向短路径]</div></div><script type="text/javascript">(() => {
+	// 单例模式：检查是否已经初始化过
+	if (window.mermaidInitialized) {
+		// 如果已经初始化过，只确保 renderMermaidDiagrams 函数可用
+		if (typeof window.renderMermaidDiagrams !== "function") {
+			window.renderMermaidDiagrams = renderMermaidDiagrams;
+		}
+		return;
+	}
+
+	window.mermaidInitialized = true;
+
+	// 记录当前主题状态，避免不必要的重新渲染
+	let currentTheme = null;
+	let isRendering = false; // 防止并发渲染
+	let retryCount = 0;
+	const MAX_RETRIES = 3;
+	const RETRY_DELAY = 1000; // 1秒
+	let fullscreenOverlay = null;
+
+	function injectFullscreenStyles() {
+		if (document.getElementById("mermaid-fullscreen-style")) {
+			return;
+		}
+
+		const style = document.createElement("style");
+		style.id = "mermaid-fullscreen-style";
+		style.textContent = `
+		:where(.mermaid[data-mermaid-code]) { position: relative; }
+		.mermaid-fullscreen-btn {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			height: 36px;
+			width: 36px;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			opacity: 0;
+			transition: opacity 0.2s ease;
+			z-index: 3;
+		}
+		.mermaid:hover .mermaid-fullscreen-btn,
+		.mermaid:focus-within .mermaid-fullscreen-btn {
+			opacity: 1;
+		}
+		.mermaid-fullscreen-overlay {
+			position: fixed;
+			inset: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: clamp(12px, 3vw, 28px);
+			backdrop-filter: blur(6px);
+			z-index: 9999;
+			background: var(--mermaid-fs-backdrop, rgba(15, 23, 42, 0.9));
+		}
+		.mermaid-fullscreen-stage {
+			position: relative;
+			width: min(1200px, 96vw);
+			max-height: 90vh;
+			padding: clamp(12px, 2vw, 18px);
+			background: var(--mermaid-fs-surface, #0f172a);
+			border: 1px solid var(--mermaid-fs-border, rgba(255,255,255,0.08));
+			border-radius: 16px;
+			box-shadow: 0 20px 80px rgba(0, 0, 0, 0.35);
+			overflow: hidden;
+		}
+		.mermaid-fullscreen-stage svg {
+			width: 100%;
+			height: auto;
+			min-height: 320px;
+		}
+		.mermaid-fullscreen-close {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			z-index: 4;
+		}
+		.mermaid-fullscreen-overlay .mermaid-zoom-controls {
+			position: absolute;
+			left: 12px;
+			bottom: 12px;
+			display: flex;
+			gap: 8px;
+		}
+		body.mermaid-fullscreen-open { overflow: hidden; }
+		`;
+		document.head.appendChild(style);
+	}
+
+	function getThemePalette() {
+		const htmlElement = document.documentElement;
+		const isDark = htmlElement.classList.contains("dark");
+		const styles = getComputedStyle(htmlElement);
+		const primary =
+			styles.getPropertyValue("--primary")?.trim() ||
+			(isDark ? "#7dd3fc" : "#2563eb");
+		const surface =
+			styles.getPropertyValue("--card-bg")?.trim() ||
+			styles.getPropertyValue("--surface")?.trim() ||
+			(isDark ? "#0b1220" : "#ffffff");
+		const text =
+			styles.getPropertyValue("--text-color")?.trim() ||
+			styles.getPropertyValue("--foreground")?.trim() ||
+			(isDark ? "#e5e7eb" : "#0f172a");
+		const muted =
+			styles.getPropertyValue("--muted")?.trim() ||
+			styles.getPropertyValue("--muted-foreground")?.trim() ||
+			(isDark ? "#1f2937" : "#e5e7eb");
+		const backdrop = isDark
+			? "rgba(8, 15, 30, 0.9)"
+			: "rgba(255, 255, 255, 0.94)";
+
+		return { isDark, primary, surface, text, muted, backdrop };
+	}
+
+	function closeFullscreen() {
+		if (fullscreenOverlay) {
+			fullscreenOverlay.remove();
+			fullscreenOverlay = null;
+			document.body.classList.remove("mermaid-fullscreen-open");
+		}
+	}
+
+	function openFullscreen(svgElement) {
+		const palette = getThemePalette();
+		injectFullscreenStyles();
+
+		closeFullscreen();
+
+		const overlay = document.createElement("div");
+		overlay.className = "mermaid-fullscreen-overlay";
+		overlay.style.setProperty("--mermaid-fs-backdrop", palette.backdrop);
+		overlay.style.setProperty("--mermaid-fs-surface", palette.surface);
+		overlay.style.setProperty(
+			"--mermaid-fs-border",
+			palette.isDark ? "rgba(255,255,255,0.08)" : "rgba(15,23,42,0.08)",
+		);
+
+		const closeButton = document.createElement("button");
+		closeButton.className =
+			"mermaid-fullscreen-close btn-regular rounded-lg h-10 w-10";
+		closeButton.title = "关闭全屏";
+		closeButton.textContent = "✕";
+		closeButton.addEventListener("click", closeFullscreen);
+
+		const stage = document.createElement("div");
+		stage.className = "mermaid-fullscreen-stage";
+
+		const clonedSvg = svgElement.cloneNode(true);
+		stage.appendChild(clonedSvg);
+		overlay.appendChild(stage);
+		overlay.appendChild(closeButton);
+
+		overlay.addEventListener("click", (ev) => {
+			if (ev.target === overlay) {
+				closeFullscreen();
+			}
+		});
+
+		const escHandler = (ev) => {
+			if (ev.key === "Escape") {
+				closeFullscreen();
+			}
+		};
+		window.addEventListener("keydown", escHandler, { once: true });
+
+		document.body.appendChild(overlay);
+		document.body.classList.add("mermaid-fullscreen-open");
+		fullscreenOverlay = overlay;
+
+		// 为全屏内的图表添加缩放控制
+		attachZoomControls(stage, clonedSvg);
+	}
+
+	function ensureFullscreenButton(element) {
+		if (element.querySelector(".mermaid-fullscreen-btn")) {
+			return;
+		}
+		const btn = document.createElement("button");
+		btn.type = "button";
+		btn.className = "mermaid-fullscreen-btn btn-regular rounded-lg h-9 w-9";
+		btn.title = "全屏查看";
+		btn.setAttribute("aria-label", "全屏查看 Mermaid 图表");
+		btn.innerHTML = "⛶";
+		btn.addEventListener("click", (ev) => {
+			ev.stopPropagation();
+			const svg = element.querySelector("svg");
+			if (!svg) {
+				return;
+			}
+			openFullscreen(svg);
+		});
+		element.appendChild(btn);
+	}
+
+	// 检查主题是否真的发生了变化
+	function hasThemeChanged() {
+		const isDark = document.documentElement.classList.contains("dark");
+		const newTheme = isDark ? "dark" : "default";
+
+		if (currentTheme !== newTheme) {
+			currentTheme = newTheme;
+			return true;
+		}
+		return false;
+	}
+
+	// 等待 Mermaid 库加载完成
+	function waitForMermaid(timeout = 10000) {
+		return new Promise((resolve, reject) => {
+			const startTime = Date.now();
+
+			function check() {
+				if (window.mermaid && typeof window.mermaid.initialize === "function") {
+					resolve(window.mermaid);
+				} else if (Date.now() - startTime > timeout) {
+					reject(new Error("Mermaid library failed to load within timeout"));
+				} else {
+					setTimeout(check, 100);
+				}
+			}
+
+			check();
+		});
+	}
+
+	// 存储 MutationObserver 实例
+	let themeObserver = null;
+
+	// 清理 MutationObserver
+	function cleanupMutationObserver() {
+		if (themeObserver) {
+			themeObserver.disconnect();
+			themeObserver = null;
+		}
+	}
+
+	// 设置 MutationObserver 监听 html 元素的 class 属性变化
+	function setupMutationObserver() {
+		cleanupMutationObserver();
+
+		themeObserver = new MutationObserver((mutations) => {
+			mutations.forEach((mutation) => {
+				if (
+					mutation.type === "attributes" &&
+					mutation.attributeName === "class"
+				) {
+					// 检查是否是 dark 类的变化
+					const target = mutation.target;
+					const wasDark = mutation.oldValue
+						? mutation.oldValue.includes("dark")
+						: false;
+					const isDark = target.classList.contains("dark");
+
+					if (wasDark !== isDark) {
+						if (hasThemeChanged()) {
+							// 延迟渲染，避免主题切换时的闪烁
+							setTimeout(() => renderMermaidDiagrams(), 150);
+						}
+					}
+				}
+			});
+		});
+
+		// 开始观察 html 元素的 class 属性变化
+		themeObserver.observe(document.documentElement, {
+			attributes: true,
+			attributeFilter: ["class"],
+			attributeOldValue: true,
+		});
+	}
+
+	// 缩放平移
+	function attachZoomControls(element, svgElement) {
+		if (element.__zoomAttached) {
+			return;
+		}
+		element.__zoomAttached = true;
+
+		const wrapper = document.createElement("div");
+		wrapper.className = "mermaid-zoom-wrapper";
+
+		const svgParent = svgElement.parentNode;
+		wrapper.appendChild(svgElement);
+		svgParent.appendChild(wrapper);
+
+		let scale = 1;
+		let tx = 0;
+		let ty = 0;
+		const MIN_SCALE = 0.2;
+		const MAX_SCALE = 6;
+
+		function applyTransform() {
+			wrapper.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+		}
+		const controls = document.createElement("div");
+		controls.className = "mermaid-zoom-controls";
+		controls.innerHTML = `
+			<button class="btn-regular rounded-lg h-10 w-10 active:scale-90" data-action="zoom-in" title="Zoom in">+</button>
+			<button class="btn-regular rounded-lg h-10 w-10 active:scale-90" data-action="zoom-out" title="Zoom out">−</button>
+			<button class="btn-regular rounded-lg h-10 w-10 active:scale-90" data-action="reset" title="Reset">⤾</button>
+		`;
+		element.appendChild(controls);
+
+		controls.addEventListener("click", (ev) => {
+			const action = ev.target.getAttribute?.("data-action");
+			if (!action) {
+				return;
+			}
+
+			switch (action) {
+				case "zoom-in":
+					scale = Math.min(MAX_SCALE, +(scale * 1.2).toFixed(3));
+					applyTransform();
+					break;
+				case "zoom-out":
+					scale = Math.max(MIN_SCALE, +(scale / 1.2).toFixed(3));
+					applyTransform();
+					break;
+				case "reset":
+					scale = 1;
+					tx = 0;
+					ty = 0;
+					applyTransform();
+					break;
+			}
+		});
+
+		let isPanning = false;
+		let startX = 0;
+		let startY = 0;
+		let startTx = 0;
+		let startTy = 0;
+
+		wrapper.style.touchAction = "none";
+
+		wrapper.addEventListener("pointerdown", (ev) => {
+			if (ev.button !== 0) {
+				return;
+			} // 仅左键
+			isPanning = true;
+			wrapper.setPointerCapture(ev.pointerId);
+			startX = ev.clientX;
+			startY = ev.clientY;
+			startTx = tx;
+			startTy = ty;
+		});
+
+		wrapper.addEventListener("pointermove", (ev) => {
+			if (!isPanning) {
+				return;
+			}
+			const dx = ev.clientX - startX;
+			const dy = ev.clientY - startY;
+			tx = startTx + dx / scale; // 根据当前缩放调整灵敏度
+			ty = startTy + dy / scale;
+			applyTransform();
+		});
+
+		wrapper.addEventListener("pointerup", (ev) => {
+			isPanning = false;
+			try {
+				wrapper.releasePointerCapture(ev.pointerId);
+			} catch (_e) {}
+		});
+
+		wrapper.addEventListener("pointercancel", () => {
+			isPanning = false;
+		});
+
+		// 鼠标滚轮缩放
+		element.addEventListener(
+			"wheel",
+			(ev) => {
+				ev.preventDefault();
+				const delta = -ev.deltaY;
+				const zoomFactor = delta > 0 ? 1.12 : 1 / 1.12;
+				const prevScale = scale;
+				scale = Math.min(
+					MAX_SCALE,
+					Math.max(MIN_SCALE, +(scale * zoomFactor).toFixed(3)),
+				);
+
+				const rect = wrapper.getBoundingClientRect();
+				const cx = ev.clientX - rect.left;
+				const cy = ev.clientY - rect.top;
+
+				const worldX = cx / prevScale - tx;
+				const worldY = cy / prevScale - ty;
+
+				tx = cx / scale - worldX;
+				ty = cy / scale - worldY;
+
+				applyTransform();
+			},
+			{ passive: false },
+		);
+
+		// 双击重置
+		wrapper.addEventListener("dblclick", () => {
+			scale = 1;
+			tx = 0;
+			ty = 0;
+			applyTransform();
+		});
+		applyTransform();
+		let resizeTimer = null;
+		window.addEventListener("resize", () => {
+			clearTimeout(resizeTimer);
+			resizeTimer = setTimeout(() => {
+				applyTransform();
+			}, 200);
+		});
+	}
+
+	// 设置其他事件监听器
+	function setupEventListeners() {
+		// 监听页面切换
+		document.addEventListener("astro:page-load", () => {
+			// 重新初始化主题状态
+			currentTheme = null;
+			retryCount = 0; // 重置重试计数
+			if (hasThemeChanged()) {
+				setTimeout(() => renderMermaidDiagrams(), 100);
+			}
+		});
+
+		// 监听页面可见性变化，页面重新可见时重新渲染
+		document.addEventListener("visibilitychange", () => {
+			if (!document.hidden) {
+				setTimeout(() => renderMermaidDiagrams(), 200);
+			}
+		});
+
+		// 页面切换前清理
+		document.addEventListener("astro:before-swap", cleanupMutationObserver);
+
+		// 页面切换前清理全屏状态
+		document.addEventListener("astro:before-swap", closeFullscreen);
+
+		// Swup 页面切换时重新设置 Observer
+		document.addEventListener("astro:after-swap", () => {
+			if (themeObserver === null) {
+				setupMutationObserver();
+			}
+		});
+	}
+
+	async function initializeMermaid() {
+		try {
+			await waitForMermaid();
+
+			// 初始化 Mermaid 配置
+			window.mermaid.initialize({
+				startOnLoad: false,
+				theme: "default",
+				themeVariables: {
+					fontFamily: "inherit",
+					fontSize: "16px",
+				},
+				securityLevel: "loose",
+				// 添加错误处理配置
+				errorLevel: "warn",
+				logLevel: "error",
+			});
+
+			// 渲染所有 Mermaid 图表
+			await renderMermaidDiagrams();
+		} catch (error) {
+			console.error("Failed to initialize Mermaid:", error);
+			// 如果初始化失败，尝试重新加载
+			if (retryCount < MAX_RETRIES) {
+				retryCount++;
+				setTimeout(() => initializeMermaid(), RETRY_DELAY * retryCount);
+			}
+		}
+	}
+
+	async function renderMermaidDiagrams() {
+		// 防止并发渲染
+		if (isRendering) {
+			return;
+		}
+
+		// 检查 Mermaid 是否可用
+		if (!window.mermaid || typeof window.mermaid.render !== "function") {
+			console.warn("Mermaid not available, skipping render");
+			return;
+		}
+
+		isRendering = true;
+		window.dispatchEvent(new CustomEvent("mermaid:render:start"));
+
+		try {
+			const mermaidElements = Array.from(
+				document.querySelectorAll(".mermaid[data-mermaid-code]"),
+			);
+
+			if (mermaidElements.length === 0) {
+				isRendering = false;
+				window.dispatchEvent(
+					new CustomEvent("mermaid:render:done", {
+						detail: { count: 0 },
+					}),
+				);
+				return;
+			}
+
+			// 延迟检测主题，确保 DOM 已经更新
+			await new Promise((resolve) => setTimeout(resolve, 100));
+
+			const htmlElement = document.documentElement;
+			const isDark = htmlElement.classList.contains("dark");
+			const theme = isDark ? "dark" : "default";
+
+			// 更新 Mermaid 主题（只需要更新一次）
+			window.mermaid.initialize({
+				startOnLoad: false,
+				theme: theme,
+				themeVariables: {
+					fontFamily: "inherit",
+					fontSize: "16px",
+					// 强制应用主题变量
+					primaryColor: isDark ? "#ffffff" : "#000000",
+					primaryTextColor: isDark ? "#ffffff" : "#000000",
+					primaryBorderColor: isDark ? "#ffffff" : "#000000",
+					lineColor: isDark ? "#ffffff" : "#000000",
+					secondaryColor: isDark ? "#333333" : "#f0f0f0",
+					tertiaryColor: isDark ? "#555555" : "#e0e0e0",
+				},
+				securityLevel: "loose",
+				errorLevel: "warn",
+				logLevel: "error",
+			});
+
+			// 分批渲染，避免一次性阻塞主线程
+			const BATCH_SIZE = 3;
+			let index = 0;
+
+			async function renderBatch() {
+				const batch = mermaidElements.slice(index, index + BATCH_SIZE);
+				if (batch.length === 0) {
+					return;
+				}
+
+				await Promise.all(
+					batch.map(async (element, localIndex) => {
+						const globalIndex = index + localIndex;
+						let attempts = 0;
+						const maxAttempts = 3;
+
+						while (attempts < maxAttempts) {
+							try {
+								const code = element.getAttribute("data-mermaid-code");
+
+								if (!code) {
+									break;
+								}
+
+								// 显示加载状态
+								element.innerHTML =
+									'<div class="mermaid-loading">Rendering diagram...</div>';
+
+								// 渲染图表
+								const { svg } = await window.mermaid.render(
+									`mermaid-${Date.now()}-${globalIndex}-${attempts}`,
+									code,
+								);
+
+								const parser = new DOMParser();
+								const doc = parser.parseFromString(svg, "image/svg+xml");
+								const svgElement = doc.documentElement;
+
+								element.innerHTML = "";
+								element.__zoomAttached = false;
+								element.appendChild(svgElement);
+
+								// 添加响应式支持
+								const insertedSvg = element.querySelector("svg");
+								if (insertedSvg) {
+									insertedSvg.setAttribute("width", "100%");
+									insertedSvg.removeAttribute("height");
+									insertedSvg.style.maxWidth = "100%";
+									insertedSvg.style.height = "auto";
+									//Todo 需要根据实际情况
+									insertedSvg.style.minHeight = "300px";
+
+									// 强制应用样式
+									if (isDark) {
+										svgElement.style.filter = "brightness(0.9) contrast(1.1)";
+									} else {
+										svgElement.style.filter = "none";
+									}
+									attachZoomControls(element, insertedSvg);
+									ensureFullscreenButton(element);
+								}
+
+								// 渲染成功，跳出重试循环
+								break;
+							} catch (error) {
+								attempts++;
+								console.warn(
+									`Mermaid rendering attempt ${attempts} failed for element ${globalIndex}:`,
+									error,
+								);
+
+								if (attempts >= maxAttempts) {
+									console.error(
+										`Failed to render Mermaid diagram after ${maxAttempts} attempts:`,
+										error,
+									);
+									element.innerHTML = `
+										<div class="mermaid-error">
+											<p>Failed to render diagram after ${maxAttempts} attempts.</p>
+											<button onclick="location.reload()" style="margin-top: 8px; padding: 4px 8px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer;">
+												Retry Page
+											</button>
+										</div>
+									`;
+								} else {
+									// 等待一段时间后重试
+									await new Promise((resolve) =>
+										setTimeout(resolve, 500 * attempts),
+									);
+								}
+							}
+						}
+					}),
+				);
+
+				index += BATCH_SIZE;
+
+				if (index < mermaidElements.length) {
+					// 在空闲时间继续渲染下一批，避免长时间阻塞主线程
+					await new Promise((resolve) => {
+						if ("requestIdleCallback" in window) {
+							window.requestIdleCallback(() => resolve());
+						} else {
+							setTimeout(resolve, 50);
+						}
+					});
+					return renderBatch();
+				}
+			}
+
+			await renderBatch();
+			retryCount = 0; // 重置重试计数
+			window.dispatchEvent(
+				new CustomEvent("mermaid:render:done", {
+					detail: { count: mermaidElements.length },
+				}),
+			);
+		} catch (error) {
+			console.error("Error in renderMermaidDiagrams:", error);
+			window.dispatchEvent(new CustomEvent("mermaid:render:done"));
+
+			// 如果渲染失败，尝试重新渲染
+			if (retryCount < MAX_RETRIES) {
+				retryCount++;
+				setTimeout(() => renderMermaidDiagrams(), RETRY_DELAY * retryCount);
+			}
+		} finally {
+			isRendering = false;
+		}
+	}
+
+	// 初始化主题状态
+	function initializeThemeState() {
+		const isDark = document.documentElement.classList.contains("dark");
+		currentTheme = isDark ? "dark" : "default";
+	}
+
+	// 加载 Mermaid 库
+	async function loadMermaid() {
+		if (typeof window.mermaid !== "undefined") {
+			return Promise.resolve();
+		}
+
+		return new Promise((resolve, reject) => {
+			const script = document.createElement("script");
+			script.src =
+				"https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js";
+
+			script.onload = () => {
+				console.log("Mermaid library loaded successfully");
+				resolve();
+			};
+
+			script.onerror = (error) => {
+				console.error("Failed to load Mermaid library:", error);
+				// 尝试备用 CDN
+				const fallbackScript = document.createElement("script");
+				fallbackScript.src = "https://unpkg.com/mermaid@11/dist/mermaid.min.js";
+
+				fallbackScript.onload = () => {
+					console.log("Mermaid library loaded from fallback CDN");
+					resolve();
+				};
+
+				fallbackScript.onerror = () => {
+					reject(
+						new Error(
+							"Failed to load Mermaid from both primary and fallback CDNs",
+						),
+					);
+				};
+
+				document.head.appendChild(fallbackScript);
+			};
+
+			document.head.appendChild(script);
+		});
+	}
+
+	// 主初始化函数
+	async function initialize() {
+		try {
+			// 设置监听器
+			setupMutationObserver();
+			setupEventListeners();
+
+			// 初始化主题状态
+			initializeThemeState();
+
+			// 加载并初始化 Mermaid
+			await loadMermaid();
+			await initializeMermaid();
+
+			// 将 renderMermaidDiagrams 暴露到全局作用域，以便在解密后调用
+			window.renderMermaidDiagrams = renderMermaidDiagrams;
+		} catch (error) {
+			console.error("Failed to initialize Mermaid system:", error);
+		}
+	}
+
+	// 启动初始化
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", initialize);
+	} else {
+		initialize();
+	}
+})();
+</script></div><section><h4 id="轴-1异步-grpo--超大-batch">轴 1：异步 GRPO + 超大 batch<a class="anchor" href="#轴-1异步-grpo--超大-batch"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h4><blockquote>
+<p>模型卡：Fully asynchronous Group Relative Policy Optimization (GRPO) on very large batches — <strong>1,568 prompts × 16 rollouts per step</strong>。</p>
+<p>发布稿：1,568 samples per update，training at up to <strong>1M</strong> context，<strong>3.5–3.7B tokens per step</strong>。</p>
+</blockquote><p>异步 GRPO 的含义可以拆成三点。</p><ol>
+<li><strong>Rollout 生成和梯度更新流水线化</strong>。采样器不停地跑轨迹，训练器不停地吃完成的轨迹，不必等一整批 roll 完再算一次梯度。</li>
+<li><strong>GRPO 的组相对优势</strong>照旧：同一 prompt 下多条 rollout 互相比，advantage 是组内标准化的，不需要单独训 value 网络。</li>
+<li><strong>单步 25,088 条轨迹</strong>（1568×16），更新一次吃掉 3.5–3.7B token。这是把预训练级的算力账单搬到 RL 阶段。</li>
+</ol><p>核心判断：<strong>RL 算力本身就是能力来源。</strong> 「探索算力」与「打分算力」同步放大，数据多样性只是其中一面。</p></section><section><h4 id="轴-2多任务多环境多-harness">轴 2：多任务、多环境、多 harness<a class="anchor" href="#轴-2多任务多环境多-harness"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h4><p>做法是把 coding / general agent / visual / cyber <strong>混在同一个 batch</strong>，而且跨多种 agent harness。策略因此能迁移到「训练里从没见过的 harness」（模型卡原话）。</p><p>配套工程（发布稿原文拆解）：</p><div class="table-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>设计</th><th>解决什么</th></tr></thead><tbody><tr><td><strong>统一轨迹表示 + 惩罚机制</strong></td><td>异构任务的轨迹格式不一，统一后才能给更细粒度的学习信号</td></tr><tr><td><strong>多 Agent 框架高并发交互</strong></td><td>环境跑得动，rollout 吞吐才上得去</td></tr><tr><td><strong>控制面 / 数据面解耦</strong></td><td>大规模轨迹迁移不拖垮训练循环</td></tr><tr><td><strong>稳定各任务采样比例</strong></td><td>防止混采偏科</td></tr><tr><td><strong>训练引擎与推理引擎一致性优化</strong></td><td>train/infer 不一致会白训</td></tr></tbody></table></div></section><section><h4 id="轴-3打分器也算力">轴 3：打分器也算力<a class="anchor" href="#轴-3打分器也算力"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h4><p>这是整套设计里最关键的一环，下一节单独展开。</p></section></section><section><h3 id="3-groupwise-agentic-grading自我改进环">3. Groupwise Agentic Grading：自我改进环<a class="anchor" href="#3-groupwise-agentic-grading自我改进环"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>问题：二值 pass/fail <strong>排不出两个都过了的答案谁更好</strong>。奖励信号太粗，RL 就只能推「从错到对」，推不动「从对到更好」。长程 agent 任务尤其惨，一条几万 token 的轨迹，最后只拿一个 0/1。</p><p>官方解法：<strong>打分器自己也上 Agent，在组内比 rollout。</strong></p><p><img src="/images/mimo-v26/rl-grs-gar.svg" alt="Groupwise Agentic Grading 自我改进环"></p><div class="table-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>组件</th><th>全称</th><th>何时</th><th>干什么</th></tr></thead><tbody><tr><td><strong>GRS</strong></td><td>Groupwise Reward Synthesis</td><td><strong>离线</strong></td><td>从对比 rollout 里合成<strong>任务专属 rubric</strong>，再把 rubric 质量和测试结果融合</td></tr><tr><td><strong>GAR</strong></td><td>Groupwise Advantage Redistribution</td><td><strong>在线</strong></td><td>给<strong>已经通过</strong>的轨迹排序，把 advantage 往更高质量的解上搬</td></tr></tbody></table></div><p>具体差异如下。</p><ol>
+<li><strong>GRS 解决「没有评分表」</strong>：同一道题的多条 rollout 互相对比（哪里更好、哪里更简、哪里更稳），离线合成一份 rubric。相当于给这道题现场出评分细则，而不只看单元测试过没过。</li>
+<li><strong>GAR 解决「都过了分不出高下」</strong>：在线把通过的轨迹按质量排序，advantage 不再人人平分，而偏向更短路径、更少 token、更干净的解。</li>
+<li><strong>闭环</strong>：裁判看的是<strong>策略自己的样本</strong>。策略变强 → 样本变好 → rubric/排序更严 → 策略被推向更优解。这就是官方说的 <em>closes a self-improvement loop</em>。</li>
+</ol><p>副作用（好的那种）：会自动压向<strong>更短路径、更少 token</strong> 完成同一任务。</p><blockquote class="admonition bdm-tip"><span class="bdm-title">TIP</span><p>读这块时别把 GRS/GAR 理解成单纯的 reward model 变大。核心是 <strong>组内相对比较</strong> + <strong>把粗奖励变稠密</strong>，这是在 scaling <strong>grader compute</strong>，不是在 scaling 模型体积。</p></blockquote></section><section><h3 id="4-aligned-rl自我纠错与反奖励劫持">4. Aligned RL：自我纠错与反奖励劫持<a class="anchor" href="#4-aligned-rl自我纠错与反奖励劫持"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>RL 圈的老毛病：一旦奖励可被钻空子，策略会变成「骗过打分器」，偏离「把事做好」。</p><p>V2.6 的态度是双管齐下：</p><p><strong>冷启动用 self-correction</strong>，模型反思并重写自己的不当轮次，改成有依据的下一步。第一轮就建立「认错→修正」的肌肉记忆。</p><p>官方配了四道锁（发布稿原话拆解）。</p><div class="table-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>防线</th><th>作用</th></tr></thead><tbody><tr><td><strong>奖励设计</strong></td><td>从源头减少可钻的空子</td></tr><tr><td><strong>对抗评测</strong></td><td>主动构造想骗奖励的案例去打</td></tr><tr><td><strong>异常检测</strong></td><td>训练中盯分布突变、reward 爆炸</td></tr><tr><td><strong>verifier 交叉验证</strong></td><td>不同裁判互相核对，单点被攻破不算数</td></tr></tbody></table></div><p>另外，<strong>训练规模上来后冻结了 MoE router</strong>，抑制训练漂移（<em>we froze the router to suppress training drift</em>）。MoE 路由在 RL 里漂移是老大难，激活分布一变，下游全乱。冻住是务实解，代价是牺牲一点路由自适应。</p></section><section><h3 id="5-mopd2multi-prefix-multi-teacher-on-policy-distillation">5. MOPD2：Multi-Prefix Multi-Teacher On-Policy Distillation<a class="anchor" href="#5-mopd2multi-prefix-multi-teacher-on-policy-distillation"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>MOPD 一代（<a href="https://arxiv.org/abs/2606.30406" rel="nofollow noopener noreferrer" target="_blank">arXiv<2606></2606>.30406</a>）已经在 MiMo-V2-Flash 上落地过。核心思想：</p><ol>
+<li>各领域先独立 RL 出 <strong>domain teacher</strong>（可完全并行）；</li>
+<li>学生自己 rollout，教师只负责在学生轨迹上给 <strong>per-token 概率分布</strong>（dense 信号）；</li>
+<li>按 prompt 路由到对应教师，policy space 融合，不碰权重平均。</li>
+</ol><p>一代在 Qwen3-30B-A3B 上归一化得分 <strong>0.937</strong>，比 Mix-RL（0.882）高 5.5 个点；在 309B 的 MiMo-V2-Flash 上多数基准打平甚至超过对应教师。</p><p>V2.6 的 <strong>MOPD2</strong> 多了 <strong>Multi-Prefix</strong>：</p><blockquote>
+<p>官方表述：combines autonomous student rollouts with prefix-conditioned single-turn rollouts (<strong>Teacher-Prefix</strong> and <strong>SFT-Prefix</strong>), reusing histories from teacher trajectories and SFT demonstrations so decision points train without regenerating preceding turns.</p>
+</blockquote><p>三种前缀的来源并不相同。</p><div class="table-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>前缀来源</th><th>轨迹从哪来</th><th>训练什么</th></tr></thead><tbody><tr><td><strong>自主 rollout</strong></td><td>学生从头采</td><td>完整决策链</td></tr><tr><td><strong>Teacher-Prefix</strong></td><td>教师轨迹的历史当输入</td><td>只训决策点之后</td></tr><tr><td><strong>SFT-Prefix</strong></td><td>SFT 示范的历史当输入</td><td>只训决策点之后</td></tr></tbody></table></div><p>好处：学生不必从头生成完整轨迹即可学习决策点。<strong>借前缀跳过已掌握的部分</strong>，难以自动验证的长任务也能被蒸馏覆盖。</p><p>MOPD 论文中另有一个值得注意的对照实验：<strong>替换为更强但分布不同的教师（Qwen3-235B-A22B）后，学生数学能力反而下降</strong>，top-k 形式甚至在第 18 步发散。同源教师（same-origin）是稳定性上的必要条件。</p></section><section><h3 id="6-全开源">6. 全开源<a class="anchor" href="#6-全开源"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>官方承诺把这条管线上的一切放出来：<strong>完整技术报告、训练环境、RL 代码</strong>，供复现验证。配合直播回放，这在「开源权重但闭源 RL 配方」成风的当下，算相当大方。</p><p>综合来看：<strong>RL 算力本身就是能力来源。</strong> 预训练 scaling law 已被广泛验证，V2.6 将同样的逻辑迁移到 RL 阶段，训练成本公开也提升了工程透明度。</p></section></section>
+<section><h2 id="官方跑分">官方跑分<a class="anchor" href="#官方跑分"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>基准表直接来自模型卡。对手列同为官方对照，此处不作二次加工。</p><p><img src="/images/mimo-v26/benchmark-overview.svg" alt="关键基准对比：V2.6 Pro / Flash / V2.5 Pro / Claude Opus 5 / GPT-5.6 Sol"></p><div class="table-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>类别</th><th>Benchmark</th><th>V2.6 Pro</th><th>V2.6 Flash</th><th>V2.5 Pro</th><th>Claude Opus 5</th><th>GPT-5.6 Sol</th><th>Claude Fable 5</th></tr></thead><tbody><tr><td><strong>Code Agent</strong></td><td>DeepSWE v1.1</td><td><strong>71.9</strong></td><td>67.9</td><td>19.0</td><td>74.0</td><td>73.0</td><td>70.0</td></tr><tr><td></td><td>ProgramBench</td><td>26.5</td><td>26.0</td><td>12.5</td><td><strong>37.0</strong></td><td>25.0</td><td>33.0</td></tr><tr><td></td><td>MiMo Code Bench</td><td>63.2</td><td>61.2</td><td>40.4</td><td><strong>68.6</strong></td><td>59.3</td><td>—</td></tr><tr><td><strong>General Agent</strong></td><td>AutomationBench v1.0.6</td><td><strong>53.1</strong></td><td>52.3</td><td>16.0</td><td>50.3</td><td>45.8</td><td>46.2</td></tr><tr><td></td><td>Toolathlon-Verified</td><td>76.9</td><td>73.6</td><td>49.1</td><td><strong>80.6</strong></td><td>74.9</td><td>77.9</td></tr><tr><td></td><td>GDPval-AA 2.1</td><td>1673</td><td>—</td><td>1107</td><td><strong>1708</strong></td><td>1588</td><td>1595</td></tr><tr><td></td><td>Agents’ Last Exam</td><td><strong>31.6</strong></td><td>27.6</td><td>13.2</td><td><strong>31.6</strong></td><td>30.8</td><td>25.7</td></tr><tr><td></td><td>Terminal Bench 4.0</td><td>34.9</td><td>28.8</td><td>1.5</td><td><strong>49.0</strong></td><td>39.9</td><td>42.4</td></tr><tr><td></td><td>Terminal Bench 2.1</td><td><strong>89.9</strong></td><td>87.6</td><td>65.2</td><td>89.1</td><td>88.8</td><td>84.3</td></tr><tr><td></td><td>OSWorld-Verified</td><td>82.0</td><td>80.8</td><td>—</td><td>83.4</td><td>83.0</td><td><strong>86.0</strong></td></tr><tr><td></td><td>JobBench</td><td>62.0</td><td>61.2</td><td>25.0</td><td><strong>65.7</strong></td><td>45.4</td><td>57.4</td></tr><tr><td><strong>Cybersecurity</strong></td><td>CyberGym</td><td>94.0</td><td><strong>95.1</strong></td><td>40.0</td><td>—</td><td>—</td><td>—</td></tr><tr><td></td><td>MiMo Cyber Bench</td><td><strong>80.2</strong></td><td>77.2</td><td>0.0</td><td>—</td><td>—</td><td>—</td></tr><tr><td></td><td>ExploitGym</td><td><strong>17.8</strong></td><td>6.0</td><td>0.2</td><td>22.1</td><td><strong>30.3</strong></td><td>28.4</td></tr><tr><td></td><td>ExploitBench</td><td>47.9</td><td>25.3</td><td>16.6</td><td>70.0</td><td><strong>78.5</strong></td><td>78.0</td></tr><tr><td></td><td>SEC Bench Pro</td><td>66.3</td><td>47.5</td><td>17.7</td><td>—</td><td><strong>79.1</strong></td><td>—</td></tr><tr><td><strong>Visual Agent</strong></td><td>MiMo VisualCoding</td><td><strong>72.3</strong></td><td>71.5</td><td>—</td><td>70.0</td><td>73.4</td><td>69.1</td></tr></tbody></table></div><section><h3 id="怎么读这张表解读非官方口径">怎么读这张表（解读，非官方口径）<a class="anchor" href="#怎么读这张表解读非官方口径"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p><strong>优势项：</strong></p><ul>
+<li><strong>对 V2.5 Pro 是代差提升</strong>：DeepSWE 19→72，AutomationBench 16→53，Terminal Bench 2.1 65→90。幅度之大，更像 RL 管线换代，而非微调收益。</li>
+<li><strong>AutomationBench 53.1</strong>，压过表中全部对照模型。</li>
+<li><strong>Agents’ Last Exam 与 Opus 5 打平</strong>（31.6）。</li>
+<li><strong>Terminal Bench 2.1 89.9</strong>，表内第一。</li>
+<li><strong>MiMo VisualCoding 72.3</strong>，视觉 agent 一项反超。</li>
+<li><strong>Cyber 从零起步</strong>：V2.5 Pro 的 MiMo Cyber Bench 为 <strong>0.0</strong>，V2.6 拉到 80.2。You Only RL Once 中混入 cyber 任务的效果相当直接。</li>
+</ul><p><strong>短板项：</strong></p><ul>
+<li><strong>Exploit 系仍被拉开</strong>。ExploitGym 17.8 vs GPT-5.6 Sol 30.3；ExploitBench 47.9 vs 78.5。实战利用链上，对照方积累更深。</li>
+<li><strong>ProgramBench 26.5</strong>，距 Opus 5 的 37.0 仍有差距。竞赛向形式化编程难度较高。</li>
+<li><strong>Terminal Bench 4.0 34.9</strong>，落后 Opus 5 的 49.0。4.0 明显难于 2.1，长程终端 agent 仍有空间。</li>
+<li><strong>OSWorld 82.0</strong> 略低于 Fable 5 的 86.0，GUI 操作并非碾压项。</li>
+</ul><p><strong>Flash 的性价比值得注意。</strong> 309B 总参 / 15B 激活，多数项只比 Pro 低 2–5 个点，CyberGym 甚至反超（95.1 > 94.0）。预算有限时，Flash 是更合理的选择。</p><blockquote class="admonition bdm-warning"><span class="bdm-title">WARNING</span><p>对照列（Claude / GPT）来自官方模型卡，评测条件未必完全一致。跨家跑分仅供参考方向，不宜当作严格结论；具体场景请自行复测。</p></blockquote></section></section>
+<section><h2 id="从-vibe-coding-到-vibe-world">从 Vibe Coding 到 Vibe World<a class="anchor" href="#从-vibe-coding-到-vibe-world"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>官方表述：<em>coding ability has generalized well beyond software engineering</em>。在给定目标、harness 与时间的条件下，模型可以承担完整的生产性工作，构建、测试、交付。</p><p>V2.6 把 <strong>3D 空间推理 + 多模态感知 + 计算机使用 Agent（CUA）</strong> 捏在一起，自然语言驱动的编程从「写软件」扩到「造可交互世界」，官方称之为 <strong>Vibe World</strong>。</p><div class="table-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>方向</th><th>它能干嘛（官方案例）</th></tr></thead><tbody><tr><td><strong>游戏开发</strong></td><td>看图/视频/文字描述 → 多 Agent 分解任务 → 3D 场景 + 交互逻辑 + 视觉验证 → 看渲染结果迭代 → 产出可运行的交互世界</td></tr><tr><td><strong>3D 建模</strong></td><td>文字或参考图 → Blender 生成 3D 物体/场景，可用于动画、3D 打印、游戏资产</td></tr><tr><td><strong>具身仿真</strong></td><td>多视角摄像头输入 → 持续推理决策 → 闭环控制 Franka Panda 机械臂完成抓取、颜色匹配、精准放置</td></tr><tr><td><strong>视觉与设计</strong></td><td>一句话 → 完整前端界面或 Slide；玩得转 Figma 和图像/视频生成工具</td></tr><tr><td><strong>视频创作</strong></td><td>视觉设计、分镜与运动序列、配乐、卡点剪辑；教学片还能用 MiMo-V2.5-TTS 配旁白</td></tr><tr><td><strong>作曲</strong></td><td>管弦乐总谱 + 自转 MIDI（案例曲 <em>Night Road</em>）；钢琴曲对力度、织体有基本控制</td></tr></tbody></table></div><blockquote class="admonition bdm-warning"><span class="bdm-title">WARNING</span><p>「Vibe World」是产品叙事，对应的能力来自 V2.6-Pro/Flash 加上外部 harness 与工具链。落地时需要自己接环境。</p></blockquote></section>
+<section><h2 id="科研相关案例">科研相关案例<a class="anchor" href="#科研相关案例"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>即使<strong>没有专门针对科研做 RL</strong>，V2.6 已经在真研究任务上露了两手：</p><section><h3 id="材料捕捉-pfas-的-mof-设计">材料：捕捉 PFAS 的 MOF 设计<a class="anchor" href="#材料捕捉-pfas-的-mof-设计"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>小米材料专家多轮指挥 MiMo-V2.6-Pro 设计能吸附 PFAS（「永久化学品」）的金属有机框架（MOF）。它完成了：</p><ol>
+<li>网络检索 + 文献专利综述</li>
+<li>提出假设、评估新颖性</li>
+<li><strong>干实验</strong>：调用开源计算工具，自动搭模拟环境，算 MOF 与 PFAS 结合强度</li>
+<li>筛出值得进湿实验的候选</li>
+</ol><p>官方出了完整案例：<a href="https://mimo.xiaomi.com/blog/mimo-v2-6-material-research" rel="nofollow noopener noreferrer" target="_blank">mimo-v2-6-material-research</a>。</p></section><section><h3 id="数学li-yorke-定理的-lean-4-形式化">数学：Li-Yorke 定理的 Lean 4 形式化<a class="anchor" href="#数学li-yorke-定理的-lean-4-形式化"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>在研究者给的探索策略指导下，V2.6-Pro 用子 Agent 协作，完成了 Li &#x26; Yorke 经典论文 <em>Period Three Implies Chaos</em> 主定理的 <strong>Lean 4 形式化</strong>：</p><ul>
+<li>证明陈述 + 证明本体都走完</li>
+<li><strong>6000+ 行 Lean 源码</strong></li>
+<li><strong>Lean kernel 验证通过，无未完成占位符</strong></li>
+<li>模型<strong>从未接受过 Lean 专项后训练</strong></li>
+</ul><p>这说明复杂形式化能力来自通用推理和工具使用，而非专项数据灌出来的。源码可<a href="https://mimocode-cdn.xiaomimimo.com/mimocode/blog/mimo-v2-6/LiYorke-lean.zip" rel="nofollow noopener noreferrer" target="_blank">下载</a>。</p></section></section>
+<section><h2 id="distill-qwen-9b给开源社区的-rl-起点">Distill-Qwen-9B：给开源社区的 RL 起点<a class="anchor" href="#distill-qwen-9b给开源社区的-rl-起点"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><div class="table-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>基座</td><td>Qwen3.5-9B</td></tr><tr><td>方式</td><td>SFT（MiMo 生成数据）</td></tr><tr><td>SFT 数据量</td><td><strong>77.4B</strong> tokens（其中 loss-bearing <strong>27.2B</strong>）</td></tr><tr><td>覆盖</td><td>Code / Cyber / General / Visual</td></tr><tr><td>用途</td><td>开源 agentic RL 研究的起点 checkpoint</td></tr></tbody></table></div><p>数据配比（官方）：</p><div class="table-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>领域</th><th>总 tokens (B)</th><th>占比</th><th>Loss-bearing (B)</th></tr></thead><tbody><tr><td>Code</td><td>23.2</td><td>29.9%</td><td>7.3</td></tr><tr><td>Cyber</td><td>11.0</td><td>14.2%</td><td>4.8</td></tr><tr><td>General</td><td>22.0</td><td>28.5%</td><td>5.7</td></tr><tr><td>Visual</td><td>21.2</td><td>27.4%</td><td>9.4</td></tr><tr><td><strong>合计</strong></td><td><strong>77.4</strong></td><td><strong>100%</strong></td><td><strong>27.2</strong></td></tr></tbody></table></div><p>相对 Qwen3.5-9B 的提升（官方，avg@3 或 avg@1）：</p><div class="table-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>领域</th><th>Benchmark</th><th>Qwen3.5-9B</th><th>Distill-Qwen-9B</th></tr></thead><tbody><tr><td>Code</td><td>SWE Verified</td><td>60.0</td><td><strong>61.1</strong></td></tr><tr><td>Code</td><td>SWE Pro</td><td>32.0</td><td><strong>44.6</strong></td></tr><tr><td>Code</td><td>MiMo Code (mini)†</td><td>19.5</td><td><strong>51.6</strong></td></tr><tr><td>Cyber</td><td>MiMo Cyber (mini)†</td><td>5.7</td><td><strong>31.3</strong></td></tr><tr><td>General</td><td>AutomationBench</td><td>5.0</td><td><strong>30.3</strong></td></tr><tr><td>General</td><td>Terminal Bench 2.1</td><td>27.0</td><td><strong>37.1</strong></td></tr><tr><td>General</td><td>Toolathlon-Verified</td><td>25.9</td><td><strong>35.2</strong></td></tr><tr><td>General</td><td>OfficeQA</td><td>9.0</td><td><strong>19.5</strong></td></tr><tr><td>General</td><td>JobBench</td><td>2.6</td><td><strong>18.3</strong></td></tr><tr><td>Visual</td><td>MiMo Visual Coding (mini)†</td><td>61.7</td><td><strong>64.0</strong></td></tr></tbody></table></div><p>† 内部评测集。</p><p><strong>定位很清楚</strong>：这是<strong>故意放出来的 SFT 起点</strong>，用来在上面跑自己的 agentic RL，验证 GRS/GAR/MOPD2 那类想法。官方原话是 <em>「a starting point for open research in agentic reinforcement learning」</em>。</p><p>SWE Verified 只从 60.0 挪到 61.1，但 SWE Pro 从 32 到 44.6、内部 Code mini 从 19.5 到 51.6。<strong>蒸馏数据在难任务和分布内任务上收益完全不同</strong>，这个现象本身就值得写篇 ablation。</p></section>
+<section><h2 id="部署价格与生态">部署、价格与生态<a class="anchor" href="#部署价格与生态"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><div class="table-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>渠道</th><th>状态</th></tr></thead><tbody><tr><td><a href="https://aistudio.xiaomimimo.com/" rel="nofollow noopener noreferrer" target="_blank">AI Studio</a></td><td>Pro / Flash 可用</td></tr><tr><td><a href="https://mimo-ai.xiaomimimo.com/desktop/" rel="nofollow noopener noreferrer" target="_blank">MiMo Desktop</a></td><td>转正首发，内置 Pro / Flash / <strong>Pro-UltraSpeed</strong></td></tr><tr><td>MiMo Code</td><td>可用</td></tr><tr><td><a href="https://mimo.mi.com/" rel="nofollow noopener noreferrer" target="_blank">MiMo API Platform</a></td><td>Pro / Flash / UltraSpeed</td></tr><tr><td><a href="https://openrouter.ai/xiaomi" rel="nofollow noopener noreferrer" target="_blank">OpenRouter</a></td><td>可用</td></tr><tr><td><a href="https://huggingface.co/collections/XiaomiMiMo/mimo-v26" rel="nofollow noopener noreferrer" target="_blank">HuggingFace</a></td><td>Pro-RL / Flash-RL / Distill-Qwen-9B</td></tr><tr><td>ModelScope</td><td>同步</td></tr><tr><td>SGLang / vLLM</td><td>官方 cookbook / recipe</td></tr></tbody></table></div><section><h3 id="api-定价官方与-v25-持平">API 定价（官方，与 V2.5 持平）<a class="anchor" href="#api-定价官方与-v25-持平"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>单位：USD / 百万 tokens。</p><p><img src="/images/mimo-v26/api-pricing.svg" alt="API 定价对比"></p><div class="table-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>模型</th><th>输入（缓存命中）</th><th>输入（未命中）</th><th>输出</th></tr></thead><tbody><tr><td>MiMo-V2.6-Flash</td><td>$0.0028</td><td>$0.14</td><td>$0.28</td></tr><tr><td>MiMo-V2.6-Pro</td><td>$0.0036</td><td>$0.435</td><td>$0.87</td></tr><tr><td>MiMo-V2.6-Pro-UltraSpeed</td><td>$0.036</td><td>$4.35</td><td>$8.7</td></tr></tbody></table></div><p>限时缓存写入免费。国内人民币价看<a href="https://mimo.mi.com/docs/price/pay-as-you-go" rel="nofollow noopener noreferrer" target="_blank">定价页</a>。Volume 场景有 <a href="https://platform.xiaomimimo.com/token-plan" rel="nofollow noopener noreferrer" target="_blank">Token Plan</a>。</p><blockquote class="admonition bdm-note"><span class="bdm-title">NOTE</span><p>UltraSpeed 输出单价是 Pro 的 <strong>10 倍</strong>，换来最高 <strong>20 倍</strong>出字速度。适合实时交互场景；批处理任务建议用标准档。</p></blockquote><p>推荐采样：<code>temperature=1.0</code>，<code>top_p=0.95</code>。</p><p>Pro 的 SGLang 参考配置比较凶：<code>--tp 16 --dp 2 --ep 16</code>，双机；Flash 可以 <code>--tp 8 --dp 2</code> 单机多卡。都开了 EAGLE 式投机解码（<code>--enable-multi-layer-eagle</code>）和 <code>mimo</code> 的 reasoning / tool-call parser。</p><blockquote class="admonition bdm-important"><span class="bdm-title">IMPORTANT</span><p>Pro 是 <strong>1.02T 总参 MoE</strong>，本地部署门槛较高。个人开发者建议从 <strong>Distill-Qwen-9B</strong>、Desktop 内置模型或 API 入手。</p></blockquote></section></section>
+<section><h2 id="优势与不足">优势与不足<a class="anchor" href="#优势与不足"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><section><h3 id="优势">优势<a class="anchor" href="#优势"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><ol>
+<li><strong>AAII 46.32，开源第一。</strong> 来自 Artificial Analysis 第三方指数。</li>
+<li><strong>RL 管线完整度高。</strong> You Only RL Once + 异步 GRPO 超大 batch + GRS/GAR + MOPD2，且全程直播、账单公开（Flash 约 85 万美元 / Pro 约 262 万美元 / 30 步 / 750k 轨迹）。</li>
+<li><strong>自我改进闭环成型。</strong> 组内 agentic 打分将奖励从二值 pass/fail 扩展为质量排序，是 RLVR 之后的实质进展。</li>
+<li><strong>Agent 长程能力提升显著。</strong> Terminal Bench 2.1 / AutomationBench / JobBench 相对 V2.5 为代差；DeepSWE 在 RL 过程中上涨 14–17 分。</li>
+<li><strong>1M 上下文 + 全模态原生 + Vibe World。</strong> 覆盖长仓库、工具轨迹、多会话 agent，以及 3D / 具身 / 作曲等方向。</li>
+<li><strong>Flash 性价比突出</strong>，UltraSpeed 覆盖实时场景，Distill-Qwen-9B 降低了研究门槛。</li>
+<li><strong>API 定价与 V2.5 持平</strong>，能力提升未伴随涨价。</li>
+</ol></section><section><h3 id="劣势">劣势<a class="anchor" href="#劣势"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><ol>
+<li><strong>Exploit 实战链路偏弱</strong>，cyber 方向尚未达到顶尖水平。</li>
+<li><strong>ProgramBench / Terminal Bench 4.0</strong> 等高难长程项，与顶级闭源模型仍有差距。</li>
+<li><strong>跑分对照依赖官方口径</strong>，第三方大规模复现尚未出现（发布当日，属正常情况）。</li>
+<li><strong>1.02T MoE 部署门槛高</strong>，不过 Flash 与 9B 蒸馏版提供了更轻量的替代路径。</li>
+<li><strong>Vibe World / 作曲 / 具身</strong> 目前更接近能力演示，距稳定产品化仍有距离。</li>
+</ol></section></section>
+<section><h2 id="结语">结语<a class="anchor" href="#结语"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>本文数字均取自官方公开材料，解读部分与官方口径分开标注。</p><blockquote class="admonition bdm-note"><span class="bdm-title">NOTE</span><p><strong>真实性审计记录（2026-09-22）</strong>：文中全部关键数字已与<a href="https://mimo.xiaomi.com/mimo-v2-6/article.html" rel="nofollow noopener noreferrer" target="_blank">官方发布稿</a>、<a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL" rel="nofollow noopener noreferrer" target="_blank">HF Pro-RL 模型卡</a>逐项核对。</p><div class="table-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>项目</th><th>核对结果</th></tr></thead><tbody><tr><td>AAII 46.32 / 定价三档 / UltraSpeed 20×</td><td>与发布稿一致</td></tr><tr><td>RL 成本 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.85</mn><mi>M</mi><mi mathvariant="normal">/</mi></mrow><annotation encoding="application/x-tex">0.85M / </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">0.85</span><span class="mord mathnormal" style="margin-right:0.109em;">M</span><span class="mord">/</span></span></span></span>2.62M · 30 步 · 750k 轨迹</td><td>与发布稿一致</td></tr><tr><td>DeepSWE 48.8→65.68 / 58.4→72.57</td><td>与发布稿一致</td></tr><tr><td>1.02T/42B · 309B/15B · 架构表</td><td>与 HF 模型卡一致</td></tr><tr><td>16 项基准全表</td><td>与 HF 模型卡一致</td></tr><tr><td>1568 samples vs prompts×16</td><td>两套官方口径，已用 750k÷30 反推对齐，正文有说明</td></tr></tbody></table></div><p>未找到出处的数字未写入正文。</p></blockquote><p>V2.6 值得关注的是 <strong>「Scale RL toward self-improvement」</strong> 这条路线：把打分器也视为可扩展的计算，让模型在自身采样分布上被更细的信号持续推优，走向更短路径、更少 token、更稳的解。RL 过程全程直播、训练成本公开，这种工程透明度本身也有参考价值。</p><p>预训练提供世界知识，SFT 建立对话格式，而 RL 负责把任务真正做完。V2.6 在这一阶段投入了实打实的算力，并把账单摊开给社区看。</p><p>以上，供参考。</p><hr><p><strong>参考链接</strong></p><ul>
+<li><a href="https://mimo.xiaomi.com/mimo-v2-6/article.html" rel="nofollow noopener noreferrer" target="_blank">官方发布正文 Introducing MiMo-V2.6 series</a></li>
+<li><a href="https://mimo.xiaomi.com/rl" rel="nofollow noopener noreferrer" target="_blank">RL 训练直播回放</a></li>
+<li><a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL" rel="nofollow noopener noreferrer" target="_blank">MiMo-V2.6-Pro-RL（HuggingFace）</a></li>
+<li><a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Flash-RL" rel="nofollow noopener noreferrer" target="_blank">MiMo-V2.6-Flash-RL（HuggingFace）</a></li>
+<li><a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Distill-Qwen-9B" rel="nofollow noopener noreferrer" target="_blank">MiMo-V2.6-Distill-Qwen-9B（HuggingFace）</a></li>
+<li><a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL/blob/main/MiMo_V2_6_technical_report.pdf" rel="nofollow noopener noreferrer" target="_blank">MiMo-V2.6 Technical Report</a></li>
+<li><a href="https://arxiv.org/abs/2606.30406" rel="nofollow noopener noreferrer" target="_blank">MOPD: Multi-Teacher On-Policy Distillation（arXiv<2606></2606>.30406）</a></li>
+<li><a href="https://mimo.xiaomi.com/blog/mimo-v2-6-material-research" rel="nofollow noopener noreferrer" target="_blank">材料研发案例：PFAS / MOF</a></li>
+<li><a href="https://mimocode-cdn.xiaomimimo.com/mimocode/blog/mimo-v2-6/LiYorke-lean.zip" rel="nofollow noopener noreferrer" target="_blank">Li-Yorke Lean 4 证明源码</a></li>
+<li><a href="https://mimo.xiaomi.com/" rel="nofollow noopener noreferrer" target="_blank">Xiaomi MiMo 官网</a></li>
+</ul></section>
+						 </div> <script type="module">document.addEventListener("click",function(l){const o=l.target;if(o&&o.classList.contains("copy-btn")){const c=o.parentElement?.querySelector("code");let i="";if(c){const t=c.querySelectorAll("span.line");if(t.length>0){const e=[];for(let n=0;n<t.length;n++){const s=t[n].textContent||"";e.push(s)}i=e.join(`
+`)}else{const e=c.querySelectorAll(".code:not(summary *)");if(e.length>0){const n=[];for(let s=0;s<e.length;s++){const r=e[s].textContent||"";n.push(r)}i=n.join(`
+`)}else i=c.textContent||""}}i=i.replace(/\n\n\n+/g,function(t){const e=t.length-1;let n;return e%2===0?n=e/2:n=Math.floor((e+1)/2),n<1&&(n=1),`
+`.repeat(n+1)}),(async t=>{if(!navigator.clipboard?.writeText)throw new Error("Clipboard API 不可用");await navigator.clipboard.writeText(t)})(i).then(()=>{const t=o.getAttribute("data-timeout-id");t&&clearTimeout(parseInt(t)),o.classList.add("success");const e=setTimeout(()=>{o.classList.remove("success")},1e3);o.setAttribute("data-timeout-id",e.toString())}).catch(t=>{console.error("复制失败:",t)})}});</script> <div class="relative transition overflow-hidden bg-[var(--license-block-bg)] py-5 px-6 mb-6 rounded-xl license-container onload-animation"> <div class="transition font-bold text-black/75 dark:text-white/75"> MiMo-V2.6 发布分析：把 RL 推向自我改进 </div> <a href="https://mouy.site/posts/mimo-v2.6-release-analysis/" class="link text-[var(--primary)]"> https://mouy.site/posts/mimo-v2.6-release-analysis/ </a> <div class="flex gap-6 mt-2"> <div> <div class="transition text-black/30 dark:text-white/30 text-sm"> 作者 </div> <div class="transition text-black/75 dark:text-white/75 line-clamp-2"> 某炜 </div> </div> <div> <div class="transition text-black/30 dark:text-white/30 text-sm"> 发布于 </div> <div class="transition text-black/75 dark:text-white/75 line-clamp-2"> 2026-09-22 </div> </div> <div> <div class="transition text-black/30 dark:text-white/30 text-sm"> 许可协议 </div> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="link text-[var(--primary)] line-clamp-2">CC BY-NC-SA 4.0</a> </div> </div> <svg width="1em" height="1em" class="transition text-[15rem] absolute pointer-events-none right-6 top-1/2 -translate-y-1/2 text-black/5 dark:text-white/5" data-icon="fa7-brands:creative-commons">   <symbol id="ai:fa7-brands:creative-commons" viewBox="0 0 640 640"><path fill="currentColor" d="m317.8 278.9l-33.2 17.3c-9.4-19.6-25.2-19.9-27.5-19.9c-22.1 0-33.2 14.6-33.2 43.8c0 23.6 9.2 43.8 33.2 43.8c14.5 0 24.6-7.1 30.6-21.3l30.6 15.5c-6.2 11.5-25.7 39-65.1 39c-22.6 0-74-10.3-74-77c0-58.7 43-77.1 72.6-77.1c30.7 0 52.7 11.9 66 35.9m143 0L428 296.2c-9.5-19.8-25.7-19.9-27.9-19.9c-22.1 0-33.2 14.6-33.2 43.8c0 23.5 9.2 43.8 33.2 43.8c14.4 0 24.6-7.1 30.5-21.3l31 15.5c-2.1 3.8-21.4 39-65.1 39c-22.7 0-74-9.9-74-77c0-58.7 43-77.1 72.6-77.1c30.7 0 52.6 11.9 65.6 35.9zM319.6 72C176.7 72 72 187.1 72 320.1c0 138.4 113.6 248 247.6 248c129.9 0 248.4-100.9 248.4-248C568 182.2 461.4 72 319.6 72m.9 450.8c-112.5 0-203.7-93-203.7-202.8c0-105.4 85.4-203.3 203.7-203.3c112.5 0 202.8 89.5 202.8 203.3c0 121.7-99.7 202.8-202.8 202.8"/></symbol><use href="#ai:fa7-brands:creative-commons"></use>
+       </svg> </div>  </div> </div>
+
+	
+	
+
+	 <div id="last-modified" data-last-modified="2026-09-22T13:10:00" data-prefix="距离上次编辑: " data-year="年" data-month="月" data-day="天" data-hour="小时" data-minute="分" data-second="秒" style="display: none;"></div> <div class="card-base p-6 mb-4"> <script>
+			function runtime() {
+				const lastModifiedElement =
+					document.getElementById("last-modified");
+				if (!lastModifiedElement) {
+					return;
+				}
+
+				const startDate = new Date(
+					lastModifiedElement.dataset.lastModified,
+				);
+				const currentDate = new Date();
+				const diff = currentDate - startDate;
+				const seconds = Math.floor(diff / 1000);
+				const days = Math.floor(seconds / 86400);
+				const hours = Math.floor((seconds % 86400) / 3600);
+				const minutes = Math.floor((seconds % 3600) / 60);
+				const secs = seconds % 60;
+
+				const years = Math.floor(days / 365);
+				const months = Math.floor((days % 365) / 30);
+				const remainingDays = days % 30;
+
+				const prefix = lastModifiedElement.dataset.prefix;
+				const yearKey = lastModifiedElement.dataset.year;
+				const monthKey = lastModifiedElement.dataset.month;
+				const dayKey = lastModifiedElement.dataset.day;
+				const hourKey = lastModifiedElement.dataset.hour;
+				const minuteKey = lastModifiedElement.dataset.minute;
+				const secondKey = lastModifiedElement.dataset.second;
+
+				let runtimeString = prefix + " ";
+				if (years > 0) {
+					runtimeString += `${years} ${yearKey} `;
+				}
+				if (months > 0) {
+					runtimeString += `${months} ${monthKey} `;
+				}
+				if (remainingDays > 0) {
+					runtimeString += `${remainingDays} ${dayKey} `;
+				}
+				runtimeString += `${hours} ${hourKey} `;
+				if (minutes < 10) {
+					runtimeString += `0${minutes} ${minuteKey} `;
+				} else {
+					runtimeString += `${minutes} ${minuteKey} `;
+				}
+				if (secs < 10) {
+					runtimeString += `0${secs} ${secondKey}`;
+				} else {
+					runtimeString += `${secs} ${secondKey}`;
+				}
+
+				document.getElementById("modifiedtime").innerHTML =
+					runtimeString;
+			}
+			setInterval(runtime, 1000);
+		</script><div class="flex items-center gap-3"> <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-(--enter-btn-bg)"> <svg width="1em" height="1em" class="text-3xl text-(--primary)" data-icon="material-symbols:history-rounded">   <symbol id="ai:material-symbols:history-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21q-3.15 0-5.575-1.912T3.275 14.2q-.1-.375.15-.687t.675-.363q.4-.05.725.15t.45.6q.6 2.25 2.475 3.675T12 19q2.925 0 4.963-2.037T19 12t-2.037-4.962T12 5q-1.725 0-3.225.8T6.25 8H8q.425 0 .713.288T9 9t-.288.713T8 10H4q-.425 0-.712-.288T3 9V5q0-.425.288-.712T4 4t.713.288T5 5v1.35q1.275-1.6 3.113-2.475T12 3q1.875 0 3.513.713t2.85 1.924t1.925 2.85T21 12t-.712 3.513t-1.925 2.85t-2.85 1.925T12 21m1-9.4l2.5 2.5q.275.275.275.7t-.275.7t-.7.275t-.7-.275l-2.8-2.8q-.15-.15-.225-.337T11 11.975V8q0-.425.288-.712T12 7t.713.288T13 8z"/></symbol><use href="#ai:material-symbols:history-rounded"></use>
+       </svg> </div> <div class="flex flex-col gap-1"> <div id="modifiedtime" class="text-[1.0rem] leading-tight text-black/75 dark:text-white/75"></div> <p class="text-[0.8rem] leading-tight text-black/75 dark:text-white/75"> 部分信息可能已经过时 </p> </div> </div> </div> <div class="flex flex-col mb-4 gap-4 overflow-hidden w-full">  <a href="/posts/1211-fabric-mou-guide/" class="w-full font-bold overflow-hidden active:scale-95"> <div class="btn-card rounded-2xl w-full h-15 max-w-full px-4 flex items-center justify-end! gap-4"> <div class="overflow-hidden transition text-ellipsis whitespace-nowrap max-w-[calc(100%-3rem)] text-black/75 dark:text-white/75"> 1.21.1 Fabric Mou 整合包完整使用指南 </div> <svg width="1em" height="1em" viewBox="0 0 24 24" class="text-[2rem] text-(--primary)" data-icon="material-symbols:chevron-right-rounded">   <use href="#ai:material-symbols:chevron-right-rounded"></use>
+       </svg> </div> </a> </div>
  <div class="footer col-span-full onload-animation hidden lg:block" data-astro-cid-m6cpsp63> <!--<div class="border-t border-[var(--primary)] mx-16 border-dashed py-8 max-w-[var(--page-width)] flex flex-col items-center justify-center px-6">--> <div class="transition border-t border-black/10 dark:border-white/15 my-10 border-dashed mx-32"></div> <!--<div class="transition bg-[oklch(92%_0.01_var(--hue))] dark:bg-black rounded-2xl py-8 mt-4 mb-8 flex flex-col items-center justify-center px-6">--> <div class="transition border-dashed border-[oklch(85%_0.01_var(--hue))] dark:border-white/15 rounded-2xl mb-12 flex flex-col items-center justify-center px-6"> <div class="transition text-50 text-sm text-center"> <div class="mb-2"><span class="inline-flex items-center gap-2"><a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://beian.miit.gov.cn/#/Integrated/index" rel="noopener noreferrer">粤ICP备2026081944号</a> | <a class="transition link text-[var(--primary)] font-medium inline-flex items-center gap-1" href="https://beian.mps.gov.cn/#/query/webSearch?code=44011402001354" rel="noreferrer" target="_blank"><img src="/assets/beian-icon.png" alt="公安备案" width="14" height="14">粤公网安备44011402001354号</a></span></div> <div class="mb-2">
 &copy; <span id="copyright-year">2026</span> 某炜. All Rights Reserved. /
 <a class="transition link text-[var(--primary)] font-medium" href="/rss/" onclick="event.preventDefault(); navigateToPage('/rss/')">RSS</a> /

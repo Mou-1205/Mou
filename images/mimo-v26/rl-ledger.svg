@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" font-family="-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
+  <rect width="900" height="480" fill="#ffffff"/>
+
+  <!-- subtle top accent -->
+  <rect x="0" y="0" width="900" height="4" fill="#2563eb"/>
+
+  <!-- Title block -->
+  <text x="56" y="48" font-size="22" font-weight="700" fill="#0f172a">RL 训练账单与产出</text>
+  <text x="56" y="72" font-size="13" fill="#64748b">直播生产训练 · 不到 6 天 · 每模型 30 步 · 约 75 万条轨迹</text>
+  <text x="844" y="48" font-size="11" fill="#94a3b8" text-anchor="end">来源：官方发布稿</text>
+
+  <!-- divider -->
+  <line x1="56" y1="96" x2="844" y2="96" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- ========== Block A: 训练成本 ========== -->
+  <!-- 标签在左侧偏中，靠近条 -->
+  <text x="200" y="148" font-size="14" font-weight="600" fill="#334155" text-anchor="end">训练成本</text>
+
+  <!-- Flash row: label left of bar, value right of bar -->
+  <text x="200" y="188" font-size="13" fill="#059669" font-weight="600" text-anchor="end">Flash</text>
+  <rect x="220" y="172" width="480" height="26" rx="13" fill="#f1f5f9"/>
+  <rect x="220" y="172" width="155" height="26" rx="13" fill="#059669"/>
+  <text x="720" y="191" font-size="16" font-weight="700" fill="#059669">$0.85M</text>
+
+  <text x="200" y="232" font-size="13" fill="#2563eb" font-weight="600" text-anchor="end">Pro</text>
+  <rect x="220" y="216" width="480" height="26" rx="13" fill="#f1f5f9"/>
+  <rect x="220" y="216" width="480" height="26" rx="13" fill="#2563eb"/>
+  <text x="720" y="235" font-size="16" font-weight="700" fill="#2563eb">$2.62M</text>
+
+  <!-- divider between blocks -->
+  <line x1="56" y1="272" x2="844" y2="272" stroke="#f1f5f9" stroke-width="1"/>
+
+  <!-- ========== Block B: 通过率 ========== -->
+  <text x="200" y="312" font-size="14" font-weight="600" fill="#334155" text-anchor="end">通过率 · 相对提升</text>
+
+  <text x="200" y="352" font-size="13" fill="#059669" font-weight="600" text-anchor="end">Flash</text>
+  <rect x="220" y="336" width="480" height="26" rx="13" fill="#f1f5f9"/>
+  <rect x="220" y="336" width="480" height="26" rx="13" fill="#059669"/>
+  <text x="720" y="355" font-size="16" font-weight="700" fill="#059669">+25%</text>
+
+  <text x="200" y="396" font-size="13" fill="#2563eb" font-weight="600" text-anchor="end">Pro</text>
+  <rect x="220" y="380" width="480" height="26" rx="13" fill="#f1f5f9"/>
+  <rect x="220" y="380" width="230" height="26" rx="13" fill="#2563eb"/>
+  <text x="720" y="399" font-size="16" font-weight="700" fill="#2563eb">+12%</text>
+
+  <!-- ========== Bottom stats strip ========== -->
+  <line x1="56" y1="428" x2="844" y2="428" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="56" y="456" font-size="12" fill="#64748b">
+    <tspan font-weight="700" fill="#0f172a">1,568</tspan> samples/update
+    ·
+    <tspan font-weight="700" fill="#0f172a">3.5–3.7B</tspan> tokens/step
+    ·
+    <tspan font-weight="700" fill="#0f172a">1,568×16</tspan> ≈ 25,088 轨迹/步
+    ·
+    <tspan font-weight="700" fill="#0f172a">30×2</tspan> 步合计约 150 万条
+  </text>
+</svg>

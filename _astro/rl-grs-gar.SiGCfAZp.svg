@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" font-family="-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#555"/>
+    </marker>
+  </defs>
+  <rect width="880" height="420" fill="#fafafa"/>
+  <text x="440" y="32" text-anchor="middle" font-size="18" font-weight="600" fill="#111">Groupwise Agentic Grading 自我改进环</text>
+  <text x="440" y="54" text-anchor="middle" font-size="12" fill="#666">GRS 离线合成 rubric + GAR 在线重分配 advantage · 用策略自己的样本当裁判</text>
+
+  <!-- center loop -->
+  <rect x="330" y="100" width="220" height="56" rx="8" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.5"/>
+  <text x="440" y="124" text-anchor="middle" font-size="14" font-weight="600" fill="#e65100">策略采样</text>
+  <text x="440" y="144" text-anchor="middle" font-size="11" fill="#bf360c">组内 16 条 rollout / prompt</text>
+
+  <rect x="330" y="200" width="220" height="56" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5"/>
+  <text x="440" y="224" text-anchor="middle" font-size="14" font-weight="600" fill="#0d47a1">Agentic Grader</text>
+  <text x="440" y="244" text-anchor="middle" font-size="11" fill="#1565c0">组内对比 · 不只看对错</text>
+
+  <!-- GRS -->
+  <rect x="80" y="300" width="240" height="72" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="200" y="328" text-anchor="middle" font-size="14" font-weight="600" fill="#1b5e20">GRS · Groupwise Reward Synthesis</text>
+  <text x="200" y="350" text-anchor="middle" font-size="11" fill="#2e7d32">离线：对比 rollout → 任务专属 rubric</text>
+  <text x="200" y="366" text-anchor="middle" font-size="11" fill="#2e7d32">rubric 质量 × 测试结果 融合</text>
+
+  <!-- GAR -->
+  <rect x="560" y="300" width="240" height="72" rx="8" fill="#fce4ec" stroke="#ad1457" stroke-width="1.5"/>
+  <text x="680" y="328" text-anchor="middle" font-size="14" font-weight="600" fill="#880e4f">GAR · Advantage Redistribution</text>
+  <text x="680" y="350" text-anchor="middle" font-size="11" fill="#ad1457">在线：给通过的轨迹排序</text>
+  <text x="680" y="366" text-anchor="middle" font-size="11" fill="#ad1457">把 advantage 搬给更优解</text>
+
+  <!-- update -->
+  <rect x="330" y="300" width="220" height="56" rx="8" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1.5"/>
+  <text x="440" y="324" text-anchor="middle" font-size="14" font-weight="600" fill="#4a148c">策略更新</text>
+  <text x="440" y="344" text-anchor="middle" font-size="11" fill="#6a1b9a">更细奖励 · 压向短路径</text>
+
+  <!-- arrows -->
+  <line x1="440" y1="156" x2="440" y2="200" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="380" y1="256" x2="230" y2="300" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="500" y1="256" x2="650" y2="300" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="320" y1="340" x2="330" y2="330" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="560" y1="330" x2="550" y2="330" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- feedback loop -->
+  <path d="M440 356 Q440 400 200 380 Q80 370 80 200 Q80 130 330 128" fill="none" stroke="#555" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr)"/>
+  <text x="70" y="180" font-size="11" fill="#555" transform="rotate(-90 70 180)">自我改进闭环</text>
+
+  <text x="440" y="405" text-anchor="middle" font-size="11" fill="#999">二值 pass/fail 排不出「两个都对谁更好」→ 把打分器算力也 scale 上去</text>
+</svg>

@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 460" font-family="-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
+  <rect width="820" height="460" fill="#ffffff"/>
+  <rect x="0" y="0" width="820" height="4" fill="#059669"/>
+
+  <!-- Title -->
+  <text x="56" y="48" font-size="20" font-weight="700" fill="#0f172a">RL 训练过程：DeepSWE v1.1 提升</text>
+  <text x="56" y="72" font-size="13" fill="#64748b">未见集 · 30 步 RL · 来源：官方发布稿</text>
+
+  <!-- Plot area: y 100..360, scale 0-80 → 260px -->
+  <!-- grid -->
+  <line x1="100" y1="360" x2="700" y2="360" stroke="#cbd5e1"/>
+  <line x1="100" y1="100" x2="100" y2="360" stroke="#e2e8f0"/>
+  <text x="90" y="104" font-size="11" fill="#94a3b8" text-anchor="end">80</text>
+  <line x1="100" y1="100" x2="700" y2="100" stroke="#f1f5f9"/>
+  <text x="90" y="169" font-size="11" fill="#94a3b8" text-anchor="end">60</text>
+  <line x1="100" y1="165" x2="700" y2="165" stroke="#f1f5f9"/>
+  <text x="90" y="238" font-size="11" fill="#94a3b8" text-anchor="end">40</text>
+  <line x1="100" y1="233" x2="700" y2="233" stroke="#f1f5f9"/>
+  <text x="90" y="306" font-size="11" fill="#94a3b8" text-anchor="end">20</text>
+  <line x1="100" y1="301" x2="700" y2="301" stroke="#f1f5f9"/>
+  <text x="90" y="364" font-size="11" fill="#94a3b8" text-anchor="end">0</text>
+
+  <!-- Bars: width 64, pair gap 14, group gap 90 -->
+  <!-- Flash 48.8 → h=158.6 y=201.4 ; 65.68 → h=213.5 y=146.5 -->
+  <!-- Pro  58.4 → h=189.8 y=170.2 ; 72.57 → h=235.8 y=124.2 -->
+  <!-- scale: 1 unit = 260/80 = 3.25 -->
+
+  <!-- Flash pair at x=140 -->
+  <rect x="140" y="201" width="64" height="159" rx="6" fill="#6ee7b7"/>
+  <text x="172" y="193" font-size="14" font-weight="700" fill="#047857" text-anchor="middle">48.8</text>
+  <rect x="218" y="146" width="64" height="214" rx="6" fill="#059669"/>
+  <text x="250" y="138" font-size="14" font-weight="700" fill="#047857" text-anchor="middle">65.68</text>
+  <text x="172" y="382" font-size="12" fill="#334155" text-anchor="middle">Flash · 前</text>
+  <text x="250" y="382" font-size="12" fill="#334155" text-anchor="middle">Flash · 后</text>
+
+  <!-- Delta callout on the RIGHT side of Flash pair -->
+  <line x1="290" y1="173" x2="318" y2="173" stroke="#059669" stroke-width="1.5"/>
+  <rect x="322" y="156" width="72" height="34" rx="8" fill="#ecfdf5" stroke="#059669"/>
+  <text x="358" y="171" font-size="10" fill="#6ee7b7" text-anchor="middle" font-weight="600">提升</text>
+  <text x="358" y="184" font-size="13" fill="#047857" text-anchor="middle" font-weight="700">+16.9</text>
+
+  <!-- Pro pair at x=440 -->
+  <rect x="440" y="170" width="64" height="190" rx="6" fill="#93c5fd"/>
+  <text x="472" y="162" font-size="14" font-weight="700" fill="#1d4ed8" text-anchor="middle">58.4</text>
+  <rect x="518" y="124" width="64" height="236" rx="6" fill="#2563eb"/>
+  <text x="550" y="116" font-size="14" font-weight="700" fill="#1d4ed8" text-anchor="middle">72.57</text>
+  <text x="472" y="382" font-size="12" fill="#334155" text-anchor="middle">Pro · 前</text>
+  <text x="550" y="382" font-size="12" fill="#334155" text-anchor="middle">Pro · 后</text>
+
+  <!-- Delta callout on the RIGHT side of Pro pair -->
+  <line x1="590" y1="147" x2="618" y2="147" stroke="#2563eb" stroke-width="1.5"/>
+  <rect x="622" y="130" width="72" height="34" rx="8" fill="#eff6ff" stroke="#2563eb"/>
+  <text x="658" y="145" font-size="10" fill="#93c5fd" text-anchor="middle" font-weight="600">提升</text>
+  <text x="658" y="158" font-size="13" fill="#1d4ed8" text-anchor="middle" font-weight="700">+14.2</text>
+
+  <!-- legend -->
+  <rect x="100" y="412" width="14" height="14" rx="3" fill="#6ee7b7"/>
+  <text x="120" y="423" font-size="12" fill="#64748b">RL 前</text>
+  <rect x="180" y="412" width="14" height="14" rx="3" fill="#059669"/>
+  <text x="200" y="423" font-size="12" fill="#64748b">RL 后</text>
+  <text x="410" y="423" font-size="11" fill="#94a3b8" text-anchor="middle">两模型同期各跑 30 步 · 约 75 万条轨迹</text>
+</svg>
